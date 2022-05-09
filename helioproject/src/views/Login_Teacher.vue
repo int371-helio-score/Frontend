@@ -5,7 +5,14 @@
 
       <div>
         <div
-          class="bg-white mr-80 my-20 h-3/4 rounded-2xl shadow-2xl shadow-babyblue"
+          class="
+            bg-white
+            mr-80
+            my-20
+            h-3/4
+            rounded-2xl
+            shadow-2xl shadow-babyblue
+          "
         >
           <div
             class="pt-20 text-xl font-bold text-blue-700 justify-center flex"
@@ -21,7 +28,7 @@
                 class="border-b border-babyblue"
               />
             </div>
-            <div class="flex justify-center mt-10 ">
+            <div class="flex justify-center mt-10">
               <input
                 type="text"
                 placeholder="รหัสผ่าน"
@@ -30,16 +37,32 @@
             </div>
           </div>
 
-          <div class="flex justify-center mt-20">
-            <div class="bg-primary rounded-md w-40 justify-center flex">
+          <div class="flex justify-center mt-20" @click="login">
+            <button class="bg-primary rounded-md w-40 justify-center flex">
               <p class="text-white">เข้าสู่ระบบ</p>
-            </div>
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      // helio: "http://localhost:3000/helioscore"
+    };
+  },
+
+  methods: {
+    async login() {
+      return this.$router.push("/helioscore");
+    },
+  },
+};
+</script>
 
 <style scoped>
 ::placeholder {
