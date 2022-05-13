@@ -23,6 +23,33 @@
     }
   ],
 
+  "Classroom":[
+      {
+        "id": "1",
+        "grade": "1",
+        "room": "3",
+        "member": {
+          "groupId": "6242a5fc55bae7822d4b7e16"
+        }
+      },
+      {
+        "id": "2",
+        "grade": "2",
+        "room": "1",
+        "member": {
+          "groupId": "6242a5fc55bae7822d4b7e06"
+        }
+      },
+      {
+        "id": "3",
+        "grade": "4",
+        "room": "1",
+        "member": {
+          "groupId": "6242a5fc55bae7822d4b7506"
+        }
+      }
+  ],
+
   "Academics": [
     {
       "academicYear": "2564",
@@ -45,17 +72,6 @@
     }
   ],
 
-  "Class": [
-    {
-      "id": "1",
-      "subjectId": "1",
-      "grade": "1",
-      "room": "3",
-      "member": {
-        "groupId": "6242a5fc55bae7822d4b7e16"
-      }
-    }
-  ],
 
   "Student": [
     {
@@ -84,6 +100,17 @@
       "lastName": "ทรัพยภักดิ์โภคิน",
       "email": "gewalin.s@gmail.com",
       "groupId": "6242a5fc55bae7822d4b7e16"
+    }
+  ],
+
+  "Teacher": [
+    {
+      "id": "1",
+      "email": "noreply.helioscoresystem@gmail.com",
+      "password": "helio039098103",
+      "firstName": "กนกพร",
+      "lastName": "ประภาร",
+      "schoolId": "1"
     }
   ]
 }

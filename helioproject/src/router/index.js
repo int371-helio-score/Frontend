@@ -9,7 +9,16 @@ const routes = [
   {
     path: '/',
     name: 'login',
-    component: Login
+    component: Login,
+    beforeEnter: (to, from, next)=>{
+      const role = localStorage.getItem("role");
+      const login = localStorage.getItem("token");
+      if (login && role === "Teacher") {
+        next("/helioscore");
+      } else {
+        next();
+      }
+    }
   },
   {
     path: '/helioscore',
@@ -27,7 +36,7 @@ const routes = [
     component: Announce
   },
   {
-    path: '/:classId',
+    path: '/class/:classId',
     name: 'class',
     component: Class,
     props: true

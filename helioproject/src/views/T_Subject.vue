@@ -21,7 +21,7 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-5 mt-20 mx-10 gap-8" @click="openSubject">
+      <div class="grid grid-cols-5 mt-20 mx-10 gap-8">
         <div
           class="bg-white border px-10 py-10 text-sm"
           v-for="subject in subjects"
@@ -30,7 +30,7 @@
           <router-link
             :to="{
               name: 'class',
-              paeams: { classId: subject.subjectId },
+              params: { classId: subject.subjectId },
             }"
           >
             {{ subject.subjectCode }} {{ subject.subjectName }}
@@ -49,6 +49,7 @@ export default {
       subjects: [],
       academic: "http://localhost:5000/Academics",
       academics: [],
+      // class: "  http://localhost:5000/Class",
     };
   },
 

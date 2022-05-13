@@ -3,7 +3,9 @@
     <div class="grid grid-cols-3 gap-x-10 listmenu">
       <div class="menu">
         <router-link to="/helioscore">
-          <span class="material-symbols-outlined"> home </span>หน้าหลัก
+          <div class="flex self-center px-5 text-primary">
+            <span class="material-symbols-outlined"> home </span>หน้าหลัก
+          </div>
         </router-link>
       </div>
       <!-- <div class="menu">
@@ -35,5 +37,6 @@
 }
 span {
   @apply lg:pr-2 text-primary;
+  
 }
 </style>
