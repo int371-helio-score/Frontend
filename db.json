@@ -1,0 +1,288 @@
+{
+  "Subjects": [
+    {
+      "subject_id": "1",
+      "subjectCode": "ค1210",
+      "subjectName": "คณิตศาสต์พื้นฐาน",
+      "owner": "6242a5fc55bae7822d4b7e13",
+      "semester": "1",
+      "picture": "assets/pic1.png",
+      "grade": "4",
+      "classroom": [
+        {
+          "room": "1",
+          "id": "1"
+        },
+        {
+          "room": "2",
+          "id": "2"
+        },
+        {
+          "room": "3",
+          "id": "3"
+        }
+      ]
+    },
+    {
+      "subject_id": "2",
+      "subjectCode": "ค1212",
+      "subjectName": "คณิตศาสต์เพิ่มเติม",
+      "owner": "6242a5fc55bae7822d4b7e13",
+      "semester": "1",
+      "picture": "pic3.png",
+      "grade": "5",
+      "classroom": [
+        {
+          "room": "1",
+          "id": "4"
+        }
+      ]
+    },
+    {
+      "subject_id": "3",
+      "subjectCode": "ค1203",
+      "subjectName": "คณิตศาสต์เพิ่มเติม",
+      "owner": "6242a5fc55bae7822d4b7e66",
+      "semester": "2",
+      "picture": "pic5.png",
+      "grade": "5",
+      "classroom": [
+        {
+          "room": "1",
+          "id": "4"
+        }
+      ]
+    }
+  ],
+
+  "Academics": [
+    {
+      "academicYear": "2564",
+      "subject": [
+        {
+          "subjectId": "1"
+        },
+        {
+          "subjectId": "2"
+        }
+      ]
+    },
+    {
+      "academicYear": "2565",
+      "subject": [
+        {
+          "subjectId": "3"
+        }
+      ]
+    }
+  ],
+
+  "Student": [
+    {
+      "id": "1",
+      "groupName": "ม.4/1 ปีการศึกษา 2560",
+      "owner": {
+        "id": "628129ff40d44e57e4e24a29"
+      },
+      "members": [
+        {
+          "no": "1",
+          "studentId": "11110",
+          "title": "นางสาว",
+          "firstName": "ธัญลักษณ์",
+          "lastName": "งามชัยพิสิฐ",
+          "email": "thanyaluck.yict@mail.kmutt.ac.th"
+        },
+        {
+          "no": "2",
+          "studentId": "11111",
+          "title": "นาย",
+          "firstName": "เกริกวิทย์",
+          "lastName": "อัศวภัชรกุล",
+          "email": "kroekwit.a@gmail.com"
+        },
+        {
+          "no": "3",
+          "studentId": "11112",
+          "title": "นางสาว",
+          "firstName": "เกวลิน",
+          "lastName": "ทรัพยภักดิ์โภคิน",
+          "email": "gewalin.s@gmail.com"
+        },
+        {
+          "no": "4",
+          "studentId": "11113",
+          "title": "นางสาว",
+          "firstName": "ขวัญจิรา",
+          "lastName": "เปรมธาราโชติ",
+          "email": "khwanchira.p@gmail.com"
+        },
+        {
+          "no": "5",
+          "studentId": "11114",
+          "title": "นาย",
+          "firstName": "คุณภัทร",
+          "lastName": "นิธิธรา",
+          "email": "khunnaphat.n@gmail.com"
+        },
+        {
+          "no": "6",
+          "studentId": "11115",
+          "title": "นาย",
+          "firstName": "คุณานนท์",
+          "lastName": "นิธิธรา",
+          "email": "khunanon.n@gmail.com"
+        },
+        {
+          "no": "7",
+          "studentId": "11116",
+          "title": "นาย",
+          "firstName": "ชนิตพล",
+          "lastName": "เมธานนท์",
+          "email": "chanittaphon.m@gmail.com"
+        },
+        {
+          "no": "8",
+          "studentId": "11117",
+          "title": "นางสาว",
+          "firstName": "ญาณิดา",
+          "lastName": "พัชรวรา",
+          "email": "yanida.p@gmail.com"
+        },
+        {
+          "no": "9",
+          "studentId": "11118",
+          "title": "นาย",
+          "firstName": "ฐิติวัฒน์",
+          "lastName": "ปุญญอภิวัฒนา",
+          "email": "thitiwat.p@gmail.com"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "groupName": "ม.4/2 ปีการศึกษา 2560",
+      "owner": {
+        "id": "628129ff40d44e57e4e24a29"
+      },
+      "members": [
+        {
+          "no": "1",
+          "studentId": "11110",
+          "title": "นางสาว",
+          "firstName": "ธัญลักษณ์",
+          "lastName": "งามชัยพิสิฐ",
+          "email": "thanyaluck.yict@mail.kmutt.ac.th"
+        },
+        {
+          "no": "3",
+          "studentId": "11111",
+          "title": "นาย",
+          "firstName": "เกริกวิทย์",
+          "lastName": "อัศวภัชรกุล",
+          "email": "kroekwit.a@gmail.com"
+        },
+        {
+          "no": "3",
+          "studentId": "11112",
+          "title": "นางสาว",
+          "firstName": "เกวลิน",
+          "lastName": "ทรัพยภักดิ์โภคิน",
+          "email": "gewalin.s@gmail.com"
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "groupName": "ม.4/3 ปีการศึกษา 2560",
+      "owner": {
+        "id": "628129ff40d44e57e4e24a29"
+      },
+      "members": [
+        {
+          "no": "1",
+          "studentId": "11117",
+          "title": "นางสาว",
+          "firstName": "ญาณิดา",
+          "lastName": "พัชรวรา",
+          "email": "yanida.p@gmail.com"
+        },
+        {
+          "no": "2",
+          "studentId": "11118",
+          "title": "นาย",
+          "firstName": "ฐิติวัฒน์",
+          "lastName": "ปุญญอภิวัฒนา",
+          "email": "thitiwat.p@gmail.com"
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "groupName": "ม.5/1 ปีการศึกษา 2560",
+      "owner": {
+        "id": "628129ff40d44e57e4e24a29"
+      },
+      "members": [
+        {
+          "no": "1",
+          "studentId": "11110",
+          "title": "นางสาว",
+          "firstName": "ธัญลักษณ์",
+          "lastName": "งามชัยพิสิฐ",
+          "email": "thanyaluck.yict@mail.kmutt.ac.th"
+        },
+        {
+          "no": "2",
+          "studentId": "11111",
+          "title": "นาย",
+          "firstName": "เกริกวิทย์",
+          "lastName": "อัศวภัชรกุล",
+          "email": "kroekwit.a@gmail.com"
+        },
+        {
+          "no": "3",
+          "studentId": "11112",
+          "title": "นางสาว",
+          "firstName": "เกวลิน",
+          "lastName": "ทรัพยภักดิ์โภคิน",
+          "email": "gewalin.s@gmail.com"
+        },
+        {
+          "no": "4",
+          "studentId": "11113",
+          "title": "นางสาว",
+          "firstName": "ขวัญจิรา",
+          "lastName": "เปรมธาราโชติ",
+          "email": "khwanchira.p@gmail.com"
+        },
+        {
+          "no": "5",
+          "studentId": "11114",
+          "title": "นาย",
+          "firstName": "คุณภัทร",
+          "lastName": "นิธิธรา",
+          "email": "khunnaphat.n@gmail.com"
+        },
+        {
+          "no": "6",
+          "studentId": "11115",
+          "title": "นาย",
+          "firstName": "คุณานนท์",
+          "lastName": "นิธิธรา",
+          "email": "khunanon.n@gmail.com"
+        }
+      ]
+    }
+  ],
+
+  "Teacher": {
+    "id": "1",
+    "email": "noreply.helioscoresystem@gmail.com",
+    "password": "helio039098103",
+    "firstName": "กนกพร",
+    "lastName": "ประภาร",
+    "schoolId": "1",
+    "picture": "assets/pic1.png"
+  }
+}
