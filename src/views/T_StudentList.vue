@@ -5,7 +5,7 @@
     <div class="bg-white mt-10 mx-20 h-full rounded-t-2xl">
       <div class="grid grid-cols-2 ml-10">
         <div class="mt-10 text-xl font-semibold">
-          {{ subjectName }} ชั้นมัธยมศึกษาปีที่ {{ classId }} ห้อง {{ room }}
+          {{ subjectName }} ชั้นมัธยมศึกษาปีที่ {{ grade }} ห้อง {{ room }}
         </div>
         <div class="flex justify-end content-center">
           <!-- <router-link
@@ -29,12 +29,12 @@
       <div class="grid grid-cols-3 mt-20 mx-10 gap-2">
         <div
           class="bg-light px-10 py-10 text-sm"
-          v-for="list in renderstudent"
-          :key="list.id"
+          v-for="list in std"
+          :key="list.no"
         >
           <div class="columns-4">
             <div>
-              {{ list }}
+              {{ list.firstName }}   {{ list.studentId }}
             </div>
           </div>
         </div>
@@ -46,15 +46,30 @@
 <script>
 export default {
   name: "StudentList",
-  props: ["classId", "subjectName", "room"],
+  props: ["classId", "subjectName"],
 
+  async created() {
+    const studentArr = await this.getStudent();
+
+    let myStudentRoom;
+
+    for (let index = 0; index < studentArr.length; index++) {
+      if (studentArr[index].id == this.$route.query.room) {
+        myStudentRoom = studentArr[index];
+      }
+    }
+    this.grade = this.$route.params.grade;
+    this.room = this.$route.query.room;
+    this.std = myStudentRoom.members;
+  },
   data() {
     return {
       url: "http://localhost:5000/Student",
-      std: [],
+      std: null,
+      grade: null,
+      room: null,
     };
   },
-
   methods: {
     // async getStudent() {
     //   try {
@@ -76,21 +91,6 @@ export default {
       } catch (error) {
         console.log(`Could not get! ${error}`);
       }
-    },
-  },
-
-  async created() {
-    // const student = await this.getStudent;
-    this.std = await this.getStudent();
-    console.log(this.std);
-    // console.log(student["members"]);
-  },
-
-  computed: {
-    renderstudent() {
-      return this.std.filter((student) => {
-        student.id === this.$route.query.room;
-      });
     },
   },
 };

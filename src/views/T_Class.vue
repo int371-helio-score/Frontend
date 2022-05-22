@@ -31,16 +31,26 @@ import axios from "axios";
 
 export default {
   name: "ClassInSubject",
-  props: ["subjectName", "classId"],
-
+  props: ["subjectName"],
+  async created() {
+    await this.getClassroom();
+    this.subjectId = this.$route.query.subjectId;
+    this.classId = this.$route.query.classId;
+  },
+  mounted() {
+    axios.get(`${this.url}/getSubjects/${this.subjectId}`).then((res) => {
+      return (this.subject = res.data);
+    });
+  },
   data() {
     return {
       classroom: [],
       url: "http://localhost:5000/Subjects",
       subject: "",
+      subjectId: null,
+      classId: null,
     };
   },
-
   methods: {
     // async getClassroom() {
     //   try {
@@ -53,7 +63,6 @@ export default {
     //     console.log(`Could not get! ${error}`);
     //   }
     // },
-
     async getClassroom() {
       try {
         axios.get(`${this.url}/`).then((res) => {
@@ -65,16 +74,6 @@ export default {
         console.log(`Could not get! ${error}`);
       }
     },
-  },
-
-  async created() {
-    await this.getClassroom();
-  },
-
-  mounted() {
-    axios.get(`${this.url}/getSubjects/${this.subjectId}`).then((res) => {
-      return (this.subject = res.data);
-    });
   },
 };
 </script>

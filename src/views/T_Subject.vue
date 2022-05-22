@@ -7,13 +7,13 @@
         <div class="mt-10 text-xl font-semibold">HELIO SCORE</div>
         <div class="mt-10 flex justify-end">
           <label>ปีการศึกษา</label>
-          <select>
+          <select class="w-48" v-model="selectTerm">
             <option
               v-for="semester in academics"
-              :value="semester.academicYear"
-              :key="semester.academicYear"
+              :value="semester"
+              :key="semester._id"
             >
-              {{ semester.academicYear }}
+              {{ semester.semester }} / {{ semester.academicYear }}
             </option>
           </select>
         </div>
@@ -29,6 +29,7 @@
                 subjectName: subject.subjectName,
                 classId: subject.grade,
               },
+              query: { subjectId: subject.subject_id, classId: subject.grade },
             }"
           >
             <div class="subject bg-white px-10 pt-10 py-2 text-sm text-center">
@@ -53,45 +54,58 @@ import axios from "axios";
 export default {
   data() {
     return {
-      url: "http://localhost:5000/Subjects",
+      // url: "http://localhost:3000/api/helio/subject",
+      url: " http://localhost:5000/Subjects",
       subjects: [],
-      academic: "http://localhost:5000/Academics",
+      academic: "http://localhost:3000/api/helio/academic",
       academics: [],
       picture: "",
-      countClassroom: "",
+      selectTerm: null,
     };
   },
-
+  watch: {
+    selectTerm() {
+      this.getSubjects();
+    },
+  },
   methods: {
-    // async getSubjects() {
-    //   try {
-    //     const res = await fetch(this.url);
-    //     const data = await res.json();
-    //     return data;
-    //   } catch (error) {
-    //     console.log(`Could not get! ${error}`);
-    //   }
-    // },
-
-    async getSubjects() {
+    getSubjects() {
       try {
-        axios.get(`${this.url}/`).then((res) => {
-          this.subjects = res.data;
-        });
+        axios
+          .get(this.url, {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+            params: {
+              semester: this.selectTerm.semester,
+              academicYear: this.selectTerm.academicYear,
+            },
+          })
+          .then((res) => {
+            console.log(res.data);
+            this.subjects = res.data;
+          });
       } catch (error) {
         console.log(`Could not get! ${error}`);
       }
     },
 
     getPicture(picture) {
-      return "http://localhost:5000/Subjects" + picture;
+      return "http://localhost:3000/Subjects" + picture;
     },
 
     async getAcademics() {
       try {
-        const respon = await fetch(this.academic);
-        const data = await respon.json();
-        return data;
+        axios
+          .get(this.academic, {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          })
+          .then((res) => {
+            console.log(res.data.data.results);
+            this.academics = res.data.data.results;
+          });
       } catch (error) {
         console.log(`Could not get! ${error}`);
       }
@@ -100,9 +114,7 @@ export default {
 
   async created() {
     await this.getSubjects();
-    // this.subjects = await this.getSubjects();
-    // this.academic = await this.getAcademics();
-    // this.countClassroom = await this.Count();
+    await this.getAcademics();
   },
 };
 </script>

@@ -80,11 +80,8 @@ export default {
           .then((res) => {
             console.log(res.data);
             if (res.data.statusCode === 200) {
-              // localStorage.setItem("token", res.data.token);
-              // localStorage.setItem("role", res.data.role);
-              // if (res.data.role == "Teacher") {
-              //   return this.$router.push("/helioscore");
-              // }
+              
+              localStorage.setItem("token", res.data.data.token);
               return this.$router.push("/helioscore");
             }
           })
@@ -93,16 +90,6 @@ export default {
           });
       }
     },
-
-    // async login() {
-    //   if (!this.username || !this.password) {
-    //     alert("Username and Password can't be empty!");
-    //   } else if (this.user == this.username && this.pass == this.password) {
-    //     return this.$router.push("/helioscore");
-    //   } else {
-    //     alert("Username and Password can't be empty!");
-    //   }
-    // },
   },
 };
 </script>
