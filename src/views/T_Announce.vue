@@ -58,8 +58,13 @@
 
 <script>
 export default {
+  // name: "Upload file",
+  props: ["classId", "subjectName"],
+
   data() {
-    return {};
+    return {
+      // url: "",
+    };
   },
 
   methods: {},

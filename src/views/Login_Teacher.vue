@@ -82,6 +82,7 @@ export default {
             if (res.data.statusCode === 200) {
               
               localStorage.setItem("token", res.data.data.token);
+              console.log(res.data.data.token);
               return this.$router.push("/helioscore");
             }
           })

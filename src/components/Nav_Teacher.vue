@@ -20,10 +20,6 @@
               <span class="material-symbols-outlined" @click="seeMore()">
                 campaign
               </span>
-              <div>
-                <!-- <a> ข้อมูลบัญชี </a>
-                <a> ออกจากระบบ </a> -->
-              </div>
               <p>ประกาศคะแนน</p>
             </div>
           </router-link>
@@ -37,7 +33,14 @@
         <div class="ml-4">
           {{ this.account.firstName }} {{ this.account.lastName }}
         </div>
-        <span class="material-symbols-outlined ml-4"> expand_more </span>
+        <div class="dropdown">
+          <span class="material-symbols-outlined ml-4 dropbtn cursor-pointer"> expand_more </span>
+        <div class="dropdown-content">
+          <a href="#">ข้อมูลบัญชี</a>
+          <a href="#" @click="logout()">ออกจากระบบ</a>
+        </div>
+        </div>
+        
       </div>
     </div>
   </div>
@@ -67,8 +70,6 @@ export default {
       return "http://localhost:5000/Teacher" + img;
     },
 
-    seeMore() {},
-
     logout() {
       localStorage.removeItem("token");
       localStorage.removeItem("role");
@@ -78,7 +79,7 @@ export default {
 
   async created() {
     this.account = await this.getAccount();
-    console.log(this.account);
+    // console.log(this.account);
   },
 };
 </script>
@@ -96,4 +97,25 @@ span {
   /* width: 15.92px;
   height: 18px; */
 }
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+.dropdown:hover .dropdown-content {display: block;}
 </style>

@@ -5,9 +5,9 @@
     <div class="bg-white mt-10 mx-20 h-full rounded-t-2xl">
       <div class="grid grid-cols-2 mx-10">
         <div class="mt-10 text-xl font-semibold">HELIO SCORE</div>
-        <div class="mt-10 flex justify-end">
-          <label>ปีการศึกษา</label>
-          <select class="w-48" v-model="selectTerm">
+        <div class="mt-10 flex justify-end self-center text-seccondary">
+          <p class="">ปีการศึกษา</p>
+          <select v-model="selectTerm" class="w-24 ml-4 bg-white">
             <option
               v-for="semester in academics"
               :value="semester"
@@ -54,22 +54,29 @@ import axios from "axios";
 export default {
   data() {
     return {
-      // url: "http://localhost:3000/api/helio/subject",
-      url: " http://localhost:5000/Subjects",
+      url: "http://localhost:3000/api/helio/subject",
+      // url: " http://localhost:5000/Subjects",
       subjects: [],
       academic: "http://localhost:3000/api/helio/academic",
       academics: [],
       picture: "",
-      selectTerm: null,
+      selectTerm: "",
     };
   },
   watch: {
-    selectTerm() {
-      this.getSubjects();
+    async selectTerm() {
+      await this.getSubjects();
+      console.log(this.selectTerm.semester);
     },
   },
   methods: {
+    // onChange(event) {
+    //   this.selectTerm = event.target.value
+    //   console.log(this.selectTerm);
+    // },
+
     getSubjects() {
+      console.log(this.selectTerm);
       try {
         axios
           .get(this.url, {
@@ -82,8 +89,8 @@ export default {
             },
           })
           .then((res) => {
-            console.log(res.data);
-            this.subjects = res.data;
+            console.log(this.data);
+            this.subjects = res.data.data.results;
           });
       } catch (error) {
         console.log(`Could not get! ${error}`);
@@ -103,7 +110,6 @@ export default {
             },
           })
           .then((res) => {
-            console.log(res.data.data.results);
             this.academics = res.data.data.results;
           });
       } catch (error) {
@@ -115,6 +121,7 @@ export default {
   async created() {
     await this.getSubjects();
     await this.getAcademics();
+    await this.selectTerm();
   },
 };
 </script>
@@ -127,5 +134,15 @@ export default {
 }
 .classroom {
   color: #797979;
+}
+label {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 29px;
+}
+select {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 29px;
 }
 </style>
