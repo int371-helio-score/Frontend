@@ -17,7 +17,7 @@
           >
             <div class="class bg-white px-10 pt-10 pb-2 text-sm text-center">
               <div class="mb-5">ม.{{ classId }} / {{ room.room }}</div>
-              <div>คน</div>
+              <div> {{ room.totalStudent }} คน</div>
             </div>
           </router-link>
         </div>
@@ -32,44 +32,51 @@ import axios from "axios";
 export default {
   name: "ClassInSubject",
   props: ["subjectName"],
+
   async created() {
-    await this.getClassroom();
     this.subjectId = this.$route.query.subjectId;
     this.classId = this.$route.query.classId;
+    await this.getClassroom();
+    console.log(this.classId);
   },
-  mounted() {
-    axios.get(`${this.url}/getSubjects/${this.subjectId}`).then((res) => {
-      return (this.subject = res.data);
-    });
+  async mounted() {
+    await axios
+      .get(`${this.url}/${this.subjectId}`, {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        return (this.subject = res.data);
+      });
   },
   data() {
     return {
       classroom: [],
-      url: "http://localhost:5000/Subjects",
+      url: "http://localhost:3000/api/helio/class",
       subject: "",
       subjectId: null,
       classId: null,
+      // totalStd: "",
     };
   },
   methods: {
-    // async getClassroom() {
-    //   try {
-    //     const res = await fetch(this.url);
-    //     const data = await res.json();
-    //     return data.find((sub) => {
-    //       return sub.subjectName == this.subjectName;
-    //     }).classroom;
-    //   } catch (error) {
-    //     console.log(`Could not get! ${error}`);
-    //   }
-    // },
     async getClassroom() {
       try {
-        axios.get(`${this.url}/`).then((res) => {
-          this.classroom = res.data.find((sub) => {
-            return sub.subjectName == this.subjectName;
-          }).classroom;
-        });
+        axios
+          .get(`${this.url}/${this.subjectId}`, {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          })
+          .then((res) => {
+            console.log(res.data);
+            this.classroom = res.data.data.results;
+            // this.totalStd = res.data.data.total;
+            // this.classroom = res.data.data.results.find((sub) => {
+            //   return sub.subjectName == this.subjectName;
+            // }).classroom;
+          });
       } catch (error) {
         console.log(`Could not get! ${error}`);
       }

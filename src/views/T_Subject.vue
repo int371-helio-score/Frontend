@@ -2,16 +2,16 @@
   <div class="bg-light w-full h-screen">
     <navTeacher />
 
-    <div class="bg-white mt-10 mx-20 h-full rounded-t-2xl">
+    <div class="bg-white mt-10 mx-20 h-screen rounded-t-2xl">
       <div class="grid grid-cols-2 mx-10">
         <div class="mt-10 text-xl font-semibold">HELIO SCORE</div>
         <div class="mt-10 flex justify-end self-center text-seccondary">
           <p class="">ปีการศึกษา</p>
-          <select v-model="selectTerm" class="w-24 ml-4 bg-white">
+          <select v-model="selected" class=" ml-4 bg-white">
             <option
               v-for="semester in academics"
+              :key="semester"
               :value="semester"
-              :key="semester._id"
             >
               {{ semester.semester }} / {{ semester.academicYear }}
             </option>
@@ -33,13 +33,13 @@
             }"
           >
             <div class="subject bg-white px-10 pt-10 py-2 text-sm text-center">
-              <div><img :src="getPicture(subject.picture)" /><br /></div>
+              <img :src="getPicture()" class="h-20 flex justify-center"/><br />
               <div>
                 {{ subject.subjectCode }} {{ subject.subjectName }} <br />
               </div>
               <div class="classroom">
                 <div>ชั้นมัธยมศึกษาปีที่ {{ subject.grade }}</div>
-                <div class="mt-4">ห้องเรียน</div>
+                <div class="mt-4">ทั้งหมด {{ totalRoom }} ห้องเรียน</div>
               </div>
             </div>
           </router-link>
@@ -51,32 +51,71 @@
 
 <script>
 import axios from "axios";
+import _ from "lodash";
+
 export default {
   data() {
     return {
       url: "http://localhost:3000/api/helio/subject",
-      // url: " http://localhost:5000/Subjects",
-      subjects: [],
+      subjects: null,
+      totalRoom: "",
       academic: "http://localhost:3000/api/helio/academic",
       academics: [],
       picture: "",
-      selectTerm: "",
+      selected: "62812b3e40d44e57e4e24a34",
+      term: [
+      {
+        name: 'Please Select an Option',
+        id: ''
+      }
+    ]
     };
   },
+  
+  async created() {
+    await this.getSubjects();
+    await this.getAcademics();
+    console.log(this.totalRoom);
+    // this.selectTerm = this.academics[0];
+    // this.selected = this.academics[0].id;
+  },
+
+  // computed:{
+  //   selectedTerm() {
+  //     var self = this,
+  //         name = "";
+
+  //     this.selectedTerm.filter(function(semester) {
+  //       if(semester.id == self.selected) {
+  //         name = semester.academicYear
+  //         return;
+  //       }
+  //     })
+
+  //     return name;
+  //   }
+  // },
+
   watch: {
-    async selectTerm() {
-      await this.getSubjects();
-      console.log(this.selectTerm.semester);
+    selected() {
+      this.getSubjects();
+      console.log(
+        "selectTerm",
+        this.selected.semester,
+        "year",
+        this.selected.academicYear
+      );
     },
   },
   methods: {
-    // onChange(event) {
-    //   this.selectTerm = event.target.value
-    //   console.log(this.selectTerm);
-    // },
-
     getSubjects() {
-      console.log(this.selectTerm);
+      console.log(this.selected);
+      console.log(
+        "from lodash",
+        _.get(this.selected, "semester"),
+        "year",
+        _.get(this.selected, "academicYear")
+      );
       try {
         axios
           .get(this.url, {
@@ -84,45 +123,41 @@ export default {
               Authorization: localStorage.getItem("token"),
             },
             params: {
-              semester: this.selectTerm.semester,
-              academicYear: this.selectTerm.academicYear,
+              semester: _.get(this.selected, "semester"),
+              academicYear: _.get(this.selected, "academicYear"),
             },
           })
           .then((res) => {
-            console.log(this.data);
+            console.log(res.data.data.total);
             this.subjects = res.data.data.results;
+            this.totalRoom = res.data.data.total;
           });
       } catch (error) {
         console.log(`Could not get! ${error}`);
       }
     },
 
-    getPicture(picture) {
-      return "http://localhost:3000/Subjects" + picture;
+    getPicture() {
+      return "http://localhost:3000/public/images/pic1.png";
     },
 
     async getAcademics() {
       try {
-        axios
-          .get(this.academic, {
+        const response = await axios.get(
+          "http://localhost:3000/api/helio/academic",
+          {
             headers: {
               Authorization: localStorage.getItem("token"),
             },
-          })
-          .then((res) => {
-            this.academics = res.data.data.results;
-          });
+          }
+        );
+        this.academics = response.data.data.results;
       } catch (error) {
         console.log(`Could not get! ${error}`);
       }
     },
   },
 
-  async created() {
-    await this.getSubjects();
-    await this.getAcademics();
-    await this.selectTerm();
-  },
 };
 </script>
 

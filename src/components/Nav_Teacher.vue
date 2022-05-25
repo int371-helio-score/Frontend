@@ -13,7 +13,7 @@
           <span class="material-symbols-outlined"> group </span>จัดการรายชื่อ
         </router-link>
       </div> -->
-      <div class="menu">
+      <!-- <div class="menu">
         <div class="">
           <router-link to="/announce">
             <div class="flex self-center px-5 text-primary text-md">
@@ -24,50 +24,57 @@
             </div>
           </router-link>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <div class="flex justify-end">
       <div class="flex items-center">
-        <img :src="getImage(this.account.picture)" class="rounded-full w-20" />
+        <img :src="getImage()" class="rounded-full w-12" />
         <div class="ml-4">
           {{ this.account.firstName }} {{ this.account.lastName }}
         </div>
         <div class="dropdown">
-          <span class="material-symbols-outlined ml-4 dropbtn cursor-pointer"> expand_more </span>
-        <div class="dropdown-content">
-          <a href="#">ข้อมูลบัญชี</a>
-          <a href="#" @click="logout()">ออกจากระบบ</a>
+          <span class="material-symbols-outlined ml-4 dropbtn cursor-pointer">
+            expand_more
+          </span>
+          <div class="dropdown-content">
+            <a href="#">ข้อมูลบัญชี</a>
+            <a href="#" @click="logout()">ออกจากระบบ</a>
+          </div>
         </div>
-        </div>
-        
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
-      url: "http://localhost:5000/Teacher",
-      account: "",
+      account: [],
     };
   },
 
   methods: {
     async getAccount() {
       try {
-        const res = await fetch(this.url);
-        const data = await res.json();
-        return data;
+        const response = await axios.get(
+          "http://localhost:3000/api/helio/account/info",
+          {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          }
+        );
+        this.account = response.data.data;
       } catch (error) {
         console.log(`Could not get! ${error}`);
       }
     },
 
-    getImage(img) {
-      return "http://localhost:5000/Teacher" + img;
+    getImage() {
+      return "http://localhost:3000/public/images/Account.jpg";
     },
 
     logout() {
@@ -78,8 +85,7 @@ export default {
   },
 
   async created() {
-    this.account = await this.getAccount();
-    // console.log(this.account);
+    await this.getAccount();
   },
 };
 </script>
@@ -117,5 +123,7 @@ span {
 .dropdown-content a:hover {
   background-color: #ddd;
 }
-.dropdown:hover .dropdown-content {display: block;}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
 </style>
