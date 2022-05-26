@@ -13,7 +13,7 @@
       <div class="grid grid-cols-5 mt-20 mx-10 gap-8">
         <div v-for="room in classroom" :key="room.room">
           <router-link
-            :to="`/helioscore/${this.subjectName}/${this.classId}?room=${room.room}`"
+            :to="`/helioscore/${this.subjectName}/${this.classId}?room=${room.room}&class_id=${room._id}`"
           >
             <div class="class bg-white px-10 pt-10 pb-2 text-sm text-center">
               <div class="mb-5">ม.{{ classId }} / {{ room.room }}</div>
@@ -39,6 +39,7 @@ export default {
     await this.getClassroom();
     console.log(this.classId);
   },
+
   async mounted() {
     await axios
       .get(`${this.url}/${this.subjectId}`, {
@@ -57,11 +58,11 @@ export default {
       subject: "",
       subjectId: null,
       classId: null,
-      // totalStd: "",
     };
   },
   methods: {
     async getClassroom() {
+      console.log(this.classId)
       try {
         axios
           .get(`${this.url}/${this.subjectId}`, {
@@ -72,7 +73,7 @@ export default {
           .then((res) => {
             console.log(res.data);
             this.classroom = res.data.data.results;
-            // this.totalStd = res.data.data.total;
+            return res.data.data.results
             // this.classroom = res.data.data.results.find((sub) => {
             //   return sub.subjectName == this.subjectName;
             // }).classroom;

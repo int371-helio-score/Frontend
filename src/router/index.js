@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Login from "../views/Login_Teacher.vue";
 import Subject from "../views/T_Subject.vue";
-import Upload from "../views/T_Upload.vue";
+// import Upload from "../components/T_Upload.vue";
 import Score from "../views/T_Score.vue";
 import Class from "../views/T_Class.vue";
-import Announce from "../views/T_Announce.vue";
+// import Announce from "../components/T_Announce.vue";
 
 const routes = [{
         path: "/",
@@ -37,18 +37,18 @@ const routes = [{
         component: Score,
         props: true,
     },
-    {
-        path: "/helioscore/:subjectName/:grade/upload",
-        name: "Upload",
-        component: Upload,
-        props: true,
-    },
-    {
-        path: "/helioscore/:subjectName/:grade/announce",
-        name: "announce",
-        component: Announce,
-        props: true,
-    },
+    // {
+    //     path: "/helioscore/:subjectName/:grade/upload",
+    //     name: "Upload",
+    //     component: Upload,
+    //     props: true,
+    // },
+    // {
+    //     path: "/helioscore/:subjectName/:grade/announce",
+    //     name: "announce",
+    //     component: Announce,
+    //     props: true,
+    // },
 ];
 
 const router = createRouter({

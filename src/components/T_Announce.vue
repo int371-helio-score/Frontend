@@ -1,22 +1,12 @@
 <template>
-  <div class="bg-light w-full h-screen">
-    <navTeacher />
-    <div class="bg-white mt-10 mx-20 h-full rounded-t-2xl">
-      <div class="grid grid-cols-2 mx-10">
-        <div class="mt-10 text-xl font-semibold">
-          {{ subjectName }}
-          ชั้นมัธยมศึกษาปีที่ {{ classId }}
-        </div>
-      </div>
-
-      <div class="grid grid-cols-5 mt-20 mx-10 gap-8">
-        <div v-for="score in scores" :key="score.id">
-          <div
-            class="content md:w-60 md:h-60 bg-white px-10 pt-10 pb-2 text-sm text-center"
-          >
-            <div class="stitle mb-5">{{ score.title }}</div>
-            <div class="flex justify-center"><button class="md:w-36 md:h-24" id="custom-btn">ประกาศ</button></div>
-          </div>
+  <div class="grid grid-cols-4 mt-20 mx-10 gap-8">
+    <div v-for="score in scores" :key="score.id">
+      <div
+        class="content md:w-60 md:h-60 bg-white px-10 pt-10 pb-2 text-sm text-center"
+      >
+        <div class="stitle mb-5">{{}}</div>
+        <div class="flex justify-center">
+          <button class="md:w-36 md:h-24" id="custom-btn">ประกาศ</button>
         </div>
       </div>
     </div>
@@ -27,6 +17,7 @@
 export default {
   data() {
     return {
+      url: "http://localhost:3000/api/helio/mail",
       scores: [
         {
           id: 1,
@@ -59,7 +50,7 @@ export default {
   font-weight: 600;
   letter-spacing: 1px;
   cursor: pointer;
-  background: #ECF6FE;
+  background: #ecf6fe;
 }
 .content {
   border: 3px solid #f7f7f7;

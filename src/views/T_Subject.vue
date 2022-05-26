@@ -39,7 +39,7 @@
               </div>
               <div class="classroom">
                 <div>ชั้นมัธยมศึกษาปีที่ {{ subject.grade }}</div>
-                <div class="mt-4">ทั้งหมด {{ totalRoom }} ห้องเรียน</div>
+                <div class="mt-4">{{ subject.totalClass }} ห้องเรียน</div>
               </div>
             </div>
           </router-link>
@@ -128,7 +128,7 @@ export default {
             },
           })
           .then((res) => {
-            console.log(res.data.data.total);
+            console.log(res.data);
             this.subjects = res.data.data.results;
             this.totalRoom = res.data.data.total;
           });
