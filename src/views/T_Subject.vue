@@ -1,13 +1,15 @@
 <template>
-  <div class="bg-light w-full h-screen">
+  <div class="bg-light h-screen">
     <navTeacher />
 
-    <div class="bg-white mt-10 mx-20 h-screen rounded-t-2xl">
-      <div class="grid grid-cols-2 mx-10">
-        <div class="mt-10 text-xl font-semibold">HELIO SCORE</div>
-        <div class="mt-10 flex justify-end self-center text-seccondary">
-          <p class="">ปีการศึกษา</p>
-          <select v-model="selected" class=" ml-4 bg-white">
+    <div class="bg-white data">
+      <div class="grid grid-cols-2 sm:mx-10 mx-5">
+        <div class="title">HELIO SCORE</div>
+        <div class="semes">
+          <p >ปีการศึกษา</p>
+          
+          <select v-model="selected" class="ml-1 md:ml-4 bg-white">
+
             <option
               v-for="semester in academics"
               :key="semester"
@@ -20,7 +22,7 @@
       </div>
       <div class="mb"></div>
 
-      <div class="grid grid-cols-5 mt-20 mx-10 gap-8">
+      <div class="order">
         <div v-for="subject in subjects" :key="subject.subject_id">
           <router-link
             :to="{
@@ -32,8 +34,8 @@
               query: { subjectId: subject.subject_id, classId: subject.grade },
             }"
           >
-            <div class="subject bg-white px-10 pt-10 py-2 text-sm text-center">
-              <img :src="getPicture()" class="h-20 flex justify-center"/><br />
+            <div class="subject bg-white text-center px-10 py-2">
+              <img :src="getPicture()" class="flex justify-center" /><br />
               <div>
                 {{ subject.subjectCode }} {{ subject.subjectName }} <br />
               </div>
@@ -56,66 +58,34 @@ import _ from "lodash";
 export default {
   data() {
     return {
-      url: "http://localhost:3000/api/helio/subject",
+      url: "https://helioscore.sytes.net/backend/api/helio/subject",
       subjects: null,
       totalRoom: "",
-      academic: "http://localhost:3000/api/helio/academic",
+      academic: "https://helioscore.sytes.net/backend/api/helio/academic",
       academics: [],
       picture: "",
-      selected: "62812b3e40d44e57e4e24a34",
+      selected: "",
       term: [
-      {
-        name: 'Please Select an Option',
-        id: ''
-      }
-    ]
+        {
+          name: "Please Select an Option",
+          id: "",
+        },
+      ],
     };
   },
-  
+
   async created() {
     await this.getSubjects();
     await this.getAcademics();
-    console.log(this.totalRoom);
-    // this.selectTerm = this.academics[0];
-    // this.selected = this.academics[0].id;
   },
-
-  // computed:{
-  //   selectedTerm() {
-  //     var self = this,
-  //         name = "";
-
-  //     this.selectedTerm.filter(function(semester) {
-  //       if(semester.id == self.selected) {
-  //         name = semester.academicYear
-  //         return;
-  //       }
-  //     })
-
-  //     return name;
-  //   }
-  // },
 
   watch: {
     selected() {
       this.getSubjects();
-      console.log(
-        "selectTerm",
-        this.selected.semester,
-        "year",
-        this.selected.academicYear
-      );
     },
   },
   methods: {
     getSubjects() {
-      console.log(this.selected);
-      console.log(
-        "from lodash",
-        _.get(this.selected, "semester"),
-        "year",
-        _.get(this.selected, "academicYear")
-      );
       try {
         axios
           .get(this.url, {
@@ -128,7 +98,6 @@ export default {
             },
           })
           .then((res) => {
-            console.log(res.data);
             this.subjects = res.data.data.results;
             this.totalRoom = res.data.data.total;
           });
@@ -138,13 +107,13 @@ export default {
     },
 
     getPicture() {
-      return "http://localhost:3000/public/images/pic1.png";
+      return "https://helioscore.sytes.net/backend/public/images/pic1.png";
     },
 
     async getAcademics() {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/helio/academic",
+          "https://helioscore.sytes.net/backend/api/helio/academic",
           {
             headers: {
               Authorization: localStorage.getItem("token"),
@@ -152,20 +121,27 @@ export default {
           }
         );
         this.academics = response.data.data.results;
+        this.selected = this.academics[0];
       } catch (error) {
         console.log(`Could not get! ${error}`);
       }
     },
   },
-
 };
 </script>
 
 <style scoped>
+img {
+  @apply h-28 lg:h-auto
+  sm:pl-10 md:pl-0;
+}
 .subject {
   border: 3px solid #f7f7f7;
   border-radius: 10px;
-  @apply xl:justify-center;
+  @apply justify-center text-xs
+  lg:text-sm 
+  md:px-5 md:py-2
+  ;
 }
 .classroom {
   color: #797979;
@@ -177,7 +153,27 @@ label {
 }
 select {
   font-weight: 700;
-  font-size: 18px;
   line-height: 29px;
+  @apply md:text-base;
+}
+.order {
+  @apply grid mx-10 mt-10 gap-4 justify-center
+  xl:grid-cols-5 xl:gap-8
+  lg:grid-cols-4 lg:gap-10 lg:mb-20
+  md:grid-cols-3 md:gap-4
+  sm:grid-cols-2;
+}
+.title {
+  @apply text-sm font-bold mt-5
+  lg:text-xl lg:font-semibold
+  md:mt-10 md:text-lg md:font-bold;
+}
+.semes {
+  @apply flex justify-end self-center text-seccondary mt-5 text-xs
+  md:mt-10 md:text-base;
+}
+.data{
+  @apply rounded-md mx-1 mt-5 h-fit
+  md:mt-10 md:mx-20 md:h-fit md:pb-14 md:rounded-2xl;
 }
 </style>

@@ -17,19 +17,6 @@
 export default {
   data() {
     return {
-      url: "http://localhost:3000/api/helio/mail",
-      scores: [
-        {
-          id: 1,
-          title: "งานที่ 1",
-        },
-        {
-          id: 2,
-          title: "งานที่ 2",
-        },
-      ],
-      subjectName: "คณิตศาสตร์พื้นฐาน",
-      classId: 1,
     };
   },
 

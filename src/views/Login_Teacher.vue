@@ -51,9 +51,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      url: "http://localhost:3000/api/helio/account/signin",
-      // username: "noreply.helioscoresystem@gmail.com",
-      // password: "helio039098103",
+      url: "https://helioscore.sytes.net/backend/api/helio/account/signin",
       user: "",
       pass: "",
     };
@@ -64,9 +62,6 @@ export default {
       if (!this.user || !this.pass) {
         alert("กรุณากรอก อีเมล และ รหัสผ่าน");
       }
-      // else if (this.user != this.url || this.pass != this.url) {
-      //   alert("อีเมล หรือ รหัสผ่าน ไม่ถูกต้อง");
-      // }
       else {
         axios
           .post(this.url, {
@@ -74,10 +69,8 @@ export default {
             password: this.pass,
           })
           .then((res) => {
-            console.log(res.data);
             if (res.data.statusCode === 200) {
               localStorage.setItem("token", res.data.data.token);
-              console.log(res.data.data.token);
               return this.$router.push("/helioscore");
             }
           })
@@ -114,7 +107,7 @@ span {
   @apply xl:mr-1 xl:text-base;
 }
 input {
-  @apply text-primary lg:w-56;
+  @apply text-primary px-2 lg:w-56 ;
   font-size: small;
 }
 </style>

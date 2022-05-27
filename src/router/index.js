@@ -11,9 +11,8 @@ const routes = [{
         name: "login",
         component: Login,
         beforeEnter: (to, from, next) => {
-            const role = localStorage.getItem("role");
             const login = localStorage.getItem("token");
-            if (login && role === "Teacher") {
+            if (login) {
                 next("/helioscore");
             } else {
                 next();
