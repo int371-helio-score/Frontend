@@ -1,9 +1,9 @@
 <template>
   <div class="background sm:bg-light bg-white">
-    <div class="md:grid md:grid-cols-2 h-full">
+    <div class="md:grid md:grid-cols-2 h-screen">
       <div>
         <img
-          src="../assets/LoginHelio.png"
+          src="https://helioscore.sytes.net/backend/public/images/LoginHelio.png"
           class="justify-center place-content-center h-screen md:block hidden"
         />
       </div>
@@ -61,8 +61,7 @@ export default {
     async login() {
       if (!this.user || !this.pass) {
         alert("กรุณากรอก อีเมล และ รหัสผ่าน");
-      }
-      else {
+      } else {
         axios
           .post(this.url, {
             email: this.user,
@@ -88,7 +87,7 @@ export default {
   color: #b3dbfb;
 }
 .background {
-  @apply sm:pt-20 md:pt-0;
+  @apply sm:pt-20 md:pt-0 h-screen;
 }
 img {
   @apply h-auto
@@ -107,7 +106,7 @@ span {
   @apply xl:mr-1 xl:text-base;
 }
 input {
-  @apply text-primary px-2 lg:w-56 ;
+  @apply text-primary px-2 lg:w-56;
   font-size: small;
 }
 </style>
