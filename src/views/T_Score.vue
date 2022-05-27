@@ -41,9 +41,9 @@
       <div class="grid grid-cols-4 mt-20 mx-10 gap-8">
         <div v-if="announce">
           <div
-            class="content md:w-60 md:h-60 bg-white px-10 pt-10 pb-2 text-sm text-center"
+            class="content border-2 rounded-lg md:w-60 md:h-60 bg-white px-10 pt-10 pb-2 text-sm text-center"
             v-for="assign in toAnnounce"
-            :key="assign.score_id"
+            :key="assign.id"
           >
             <div class="stitle mb-5">{{ assign.title }}</div>
             <div class="flex justify-center">
@@ -169,8 +169,7 @@ export default {
     return {
       url: "https://helioscore.sytes.net/backend/api/helio/score",
       template: "https://helioscore.sytes.net/backend/api/helio/score/template",
-      announceUrl:
-        "https://helioscore.sytes.net/backend/api/helio/score/toAnnounce",
+      announceUrl: "https://helioscore.sytes.net/backend/api/helio/score/toAnnounce",
       sent: "https://helioscore.sytes.net/backend/api/helio/mail",
       toAnnounce: [],
       std: [],
@@ -209,7 +208,6 @@ export default {
     },
 
     submitFile() {
-      console.log("hi");
       let formData = new FormData();
       formData.append("file", this.file);
       formData.append("class_id", this.$route.query.class_id);
@@ -222,9 +220,10 @@ export default {
           },
         })
         .then((res) => {
-          if (res.data.statusCode === 200) {
+          if (res.data.statusCode === 200 || res.status === 201) {
             this.getStudent(this.$route.query.class_id);
             alert("อัปโหลดไฟล์สมบูรณ์ กด ประกาศคะแนน เพื่อประกาศ");
+            this.getAnnounce(this.$route.query.class_id);
             this.clickAnnounce().$router.go();
           }
         });
@@ -288,8 +287,8 @@ export default {
             },
           })
           .then((response) => {
-            this.toAnnounce = response.data.data.resutls;
-            return response.data.data.resutls;
+            this.toAnnounce = response.data.data.results;
+            return response.data.data.results;
           });
       } catch (error) {
         console.log(`Could not get! ${error}`);
@@ -432,5 +431,9 @@ th {
   display: flex;
   width: 100;
   height: 100;
+}
+
+.ojb{
+  @apply md:py-2
 }
 </style>
