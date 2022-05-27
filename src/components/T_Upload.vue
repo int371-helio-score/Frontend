@@ -1,21 +1,10 @@
 <template>
-  <div class="bg-light w-full h-screen">
-    <navTeacher />
-
-    <div class="bg-white mt-10 mx-20 h-full">
-      <div class="grid grid-cols-2">
-        <div class="md:ml-20 md:mt-8">
-          <h1 class="font-bold text-2xl">
-            คณิตศาสตร์พื้นฐาน ชั้นมัธยมศึกษาปีที่ x{{}} ห้อง x{{}}
-          </h1>
-        </div>
-      </div>
-
-      <div class="flex justify-center">
-        <div class="container flex flex-col md:mt-40">
+  <div class="flex justify-center">
+        <div class="container flex flex-col mt-20">
           <button
             class="relative self-end md:mb-4 text-xl"
             style="color: #42a5f5"
+            @click="download"
           >
             ดาวน์โหลดไฟล์เทมเพลต
           </button>
@@ -52,19 +41,42 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
 </template>
 
 <script>
+// import axios from 'axios';
 export default {
-  data() {
-    return {};
+  name: "UploadFile",
+  // props: ["classId", "subjectName"],
+
+  async created(){
+    // this.class_id = this.$route.query.classId;
   },
 
-  methods: {},
+  data() {
+    return {
+      // class_id: null,
+      url: "http://localhost:3000/api/helio/score/template"
+    };
+  },
 
-  async created() {},
+  methods: {
+    upload(){
+
+    },
+
+    // download(){
+    //   axios.get(`${this.url}/${class_id}`,{
+    //     headers: {
+    //       Authorization: localStorage.getItem("token"),
+    //     },
+    //     params:{
+          
+    //     }
+    //   })
+    // }
+  },
+
 };
 </script>
 

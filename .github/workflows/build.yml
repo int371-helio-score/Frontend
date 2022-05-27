@@ -1,0 +1,29 @@
+
+name: frontend CI
+
+on:
+  push:
+    branches: [ dev ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+
+    steps:
+    - uses: actions/checkout@v2
+    -
+        name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+    - name: build docker images
+      run: |
+        docker build . --tag ghcr.io/int371-helio-score/helio-score-fe
+        docker images 
+    - name: push docker image to registy
+      run: |
+        docker push ghcr.io/int371-helio-score/helio-score-fe
