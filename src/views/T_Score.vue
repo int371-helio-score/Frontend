@@ -63,46 +63,34 @@
       <div v-if="uploadFile">
         <div class="flex justify-center">
           <div class="container flex flex-col mt-10">
-            
-
             <!-- preview file -->
 
             <div class="self-center">
-              <!-- <input
-                class="wrapper flex justify-center place-content-center"
+              <input
+                class="wrapper flex justify-content-center align-items-center"
                 type="file"
                 ref="file"
                 @change="handleFileUpload()"
-              /> -->
+              />
 
-              <div class="bar"></div>
+              <!-- <div class="bar"></div>
               <div
                 class="wrapper md:px-48 md:py-20 flex justify-center place-content-center"
               >
-                <div class="content">
-                  <img
-                    src="https://100dayscss.com/codepen/upload.svg"
-                    class="upload"
-                  />
-                  <span class="filename"></span>
-                  <input
-                    type="file"
-                    class="input"
-                    @change="handleFileUpload()"
-                  />
-                </div>
-              </div>
+                <input type="file" class="input" @change="handleFileUpload()" />
+              </div> -->
               <div class="md:grid md:grid-cols-2">
-                <div class="md:text-xs text-gray-400 mt-2">* อัปโหลดได้เฉพาะไฟล์ CSV เท่านั้น</div>
-              <button
-              class="relative md:mb-4 md:text-base flex justify-end"
-              style="color: #42a5f5"
-              @click="downloadTemp(this.class_id)"
-            >
-              ดาวน์โหลดไฟล์เทมเพลต
-            </button>
+                <div class="md:text-xs text-gray-400 mt-2">
+                  * อัปโหลดได้เฉพาะไฟล์ CSV เท่านั้น
+                </div>
+                <button
+                  class="relative md:mb-4 md:text-base flex justify-end"
+                  style="color: #42a5f5"
+                  @click="downloadTemp(this.class_id)"
+                >
+                  ดาวน์โหลดไฟล์เทมเพลต
+                </button>
               </div>
-              
 
               <div class="flex gap-10 justify-center mt-8">
                 <div class="flex justify-center ojb bg-light text-primary">
@@ -181,7 +169,8 @@ export default {
     return {
       url: "https://helioscore.sytes.net/backend/api/helio/score",
       template: "https://helioscore.sytes.net/backend/api/helio/score/template",
-      announceUrl: "https://helioscore.sytes.net/backend/api/helio/score/toAnnounce",
+      announceUrl:
+        "https://helioscore.sytes.net/backend/api/helio/score/toAnnounce",
       sent: "https://helioscore.sytes.net/backend/api/helio/mail",
       toAnnounce: [],
       std: [],
@@ -440,10 +429,8 @@ th {
 
 .input {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0;
+  display: flex;
+  width: 100;
+  height: 100;
 }
 </style>
