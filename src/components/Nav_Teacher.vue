@@ -31,7 +31,6 @@
         </div>
       </div> -->
     </div>
-
     <div class="flex justify-end">
       <div class="flex items-center">
         <img :src="getImage()" class="rounded-full" />
