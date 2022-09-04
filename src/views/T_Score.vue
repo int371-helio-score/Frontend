@@ -141,17 +141,17 @@
 
         <div
           class="bg-light px-10 py-10 text-sm rounded-md lg:col-span-2 mb-10 pl-5"
-          v-for="(list, index) in std"
-          :key="index"
+          v-for="list in std"
+          :key="list.score_id"
         >
           <tr>
             <th>{{ list.title }}</th>
           </tr>
-          <table v-for="score in std[index].scores" :key="score.no">
+          <!-- <table v-for="(score, index) in std[index].scores" :key="index">
             <tr>
               <th class="pl-3">{{ score.score }}</th>
             </tr>
-          </table>
+          </table> -->
         </div>
       </div>
     </div>
@@ -167,10 +167,10 @@ export default {
 
   data() {
     return {
-      url: "https://helioscore.sytes.net/backend/api/helio/score",
-      template: "https://helioscore.sytes.net/backend/api/helio/score/template",
-      announceUrl: "https://helioscore.sytes.net/backend/api/helio/score/toAnnounce",
-      sent: "https://helioscore.sytes.net/backend/api/helio/mail",
+      url: "http://localhost:3000/api/helio/score",
+      template: "http://localhost:3000/api/helio/score/template",
+      announceUrl: "http://localhost:3000/api/helio/score/toAnnounce",
+      sent: "http://localhost:3000/api/helio/mail",
       toAnnounce: [],
       std: [],
       grade: null,
@@ -271,6 +271,7 @@ export default {
           })
           .then((response) => {
             this.std = response.data.data.results;
+            console.log(response);
             return response.data.data.results;
           });
       } catch (error) {

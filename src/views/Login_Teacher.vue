@@ -3,13 +3,13 @@
     <div class="md:grid md:grid-cols-2 h-screen">
       <div>
         <img
-          src="https://helioscore.sytes.net/backend/public/images/LoginHelio.png"
+          src="http://localhost:3000/public/images/LoginHelio.png"
           class="justify-center place-content-center h-screen md:block hidden"
         />
       </div>
 
       <div class="box bg-white">
-        <div class="pt-20 text-xl font-bold text-blue-700 justify-center flex">
+        <div class="pt-20 text-xl font-bold text-primary justify-center flex">
           <h1>เข้าสู่ระบบ</h1>
         </div>
 
@@ -21,7 +21,7 @@
                 v-model="user"
                 type="text"
                 placeholder="อีเมล"
-                class="border-b border-babyblue"
+                class="border-b border-gray50"
               />
             </div>
             <div class="flex justify-center mt-10">
@@ -30,9 +30,21 @@
                 v-model="pass"
                 type="password"
                 placeholder="รหัสผ่าน"
-                class="border-b border-babyblue"
+                class="border-b border-gray50"
               />
             </div>
+            <button class="button" @click="toggleShow">
+              <span class="icon is-small is-right">
+                <i
+                  class="fas"
+                  :class="{
+                    'fa-eye-slash': showPassword,
+                    'fa-eye': !showPassword,
+                  }"
+                ></i>
+              </span>
+            </button>
+            <div class="text-primary flex justify-end mr-24">ลืมรหัสผ่าน</div>
           </div>
 
           <div class="flex justify-center mt-20" @click="login">
@@ -41,6 +53,28 @@
             </button>
           </div>
         </form>
+
+        <div class="flex justify-center my-5 text-gray100">
+          <p>or</p>
+        </div>
+
+        <div class="flex justify-center">
+          <button
+            class="bg-white rounded-md w-40 justify-center flex border-gray50 border"
+            @click="signinWithGoogle()"
+          >
+            <!-- <img src="../../src/assets/search.png" class="google justify-start mr-4"/> -->
+            <p class="text-gray50">Sign in with Google</p>
+          </button>
+        </div>
+
+        <div class="flex justify-center mt-14">
+          <p class="inline-block text-gray100">หากคุณเป็นสมาชิกใหม่</p>
+          <p class="inline-block text-primary underline">
+            <a href="/helioscore/signup"> สร้างบัญชี</a>
+          </p>
+          <p class="inline-block text-gray100">ที่นี่</p>
+        </div>
       </div>
     </div>
   </div>
@@ -51,13 +85,22 @@ import axios from "axios";
 export default {
   data() {
     return {
-      url: "https://helioscore.sytes.net/backend/api/helio/account/signin",
+      url: "http://localhost:3000/api/helio/account/login",
       user: "",
       pass: "",
+      isSignin: false,
     };
   },
 
   methods: {
+    async signinWithGoogle() {
+      console.log("Google");
+      const googleUser = await this.$gAuth.signIn();
+      this.isSignin = this.$gAuth.isAuthorized;
+      console.log("googleUser", googleUser);
+      console.log("getId", googleUser.getId());
+    },
+
     async login() {
       if (!this.user || !this.pass) {
         alert("กรุณากรอก อีเมล และ รหัสผ่าน");
@@ -72,6 +115,7 @@ export default {
               localStorage.setItem("token", res.data.data.token);
               return this.$router.push("/helioscore");
             }
+            console.log(res);
           })
           .catch((err) => {
             alert(err.response.data);
@@ -84,7 +128,7 @@ export default {
 
 <style scoped>
 ::placeholder {
-  color: #b3dbfb;
+  color: #c4c4c4;
 }
 .background {
   @apply sm:pt-20 md:pt-0 h-screen;
@@ -108,5 +152,8 @@ span {
 input {
   @apply text-primary px-2 lg:w-56;
   font-size: small;
+}
+.google {
+  @apply xl:w-20 xl:h-20;
 }
 </style>

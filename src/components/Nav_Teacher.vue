@@ -1,51 +1,82 @@
 <template>
-  <div
-    class="bg-white grid grid-cols-2 md:mx-20 sm:mx-5 mx-1 sm:py-5 sm:px-10 px-1 py-4 sm:rounded-b-2xl rounded-b-md"
-  >
-    <div class="grid grid-cols-3 gap-x-10 listmenu">
-      <div class="menu">
-        <router-link to="/helioscore">
-          <div
-            class="flex self-center text-primary lg:text-md text-xs lg:text-base px-5"
-          >
-            <span class="material-symbols-outlined home"> home </span>
-            <div class="sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1">หน้าหลัก</div>
-          </div>
-        </router-link>
+  <div class="bg-white grid grid-cols-2 sm:py-5 sm:px-10 px-1 py-4">
+    <div class="">
+      <div>
+        <h1>HELIOSCORE</h1>
       </div>
-      <!-- <div class="menu">
-        <router-link to="/studentlist">
-          <span class="material-symbols-outlined"> group </span>จัดการรายชื่อ
-        </router-link>
-      </div> -->
-      <!-- <div class="menu">
-        <div class="">
-          <router-link to="/announce">
-            <div class="flex self-center px-5 text-primary text-md">
-              <span class="material-symbols-outlined" @click="seeMore()">
-                campaign
-              </span>
-              <p>ประกาศคะแนน</p>
-            </div>
-          </router-link>
-        </div>
-      </div> -->
     </div>
     <div class="flex justify-end">
-      <div class="flex items-center">
-        <img :src="getImage()" class="rounded-full" />
-        <div class="ml-4 cursor-default account">
-          {{ this.account.firstName }} {{ this.account.lastName }}
+      <div class="dropdown">
+        <div
+          class="dropbtn flex items-center border border-light cursor-pointer"
+        >
+          <img :src="getImage()" class="profile rounded-full" />
+          <div class="ml-4 account">
+            {{ this.account.firstName }} {{ this.account.lastName }}
+          </div>
         </div>
-        <div class="dropdown">
-          <span
-            class="material-symbols-outlined ml-1 sm:ml-4 dropbtn cursor-pointer expand"
-          >
-            expand_more
-          </span>
-          <div class="dropdown-content rounded-sm">
-            <!-- <a href="#">ข้อมูลบัญชี</a> -->
-            <a href="#" @click="logout()">ออกจากระบบ</a>
+        <div class="rounded-sm dropdown-content">
+          <a href="#" @click="clickInfo()">ข้อมูลบัญชี</a>
+          <!-- <modal v -if="showModal" @close="showModal = false"></modal> -->
+          <a href="#" @click="logout()">ออกจากระบบ</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div name="modal" v-show="showModal == true">
+    <div class="modal-mask">
+      <div class="modal-wrapper">
+        <div class="modal-container">
+          <img src="../../src/assets/Background.png" class="w-full relative" />
+
+          <img :src="getImage()" class="pic rounded-full w-28 h-28 mt-0" />
+          <div class="font-extrabold text-md mt-10 mx-20">
+            {{ this.account.firstName }} {{ this.account.lastName }}
+          </div>
+
+            <div class="mx-20 mt-10">
+              <p class="text-seccondary font-bold my-2">อีเมล</p>
+              <p class="text-gray50">{{ this.account.email }}</p>
+            </div>
+
+
+          <div class="flex justify-center mt-16">
+            <div class="grid grid-cols-2">
+              <button
+                class="border border-primary rounded-md mr-2 px-2 py-1"
+                @click="editProfile()"
+              >
+                แก้ไขข้อมูล
+              </button>
+              <button
+                class="bg-primary rounded-md px-2 py-1 ml-2"
+                @click="showModal = false"
+              >
+                ออก
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div v-show="edit == true">
+          <img src="../../src/assets/Background.png" class="w-full relative" />
+          <img :src="getImage()" class="absolute rounded-full w-24 h-24 mt-0" />
+
+          <div>{{ this.account.firstName }} {{ this.account.lastName }}</div>
+          <div>
+            <p>อีเมล</p>
+            <p class="text-gray50">{{ this.account.email }}</p>
+          </div>
+          <div class="flex justify-center mt-20">
+            <div class="grid grid-cols-2">
+              <button class="border border-primary rounded-md mr-2 px-2 py-1">
+                ยกเลิก
+              </button>
+              <button class="bg-primary rounded-md px-2 py-1 ml-2">
+                บันทึก
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -55,10 +86,14 @@
 
 <script>
 import axios from "axios";
+
 export default {
   data() {
     return {
       account: [],
+      showModal: false,
+      url: "/api/helio/account/info",
+      edit: false,
     };
   },
 
@@ -66,7 +101,7 @@ export default {
     async getAccount() {
       try {
         const response = await axios.get(
-          "https://helioscore.sytes.net/backend/api/helio/account/info",
+          "http://localhost:3000/api/helio/account/info",
           {
             headers: {
               Authorization: localStorage.getItem("token"),
@@ -80,13 +115,20 @@ export default {
     },
 
     getImage() {
-      return "https://helioscore.sytes.net/backend/public/images/Account.jpg";
+      return "http://localhost:3000/public/images/Account.jpg";
+    },
+
+    editProfile() {
+      this.edit = true;
     },
 
     logout() {
       localStorage.removeItem("token");
-      localStorage.removeItem("role");
       return this.$router.push("/");
+    },
+
+    clickInfo() {
+      this.showModal = true;
     },
   },
 
@@ -97,8 +139,8 @@ export default {
 </script>
 
 <style scoped>
-img {
-  @apply lg:w-12 sm:w-9 w-8;
+.profile {
+  @apply lg:w-10 sm:w-9 w-8;
 }
 .menu {
   @apply flex justify-center bg-gradient-to-r from-light to-babyblue self-center rounded-md
@@ -114,6 +156,16 @@ span {
   sm:text-base sm:pr-2;
   /* width: 15.92px;
   height: 18px; */
+}
+.dropbtn {
+  @apply px-4 py-2 rounded-md;
+  padding: 4px;
+  /* font-size: 16px; */
+}
+
+.dropdown {
+  /* position: relative; */
+  display: inline-block;
 }
 
 .dropdown-content {
@@ -131,14 +183,68 @@ span {
   text-decoration: none;
   display: block;
 }
-
 .dropdown-content a:hover {
   background-color: #ddd;
 }
+
 .dropdown:hover .dropdown-content {
   display: block;
 }
 .account {
   @apply text-xs md:text-base;
+}
+.modal-mask {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: table;
+  transition: opacity 0.3s ease;
+}
+
+.modal-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.modal-container {
+  width: 721px;
+  height: 531px;
+  margin: 0px auto;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  border-radius: 25px;
+}
+
+.modal-header h3 {
+  margin-top: 0;
+  color: #42b983;
+}
+
+.modal-body {
+  margin: 20px 0;
+}
+
+.modal-enter {
+  opacity: 0;
+}
+
+.modal-leave-active {
+  opacity: 0;
+}
+
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}
+.pic {
+  margin-top: -68px;
+  position: absolute;
+  @apply ml-20;
 }
 </style>

@@ -1,50 +1,65 @@
 <template>
   <div class="bg-light h-screen">
     <navTeacher />
+    <div class="inline-flex">
+      <sidebarTeacher />
 
-    <div class="bg-white data">
-      <div class="grid grid-cols-2 sm:mx-10 mx-5">
-        <div class="title">HELIO SCORE</div>
-        <div class="semes">
-          <p >ปีการศึกษา</p>
-          
-          <select v-model="selected" class="ml-1 md:ml-4 bg-white">
+      <div class="data">
+        <div class="sm:mx-10 mx-5 divide-y divide-gray10">
+          <div class="grid grid-cols-2">
+            <div class="title">หน้าหลัก</div>
+          </div>
 
-            <option
-              v-for="semester in academics"
-              :key="semester"
-              :value="semester"
-            >
-              {{ semester.semester }} / {{ semester.academicYear }}
-            </option>
-          </select>
-        </div>
-      </div>
-      <div class="mb"></div>
-
-      <div class="order">
-        <div v-for="subject in subjects" :key="subject.subject_id">
-          <router-link
-            :to="{
-              name: 'class',
-              params: {
-                subjectName: subject.subjectName,
-                classId: subject.grade,
-              },
-              query: { subjectId: subject.subject_id, classId: subject.grade },
-            }"
-          >
-            <div class="subject bg-white text-center px-10 py-2">
-              <img :src="getPicture()" class="flex justify-center" /><br />
-              <div>
-                {{ subject.subjectCode }} {{ subject.subjectName }} <br />
-              </div>
-              <div class="classroom">
-                <div>ชั้นมัธยมศึกษาปีที่ {{ subject.grade }}</div>
-                <div class="mt-4">{{ subject.totalClass }} ห้องเรียน</div>
-              </div>
+          <div class="my-5 pt-10 py-5 grid grid-cols-2">
+            <div class="flex justify-start">
+              <p>วิชาทั้งหมด</p>
             </div>
-          </router-link>
+
+            <div class="semes flex justify-end">
+              <p>ปีการศึกษา</p>
+              <select
+                v-model="selected"
+                class="ml-1 md:ml-4 bg-light text-seccondary"
+              >
+                <option
+                  v-for="semester in academics"
+                  :key="semester"
+                  :value="semester"
+                >
+                  {{ semester.semester }} / {{ semester.academicYear }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="order">
+          <div v-for="subject in subjects" :key="subject.subject_id">
+            <router-link
+              :to="{
+                name: 'class',
+                params: {
+                  subjectName: subject.subjectName,
+                  classId: subject.grade,
+                },
+                query: {
+                  subjectId: subject.subject_id,
+                  classId: subject.grade,
+                },
+              }"
+            >
+              <div class="subject bg-white text-center px-10 py-2">
+                <img :src="getPicture()" class="flex justify-center" /><br />
+                <div>
+                  {{ subject.subjectCode }} {{ subject.subjectName }} <br />
+                </div>
+                <div class="classroom">
+                  <div>ชั้นมัธยมศึกษาปีที่ {{ subject.grade }}</div>
+                  <div class="mt-4">{{ subject.totalClass }} ห้องเรียน</div>
+                </div>
+              </div>
+            </router-link>
+          </div>
         </div>
       </div>
     </div>
@@ -54,14 +69,16 @@
 <script>
 import axios from "axios";
 import _ from "lodash";
+import SidebarTeacher from "@/components/SidebarTeacher.vue";
 
 export default {
+  components: { SidebarTeacher },
   data() {
     return {
-      url: "https://helioscore.sytes.net/backend/api/helio/subject",
+      url: "http://localhost:3000/api/helio/subject",
       subjects: null,
       totalRoom: "",
-      academic: "https://helioscore.sytes.net/backend/api/helio/academic",
+      academic: "http://localhost:3000/api/helio/academic",
       academics: [],
       picture: "",
       selected: "",
@@ -75,7 +92,6 @@ export default {
   },
 
   async created() {
-    await this.getSubjects();
     await this.getAcademics();
   },
 
@@ -85,6 +101,23 @@ export default {
     },
   },
   methods: {
+    async getAcademics() {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/helio/academic",
+          {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          }
+        );
+        this.academics = response.data.data.results;
+        this.selected = this.academics[0];
+      } catch (error) {
+        console.log(`Could not get! ${error}`);
+      }
+    },
+
     getSubjects() {
       try {
         axios
@@ -100,6 +133,7 @@ export default {
           .then((res) => {
             this.subjects = res.data.data.results;
             this.totalRoom = res.data.data.total;
+            console.log();
           });
       } catch (error) {
         console.log(`Could not get! ${error}`);
@@ -107,24 +141,7 @@ export default {
     },
 
     getPicture() {
-      return "https://helioscore.sytes.net/backend/public/images/pic1.png";
-    },
-
-    async getAcademics() {
-      try {
-        const response = await axios.get(
-          "https://helioscore.sytes.net/backend/api/helio/academic",
-          {
-            headers: {
-              Authorization: localStorage.getItem("token"),
-            },
-          }
-        );
-        this.academics = response.data.data.results;
-        this.selected = this.academics[0];
-      } catch (error) {
-        console.log(`Could not get! ${error}`);
-      }
+      return "http://localhost:3000/public/images/pic1.png";
     },
   },
 };
@@ -140,8 +157,7 @@ img {
   border-radius: 10px;
   @apply justify-center text-xs
   lg:text-sm 
-  md:px-5 md:py-2
-  ;
+  md:px-5 md:py-2;
 }
 .classroom {
   color: #797979;
@@ -157,23 +173,22 @@ select {
   @apply md:text-base;
 }
 .order {
-  @apply grid mx-10 mt-10 gap-4 justify-center
+  @apply grid mx-10 gap-4 justify-center
   xl:grid-cols-5 xl:gap-8
   lg:grid-cols-4 lg:gap-10 lg:mb-20
   md:grid-cols-3 md:gap-4
   sm:grid-cols-2;
 }
 .title {
-  @apply text-sm font-bold mt-5
+  @apply text-sm font-bold mt-5 text-seccondary
   lg:text-xl lg:font-semibold
   md:mt-10 md:text-lg md:font-bold;
 }
 .semes {
-  @apply flex justify-end self-center text-seccondary mt-5 text-xs
-  md:mt-10 md:text-base;
+  @apply text-seccondary text-xs
+md:text-base;
 }
-.data{
-  @apply rounded-md mx-1 mt-5 h-fit
-  md:mt-10 md:mx-20 md:h-fit md:pb-14 md:rounded-2xl;
+.data {
+  @apply ml-60 mt-1 h-fit;
 }
 </style>
