@@ -1,157 +1,162 @@
 <template>
   <div class="bg-light h-full">
     <navTeacher />
+    <div class="inline-flex">
+      <sidebarTeacher />
 
-    <div class="bg-white data">
-      <div class="grid grid-cols-2 ml-10">
-        <div class="title">
-          {{ subjectName }} ชั้นมัธยมศึกษาปีที่ {{ grade }} ห้อง {{ room }}
-        </div>
-
-        <div class="flex justify-end">
-          <div class="sm:grid sm:grid-cols-2 gap-4 md:gap-2">
-            <button
-              class="bg-babyblue text-primary click"
-              @click="clickAnnounce()"
-            >
-              <div
-                class="flex justify-center self-center md:text-xs lg:text-base"
-              >
-                <span class="material-symbols-outlined"> pending_actions </span
-                >คะแนนที่รอประกาศ
-              </div>
-            </button>
-
-            <button
-              class="buttom bg-babyblue text-primary md:block hidden click"
-              @click="clickUpload()"
-            >
-              <div
-                class="flex justify-center self-center md:text-xs lg:text-base"
-              >
-                <span class="material-symbols-outlined"> upload_file </span>
-                <div>อัปโหลดคะแนน</div>
-              </div>
-            </button>
+      <div class="data">
+        <div class="grid grid-cols-2 ml-10">
+          <!-- <div class="title"><router-link to="/">หน้าหลัก > </router-link></div> -->
+          <div class="title">
+            {{ subjectName }} ชั้นมัธยมศึกษาปีที่ {{ grade }} ห้อง {{ room }}
           </div>
-        </div>
-      </div>
 
-      <!-- รอประกาศคะแนน -->
-      <div class="grid grid-cols-4 mt-20 mx-10 gap-8">
-        <div v-if="announce">
-          <div
-            class="content border-2 rounded-lg md:w-60 md:h-60 bg-white px-10 pt-10 pb-2 text-sm text-center"
-            v-for="assign in toAnnounce"
-            :key="assign.id"
-          >
-            <div class="stitle mb-5">{{ assign.title }}</div>
-            <div class="flex justify-center">
+          <div class="flex justify-end">
+            <div class="sm:grid sm:grid-cols-2 gap-4 md:gap-2">
               <button
-                class="ojb bg-babyblue text-primary click"
-                @click="sentEmail(assign.title)"
+                class="bg-babyblue text-primary click"
+                @click="clickAnnounce()"
               >
-                ประกาศ
+                <div
+                  class="flex justify-center self-center md:text-xs lg:text-base"
+                >
+                  <span class="material-symbols-outlined">
+                    pending_actions </span
+                  >คะแนนที่รอประกาศ
+                </div>
+              </button>
+
+              <button
+                class="buttom bg-babyblue text-primary md:block hidden click"
+                @click="clickUpload()"
+              >
+                <div
+                  class="flex justify-center self-center md:text-xs lg:text-base"
+                >
+                  <span class="material-symbols-outlined"> upload_file </span>
+                  <div>อัปโหลดคะแนน</div>
+                </div>
               </button>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- อัปโหลด -->
+        <!-- รอประกาศคะแนน -->
+        <div class="grid grid-cols-4 mt-20 mx-10 gap-8">
+          <div v-if="announce">
+            <div
+              class="content border-2 rounded-lg md:w-60 md:h-60 bg-white px-10 pt-10 pb-2 text-sm text-center"
+              v-for="assign in toAnnounce"
+              :key="assign.id"
+            >
+              <div class="stitle mb-5">{{ assign.title }}</div>
+              <div class="flex justify-center">
+                <button
+                  class="ojb bg-babyblue text-primary click"
+                  @click="sentEmail(assign.title)"
+                >
+                  ประกาศ
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
 
-      <div v-if="uploadFile">
-        <div class="flex justify-center">
-          <div class="container flex flex-col mt-10">
-            <!-- preview file -->
+        <!-- อัปโหลด -->
 
-            <div class="self-center">
-              <input
-                class="wrapper flex justify-content-center align-items-center"
-                type="file"
-                ref="file"
-                @change="handleFileUpload()"
-              />
+        <div v-if="uploadFile">
+          <div class="flex justify-center">
+            <div class="container flex flex-col mt-10">
+              <!-- preview file -->
 
-              <!-- <div class="bar"></div>
+              <div class="self-center">
+                <input
+                  class="wrapper flex justify-content-center align-items-center"
+                  type="file"
+                  ref="file"
+                  @change="handleFileUpload()"
+                />
+
+                <!-- <div class="bar"></div>
               <div
                 class="wrapper md:px-48 md:py-20 flex justify-center place-content-center"
               >
                 <input type="file" class="input" @change="handleFileUpload()" />
               </div> -->
-              <div class="md:grid md:grid-cols-2">
-                <div class="md:text-xs text-gray-400 mt-2">
-                  * อัปโหลดได้เฉพาะไฟล์ CSV เท่านั้น
+                <div class="md:grid md:grid-cols-2">
+                  <div class="md:text-xs text-gray-400 mt-2">
+                    * อัปโหลดได้เฉพาะไฟล์ CSV เท่านั้น
+                  </div>
+                  <button
+                    class="relative md:mb-4 md:text-base flex justify-end"
+                    style="color: #42a5f5"
+                    @click="downloadTemp(this.class_id)"
+                  >
+                    ดาวน์โหลดไฟล์เทมเพลต
+                  </button>
                 </div>
-                <button
-                  class="relative md:mb-4 md:text-base flex justify-end"
-                  style="color: #42a5f5"
-                  @click="downloadTemp(this.class_id)"
-                >
-                  ดาวน์โหลดไฟล์เทมเพลต
-                </button>
-              </div>
 
-              <div class="flex gap-10 justify-center mt-8">
-                <div class="flex justify-center ojb bg-light text-primary">
-                  <button
-                    class="md:w-32 h-12 text-sm"
-                    id="custom-btn"
-                    @click="clickUpload()"
-                  >
-                    ยกเลิก
-                  </button>
-                </div>
-                <div class="flex justify-center ojb">
-                  <button
-                    class="md:w-32 h-12 text-sm bg-primary text-white md:rounded-lg"
-                    @click="submitFile()"
-                  >
-                    อัปโหลด
-                  </button>
+                <div class="flex gap-10 justify-center mt-8">
+                  <div class="flex justify-center ojb bg-light text-primary">
+                    <button
+                      class="md:w-32 h-12 text-sm"
+                      id="custom-btn"
+                      @click="clickUpload()"
+                    >
+                      ยกเลิก
+                    </button>
+                  </div>
+                  <div class="flex justify-center ojb">
+                    <button
+                      class="md:w-32 h-12 text-sm bg-primary text-white md:rounded-lg"
+                      @click="submitFile()"
+                    >
+                      อัปโหลด
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Score List -->
-
-      <div
-        class="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 mx-10 gap-2"
-        v-if="(uploadFile == false) & (announce == false)"
-      >
-        <div class="bg-light px-5 py-10 text-sm rounded-md mb-10">
-          <tr class="">
-            <th>เลขที่</th>
-            <th class="md:pl-10">รหัส</th>
-            <th class="md:pl-10 lg:pl-16">ชื่อ-นามสกุล</th>
-          </tr>
-          <table v-for="list in std[0].scores" :key="list.no">
-            <tr class="font-light">
-              <th class="md:pl-3">{{ list.no }}</th>
-              <th class="md:pl-12">{{ list.studentId }}</th>
-              <th class="md:pl-8 lg:pl-12">
-                {{ list.firstName }} &nbsp;&nbsp; {{ list.lastName }}
-              </th>
-            </tr>
-          </table>
-        </div>
+        <!-- Score List -->
 
         <div
-          class="bg-light px-10 py-10 text-sm rounded-md lg:col-span-2 mb-10 pl-5"
-          v-for="list in std"
-          :key="list.score_id"
+          class="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 mx-10 gap-2"
+          v-if="(uploadFile == false) & (announce == false)"
         >
-          <tr>
-            <th>{{ list.title }}</th>
-          </tr>
-          <!-- <table v-for="(score, index) in std[index].scores" :key="index">
+          <div class="bg-light px-5 py-10 text-sm rounded-md mb-10">
+            <tr class="">
+              <th>เลขที่</th>
+              <th class="md:pl-10">รหัส</th>
+              <th class="md:pl-10 lg:pl-16">ชื่อ-นามสกุล</th>
+            </tr>
+            <table v-for="list in std[0].scores" :key="list.no">
+              <tr class="font-light">
+                <th class="md:pl-3">{{ list.no }}</th>
+                <th class="md:pl-12">{{ list.studentId }}</th>
+                <th class="md:pl-8 lg:pl-12">
+                  {{ list.firstName }} &nbsp;&nbsp; {{ list.lastName }}
+                </th>
+              </tr>
+            </table>
+          </div>
+
+          <div
+            class="bg-light px-10 py-10 text-sm rounded-md lg:col-span-2 mb-10 pl-5"
+            v-for="list in std"
+            :key="list.score_id"
+          >
+            <tr>
+              <th>{{ list.title }}</th>
+            </tr>
+            <!-- <table v-for="(score, index) in std[index].scores" :key="index">
             <tr>
               <th class="pl-3">{{ score.score }}</th>
             </tr>
           </table> -->
+          </div>
         </div>
       </div>
     </div>
@@ -160,8 +165,10 @@
 
 <script>
 import axios from "axios";
+import SidebarTeacher from "@/components/SidebarTeacher.vue";
 
 export default {
+  components: { SidebarTeacher },
   name: "StudentList",
   props: ["classId", "subjectName"],
 
@@ -380,8 +387,7 @@ th {
   md:w-36 md:mb-4 cursor-pointer lg:rounded-b-lg rounded-md;
 }
 .data {
-  @apply rounded-md mx-1 mt-5
-  md:mt-10 md:mx-20 md:h-fit md:pb-96 md:rounded-t-2xl;
+    @apply ml-60 mt-1 h-fit;
 }
 .title {
   @apply text-sm font-bold mt-5
@@ -434,7 +440,7 @@ th {
   height: 100;
 }
 
-.ojb{
-  @apply md:py-2
+.ojb {
+  @apply md:py-2;
 }
 </style>

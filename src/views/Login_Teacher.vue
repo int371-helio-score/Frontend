@@ -44,7 +44,7 @@
                 ></i>
               </span>
             </button>
-            <div class="text-primary flex justify-end mr-24">ลืมรหัสผ่าน</div>
+            <!-- <div class="text-primary flex justify-end mr-24">ลืมรหัสผ่าน</div> -->
           </div>
 
           <div class="flex justify-center mt-20" @click="login">
@@ -59,13 +59,14 @@
         </div>
 
         <div class="flex justify-center">
-          <button
+          <!-- <h1>IsInit: {{ Vue3GoogleOauth.isInit }}</h1> -->
+          <!-- <button
             class="bg-white rounded-md w-40 justify-center flex border-gray50 border"
-            @click="signinWithGoogle()"
+            @click="handleClickSignIn" :disabled="!Vue3GoogleOauth.isInit || Vue3GoogleOauth.isAuthorized"
           >
-            <!-- <img src="../../src/assets/search.png" class="google justify-start mr-4"/> -->
             <p class="text-gray50">Sign in with Google</p>
-          </button>
+          </button> -->
+          <GoogleLogin :callback="callback" />
         </div>
 
         <div class="flex justify-center mt-14">
@@ -80,26 +81,71 @@
   </div>
 </template>
 
+<script setup>
+import { decodeCredential } from "vue3-google-login";
+const callback = (response) => {
+  // This callback will be triggered when the user selects or login to
+  // his Google account from the popup
+  console.log("Handle the response", response);
+  const userData = decodeCredential(response.credential);
+  console.log("Handle the userData", userData);
+};
+</script>
 <script>
 import axios from "axios";
+// import { inject, toRefs } from "vue";
+
 export default {
+  // setup() {
+  //   const callback = (response) => {
+  //     // This callback will be triggered when the user selects or login to
+  //     // his Google account from the popup
+  //     console.log("Handle the response", response);
+  //   };
+  // },
+
+  // created(){
+  //   this.$watch('callback', (data) => console.log(data))
+  // },
+
   data() {
     return {
       url: "http://localhost:3000/api/helio/account/login",
       user: "",
       pass: "",
-      isSignin: false,
     };
   },
 
   methods: {
-    async signinWithGoogle() {
-      console.log("Google");
-      const googleUser = await this.$gAuth.signIn();
-      this.isSignin = this.$gAuth.isAuthorized;
-      console.log("googleUser", googleUser);
-      console.log("getId", googleUser.getId());
-    },
+    // async handleSignIn() {
+    //   try {
+    //     const googleUser = await this.$gAuth.signIn();
+    //     if (!googleUser) {
+    //       return null;
+    //     }
+    //     console.log("googleUser", googleUser);
+    //     this.user = googleUser.getBasicProfile().getEmail();
+    //     console.log("getId", this.user);
+    //     console.log("getBasicProfile", googleUser.getBasicProfile());
+    //     console.log("getAuthResponse", googleUser.getAuthResponse());
+    //     console.log(
+    //       "getAuthResponse",
+    //       this.$gAuth.instance.currentUser.get().getAuthResponse()
+    //     );
+    //   } catch (error) {
+    //     //on fail do something
+    //     console.error(error);
+    //     return null;
+    //   }
+    // },
+
+    // async signinWithGoogle() {
+    //   console.log("Google");
+    //   const googleUser = await this.$gAuth.signIn();
+    //   this.isSignin = this.$gAuth.isAuthorized;
+    //   console.log("googleUser", googleUser);
+    //   console.log("getId", googleUser.getId());
+    // },
 
     async login() {
       if (!this.user || !this.pass) {
@@ -123,6 +169,16 @@ export default {
       }
     },
   },
+  // setup(props) {
+  //   const { isSignIn } = toRefs(props);
+  //   const Vue3GoogleOauth = inject("Vue3GoogleOauth");
+  //   const handleClickLogin = () => {};
+  //   return {
+  //     Vue3GoogleOauth,
+  //     handleClickLogin,
+  //     isSignIn,
+  //   };
+  // },
 };
 </script>
 

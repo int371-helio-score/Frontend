@@ -2,24 +2,29 @@
   <div class="bg-light w-full h-screen">
     <navTeacher />
 
-    <div class="bg-white data">
-      <div class="title mx-10">
-        <div class="">
-          {{ subjectName }}
-          ชั้นมัธยมศึกษาปีที่ {{ classId }}
-        </div>
-      </div>
+    <div class="inline-flex">
+      <sidebarTeacher />
 
-      <div class="order">
-        <div v-for="room in classroom" :key="room.room">
-          <router-link
-            :to="`/helioscore/${this.subjectName}/${this.classId}?room=${room.room}&class_id=${room._id}`"
-          >
-            <div class="class bg-white px-10 pt-10 pb-2 text-sm text-center">
-              <div class="mb-5">ม.{{ classId }} ห้อง {{ room.room }}</div>
-              <div> {{ room.totalStudent }} คน</div>
-            </div>
-          </router-link>
+      <div class="first-letter: data">
+        <div class="title mx-10">
+          <div class="title"><router-link to="/">หน้าหลัก > </router-link></div>
+          <div class="">
+            {{ subjectName }}
+            ชั้นมัธยมศึกษาปีที่ {{ classId }}
+          </div>
+        </div>
+
+        <div class="order">
+          <div v-for="room in classroom" :key="room.room">
+            <router-link
+              :to="`/helioscore/${this.subjectName}/${this.classId}?room=${room.room}&class_id=${room._id}`"
+            >
+              <div class="class bg-white px-10 pt-10 pb-2 text-sm text-center">
+                <div class="mb-5">ม.{{ classId }} ห้อง {{ room.room }}</div>
+                <div>{{ room.totalStudent }} คน</div>
+              </div>
+            </router-link>
+          </div>
         </div>
       </div>
     </div>
@@ -28,8 +33,10 @@
 
 <script>
 import axios from "axios";
+import SidebarTeacher from "@/components/SidebarTeacher.vue";
 
 export default {
+  components: { SidebarTeacher },
   name: "ClassInSubject",
   props: ["subjectName"],
 
@@ -70,7 +77,7 @@ export default {
           })
           .then((res) => {
             this.classroom = res.data.data.results;
-            return res.data.data.results
+            return res.data.data.results;
           });
       } catch (error) {
         console.log(`Could not get! ${error}`);
@@ -89,7 +96,7 @@ export default {
 .title {
   @apply text-sm font-bold mt-5
   lg:text-xl lg:font-semibold
-   md:text-base md:font-bold ;
+   md:text-base md:font-bold;
 }
 .order {
   @apply grid mx-10 mt-10 gap-4 justify-center
@@ -98,8 +105,7 @@ export default {
   md:grid-cols-3 md:gap-4
   sm:grid-cols-2;
 }
-.data{
-  @apply rounded-md mx-1 mt-5
-  md:mt-10 md:mx-20 md:h-fit md:pb-48 md:rounded-2xl md:pt-5 pt-2;
+.data {
+  @apply ml-60 mt-1 h-fit;
 }
 </style>

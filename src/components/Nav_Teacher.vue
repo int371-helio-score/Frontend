@@ -2,7 +2,7 @@
   <div class="bg-white grid grid-cols-2 sm:py-5 sm:px-10 px-1 py-4">
     <div class="">
       <div>
-        <h1>HELIOSCORE</h1>
+        <h1><router-link to="/"> HELIOSCORE </router-link></h1>
       </div>
     </div>
     <div class="flex justify-end">
@@ -17,7 +17,6 @@
         </div>
         <div class="rounded-sm dropdown-content">
           <a href="#" @click="clickInfo()">ข้อมูลบัญชี</a>
-          <!-- <modal v -if="showModal" @close="showModal = false"></modal> -->
           <a href="#" @click="logout()">ออกจากระบบ</a>
         </div>
       </div>
@@ -29,17 +28,23 @@
       <div class="modal-wrapper">
         <div class="modal-container">
           <img src="../../src/assets/Background.png" class="w-full relative" />
+          <div class="borderPic">
+            <img :src="getImage()" class="pic rounded-full w-28 h-28" />
+          </div>
 
-          <img :src="getImage()" class="pic rounded-full w-28 h-28 mt-0" />
-          <div class="font-extrabold text-md mt-10 mx-20">
+          <div class="font-extrabold text-md mx-20">
             {{ this.account.firstName }} {{ this.account.lastName }}
           </div>
 
-            <div class="mx-20 mt-10">
-              <p class="text-seccondary font-bold my-2">อีเมล</p>
-              <p class="text-gray50">{{ this.account.email }}</p>
-            </div>
+          <div class="mx-20 mt-10">
+            <p class="text-seccondary font-bold my-2">อีเมล</p>
+            <p class="text-gray50">{{ this.account.email }}</p>
+          </div>
 
+          <div class="mx-20 mt-10">
+            <p class="text-seccondary font-bold my-2">โรงเรียน</p>
+            <p class="text-gray50">{{ this.account.email }}</p>
+          </div>
 
           <div class="flex justify-center mt-16">
             <div class="grid grid-cols-2">
@@ -54,27 +59,6 @@
                 @click="showModal = false"
               >
                 ออก
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div v-show="edit == true">
-          <img src="../../src/assets/Background.png" class="w-full relative" />
-          <img :src="getImage()" class="absolute rounded-full w-24 h-24 mt-0" />
-
-          <div>{{ this.account.firstName }} {{ this.account.lastName }}</div>
-          <div>
-            <p>อีเมล</p>
-            <p class="text-gray50">{{ this.account.email }}</p>
-          </div>
-          <div class="flex justify-center mt-20">
-            <div class="grid grid-cols-2">
-              <button class="border border-primary rounded-md mr-2 px-2 py-1">
-                ยกเลิก
-              </button>
-              <button class="bg-primary rounded-md px-2 py-1 ml-2">
-                บันทึก
               </button>
             </div>
           </div>
@@ -245,6 +229,17 @@ span {
 .pic {
   margin-top: -68px;
   position: absolute;
+  border: 4px solid #fff;
   @apply ml-20;
 }
+.borderPic {
+  border-radius: 49.9%;
+  width: 160px;
+  height: 160px;
+  /* box-sizing: border-box; */
+}
+/* .backgroundPic {
+  background-clip: border-box;
+  background-color: var(--color-background-container);
+} */
 </style>
