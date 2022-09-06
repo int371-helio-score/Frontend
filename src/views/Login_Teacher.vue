@@ -62,11 +62,14 @@
           <!-- <h1>IsInit: {{ Vue3GoogleOauth.isInit }}</h1> -->
           <!-- <button
             class="bg-white rounded-md w-40 justify-center flex border-gray50 border"
-            @click="handleClickSignIn" :disabled="!Vue3GoogleOauth.isInit || Vue3GoogleOauth.isAuthorized"
+            @click="clickSignIn"
           >
             <p class="text-gray50">Sign in with Google</p>
           </button> -->
           <GoogleLogin :callback="callback" />
+          <!-- <a class="google-link" href="http://localhost:3000/api/helio/account/auth/google">
+            <Button> Continue with Google </Button>
+          </a> -->
         </div>
 
         <div class="flex justify-center mt-14">
@@ -83,68 +86,84 @@
 
 <script setup>
 import { decodeCredential } from "vue3-google-login";
-const callback = (response) => {
+// import axios from "axios";
+
+const googleAuth = "http://localhost:3000/api/helio/account/google/redirect";
+let callback = (response) => {
   // This callback will be triggered when the user selects or login to
   // his Google account from the popup
   console.log("Handle the response", response);
-  const userData = decodeCredential(response.credential);
+  let userData = decodeCredential(response.credential);
   console.log("Handle the userData", userData);
+  console.log(userData.given_name);
+  // return this.signUpGoogle(userData);
 };
+
+this.callback = signUpGoogle();
+
+  function signUpGoogle(userData) {
+  axios
+    .post(googleAuth, {
+      firstName: userData.given_name,
+      lastName: userData.family_name,
+      email: userData.email,
+      googleId: userData.sub,
+      image: userData.picture,
+    })
+    .then((res) => {
+      if (res.data.statusCode === 200) {
+        localStorage.setItem("token", res.data.data.token);
+        return this.$router.push("/helioscore");
+      }
+      console.log(res);
+    });
+}
 </script>
+
 <script>
 import axios from "axios";
-// import { inject, toRefs } from "vue";
+// import { decodeCredential } from "vue3-google-login";
 
 export default {
-  // setup() {
-  //   const callback = (response) => {
-  //     // This callback will be triggered when the user selects or login to
-  //     // his Google account from the popup
-  //     console.log("Handle the response", response);
-  //   };
-  // },
-
-  // created(){
-  //   this.$watch('callback', (data) => console.log(data))
-  // },
+  setup() {
+    console.log("Setup");
+    // const callbacks = (response) => {
+    //   // This callback will be triggered when the user selects or login to
+    //   // his Google account from the popup
+    //   console.log("Handle the response", response);
+    //   const userData = decodeCredential(response.credential);
+    //   console.log("Handle the userData", userData);
+    // };
+  },
 
   data() {
     return {
       url: "http://localhost:3000/api/helio/account/login",
       user: "",
       pass: "",
+      // callback: null,
     };
   },
 
   methods: {
-    // async handleSignIn() {
-    //   try {
-    //     const googleUser = await this.$gAuth.signIn();
-    //     if (!googleUser) {
-    //       return null;
-    //     }
-    //     console.log("googleUser", googleUser);
-    //     this.user = googleUser.getBasicProfile().getEmail();
-    //     console.log("getId", this.user);
-    //     console.log("getBasicProfile", googleUser.getBasicProfile());
-    //     console.log("getAuthResponse", googleUser.getAuthResponse());
-    //     console.log(
-    //       "getAuthResponse",
-    //       this.$gAuth.instance.currentUser.get().getAuthResponse()
-    //     );
-    //   } catch (error) {
-    //     //on fail do something
-    //     console.error(error);
-    //     return null;
-    //   }
-    // },
-
-    // async signinWithGoogle() {
-    //   console.log("Google");
-    //   const googleUser = await this.$gAuth.signIn();
-    //   this.isSignin = this.$gAuth.isAuthorized;
-    //   console.log("googleUser", googleUser);
-    //   console.log("getId", googleUser.getId());
+    // async signUp(userData) {
+    //   const googleAuth =
+    //     "http://localhost:3000/api/helio/account/google/redirect";
+    //   axios
+    //     .post(googleAuth, {
+    //       firstName: userData.given_name,
+    //       lastName: userData.family_name,
+    //       email: userData.email,
+    //       googleId: userData.sub,
+    //       image: userData.picture,
+    //     })
+    //     .then((res) => {
+    //       if (res.data.statusCode === 200) {
+    //         localStorage.setItem("token", res.data.data.token);
+    //         return this.$router.push("/helioscore");
+    //       }
+    //       console.log(res);
+    //     });
     // },
 
     async login() {
@@ -169,16 +188,6 @@ export default {
       }
     },
   },
-  // setup(props) {
-  //   const { isSignIn } = toRefs(props);
-  //   const Vue3GoogleOauth = inject("Vue3GoogleOauth");
-  //   const handleClickLogin = () => {};
-  //   return {
-  //     Vue3GoogleOauth,
-  //     handleClickLogin,
-  //     isSignIn,
-  //   };
-  // },
 };
 </script>
 
