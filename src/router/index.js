@@ -6,7 +6,6 @@ import Score from "../views/T_Score.vue";
 import Class from "../views/T_Class.vue";
 // import Announce from "../components/T_Announce.vue";
 import CreateAccount from "../views/CreateAccount.vue"
-import Account from "../views/T_Account.vue"
 
 const routes = [{
         path: "/",
@@ -43,11 +42,6 @@ const routes = [{
         name: "signUp",
         component: CreateAccount,
         props: true,
-    },
-    {
-        path: "/helioscore/account",
-        name: "account",
-        component: Account,
     },
     // {
     //     path: "/helioscore/:subjectName/:grade/upload",

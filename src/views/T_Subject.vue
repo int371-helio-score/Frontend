@@ -6,9 +6,7 @@
 
       <div class="data">
         <div class="sm:mx-10 mx-5 divide-y divide-gray10">
-          <div class="grid grid-cols-2">
-            <div class="title">หน้าหลัก</div>
-          </div>
+          <div class="title">หน้าหลัก</div>
 
           <div class="my-5 pt-10 py-5 grid grid-cols-2">
             <div class="flex justify-start">
@@ -19,7 +17,7 @@
               <p>ปีการศึกษา</p>
               <select
                 v-model="selected"
-                class="ml-1 md:ml-4 bg-light text-seccondary"
+                class="ml-1 md:ml-4 bg-light text-secondary"
               >
                 <option
                   v-for="semester in academics"
@@ -133,7 +131,6 @@ export default {
           .then((res) => {
             this.subjects = res.data.data.results;
             this.totalRoom = res.data.data.total;
-            console.log();
           });
       } catch (error) {
         console.log(`Could not get! ${error}`);
@@ -180,15 +177,15 @@ select {
   sm:grid-cols-2;
 }
 .title {
-  @apply text-sm font-bold mt-5 text-seccondary
+  @apply text-sm font-bold mt-5 text-secondary
   lg:text-xl lg:font-semibold
   md:mt-10 md:text-lg md:font-bold;
 }
 .semes {
-  @apply text-seccondary text-xs
+  @apply text-secondary text-xs
 md:text-base;
 }
 .data {
-  @apply ml-60 mt-1 h-fit;
+  @apply ml-60 mt-20 h-fit;
 }
 </style>

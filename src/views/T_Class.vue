@@ -1,16 +1,29 @@
 <template>
-  <div class="bg-light w-full h-screen">
+  <div class="bg-light h-screen w-screen">
     <navTeacher />
 
     <div class="inline-flex">
       <sidebarTeacher />
 
-      <div class="first-letter: data">
-        <div class="title mx-10">
-          <div class="title"><router-link to="/">หน้าหลัก > </router-link></div>
-          <div class="">
-            {{ subjectName }}
-            ชั้นมัธยมศึกษาปีที่ {{ classId }}
+      <div class="data">
+        <div class="sm:mx-10 mx-5 divide-y divide-gray10">
+          <div class="title flex space-x-2">
+            <div><router-link to="/">หน้าหลัก </router-link></div>
+            <div>></div>
+            <div class="">
+              {{ subjectName }}
+              ชั้นมัธยมศึกษาปีที่ {{ classId }}
+            </div>
+          </div>
+
+          <div class="my-5 pt-10 py-5 grid grid-cols-2">
+            <div class="flex justify-start">วิชาทั้งหมด</div>
+            <div class="flex justify-end">
+              <button class="add flex justify-center self-center items-center">
+                <span class="material-symbols-outlined mr-2"> add </span>
+                <p>เพิ่มห้องเรียน</p>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -94,18 +107,24 @@ export default {
   @apply xl:justify-center;
 }
 .title {
-  @apply text-sm font-bold mt-5
+  @apply text-sm font-bold mt-5 text-secondary
   lg:text-xl lg:font-semibold
-   md:text-base md:font-bold;
+  md:mt-10 md:text-lg md:font-bold;
 }
 .order {
-  @apply grid mx-10 mt-10 gap-4 justify-center
+  @apply grid mx-10 gap-4 justify-center w-full
   xl:grid-cols-5 xl:gap-8
   lg:grid-cols-4 lg:gap-10 lg:mb-20
   md:grid-cols-3 md:gap-4
   sm:grid-cols-2;
 }
 .data {
-  @apply ml-60 mt-1 h-fit;
+  @apply ml-60 mt-20 h-fit;
+}
+.add {
+  background:white;
+  box-shadow: 0px 1px 5px rgba(214, 214, 214, 0.5);
+  border-radius: 22px;
+  @apply px-8 py-1;
 }
 </style>

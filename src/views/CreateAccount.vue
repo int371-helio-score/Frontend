@@ -9,22 +9,36 @@
       </div>
 
       <div class="box bg-white">
-        <div class="pt-20 text-xl font-bold text-primary justify-center flex">
+        <div class="pt-14 text-xl font-bold text-primary justify-center flex">
           <h1>สร้างบัญชี</h1>
         </div>
 
-        <div class="flex justify-center">
-          <!-- <input type="text" class="bg-gray-50 px-4 py-2" autocomplete="off" v-model="school" @input="filterSchools" @focus="modal = true"/>
-          <div v-if="filteredSchools && modal">
-            <ul>
-              <li v-for="filteredSchool in filteredSchools" :key="filteredSchool" class="py-2 border-b cursor-pointer" @click="setSchool(filteredSchool)"> {{ filteredSchool }}</li>
-            </ul>
-          </div> -->
-          <ejs-autocomplete></ejs-autocomplete>
+        <div class="flex justify-center mt-10">
+          <span class="material-symbols-outlined self-center"> school </span>
+          <v-select
+            class="select lg:w-56 placeholder-opacity-60 placeholder-gray-400"
+            placeholder="กรุณาเลือกโรงเรียน"
+            label="schoolName"
+            v-model="test"
+            :filterable="false"
+            :options="paginated"
+            :reduce="(school) => school.schoolId"
+            @open="onOpen"
+            @close="onClose"
+            @search="(query) => (school = query)"
+          >
+            <template #list-footer>
+              <li v-show="hasNextPage" ref="load" class="loader">
+                Loading more options...
+              </li>
+            </template>
+          </v-select>
         </div>
-
-        <div class="pt-2">
-          <div class="flex justify-center mt-20">
+        <sup v-show="inputSchool" class="text-red-500 flex justify-center mt-4">
+          กรุณาเลือกโรงเรียน
+        </sup>
+        <div class="">
+          <div class="flex justify-center mt-10">
             <span class="material-symbols-outlined"> account_circle </span>
             <input
               v-model="firstname"
@@ -33,6 +47,13 @@
               class="border-b border-gray50"
             />
           </div>
+          <sup
+            v-show="inputFirstname"
+            class="text-red-500 flex justify-center mt-4"
+          >
+            กรุณากรอกชื่อจริง
+          </sup>
+
           <div class="flex justify-center mt-10">
             <span class="material-symbols-outlined"> account_circle </span>
             <input
@@ -42,6 +63,13 @@
               class="border-b border-gray50"
             />
           </div>
+          <sup
+            v-show="inputLastname"
+            class="text-red-500 flex justify-center mt-4"
+          >
+            กรุณากรอกนามสกุล
+          </sup>
+
           <div class="flex justify-center mt-10">
             <span class="material-symbols-outlined"> alternate_email </span>
             <input
@@ -51,15 +79,87 @@
               class="border-b border-gray50"
             />
           </div>
+          <sup
+            v-show="inputEmail"
+            class="text-red-500 flex justify-center mt-4"
+          >
+            กรุณากรอกอีเมล
+          </sup>
+
           <div class="flex justify-center mt-10">
             <span class="material-symbols-outlined"> lock </span>
             <input
               v-model="password"
+              @input="passwordCheck"
               type="password"
               placeholder="รหัสผ่าน"
               class="border-b border-gray50"
             />
           </div>
+          <div></div>
+          <sup
+            v-show="inputPassword"
+            class="text-red-500 flex justify-center mt-4"
+          >
+            กรุณากรอกรหัสผ่าน
+          </sup>
+          <p
+            class="frmValidation"
+            :class="{ 'frmValidation--passed': password.length > 7 }"
+          >
+            <i
+              class="frmIcon fas"
+              :class="password.length > 7 ? 'fa-check' : 'fa-times'"
+            ></i>
+            Longer than 7 characters
+          </p>
+          <p
+            class="frmValidation"
+            :class="{ 'frmValidation--passed': inputUpperCase }"
+          >
+            <i
+              class="frmIcon fas"
+              :class="inputUpperCase ? 'fa-check' : 'fa-times'"
+            ></i>
+            Has a capital letter
+          </p>
+          <p
+            class="frmValidation"
+            :class="{ 'frmValidation--passed': inputLowerCase }"
+          >
+            <i
+              class="frmIcon fas"
+              :class="inputLowerCase ? 'fa-check' : 'fa-times'"
+            ></i>
+            Has a lowercase letter
+          </p>
+          <p
+            class="frmValidation"
+            :class="{ 'frmValidation--passed': inputNum }"
+          >
+            <i
+              class="frmIcon fas"
+              :class="inputNum ? 'fa-check' : 'fa-times'"
+            ></i>
+            Has a number
+          </p>
+          <!-- <p
+            class="frmValidation"
+            :class="{ 'frmValidation--passed': inputSpecail }"
+          >
+            <i
+              class="frmIcon fas"
+              :class="inputSpecail ? 'fa-check' : 'fa-times'"
+            ></i>
+            Has a special character
+          </p> -->
+          <!-- <sup
+            v-if="strongPassword()"
+            class="text-red-500 flex justify-center mt-4"
+          >
+            รหัสผ่านต้องมีความยาวมากกว่า 7 ตัวอักษร
+          </sup> -->
+
           <div class="flex justify-center mt-10">
             <span class="material-symbols-outlined"> lock </span>
             <input
@@ -69,7 +169,18 @@
               class="border-b border-gray50"
             />
           </div>
-          
+          <sup
+            v-show="inputConfirmPassword"
+            class="text-red-500 flex justify-center mt-4"
+          >
+            กรุณายืนยันรหัสผ่าน
+          </sup>
+          <!-- <sup
+            v-if="password =! confirmPassword"
+            class="text-red-500 flex justify-center mt-4"
+          >
+            รหัสผ่านไม่ตรงกัน
+          </sup> -->
 
           <button class="button" @click="toggleShow">
             <span class="icon is-small is-right">
@@ -84,13 +195,13 @@
           </button>
         </div>
 
-        <div class="flex justify-center mt-10" @click="createAccount">
+        <div class="flex justify-center mt-5" @click="createAccount()">
           <button class="bg-primary rounded-md w-40 justify-center flex">
             <p class="text-white">สร้างบัญชี</p>
           </button>
         </div>
 
-        <div class="flex justify-center mt-10">
+        <div class="flex justify-center mt-10 text-sm">
           <p class="inline-block text-gray100">หากคุณมีบัญชีแล้ว</p>
           <p class="inline-block text-primary underline">
             <a href="/"> เข้าสู่ระบบ</a>
@@ -104,73 +215,104 @@
 
 <script>
 import axios from "axios";
+
 export default {
   data() {
     return {
-      url: "http://localhost:3000//api/helio/account/register",
-      urlSchool: "http://localhost:3000//api/helio/account/register",
+      url: "http://localhost:3000/api/helio",
+      urlSchool: "http://localhost:3000/api/helio/school",
       inputFirstname: false,
       inputLastname: false,
       inputEmail: false,
       inputPassword: false,
       inputConfirmPassword: false,
+      inputSchool: false,
       firstname: "",
       lastname: "",
       email: "",
       password: "",
       confirmPassword: "",
       school: "",
-      schools: ['เตรียมอุดมศึกษา', 'เทพศิรินทร์', 'หอวัง'],
-      filteredSchools: [],
+      schools: [],
       modal: false,
-
+      limit: 5,
+      observer: null,
+      test: "",
+      inputNum: false,
+      inputLowerCase: false,
+      inputUpperCase: false,
+      inputSpecail: false,
     };
   },
 
-  mounted(){
-    // this.filteredSchools();
+  mounted() {
+    this.observer = new IntersectionObserver(this.infiniteScroll);
   },
 
   methods: {
-    // async getSchool() {
-    //   axios
-    //     .get(this.urlSchool, {
-    //       headers: {
-    //         Authorization: localStorage.getItem("token"),
-    //       },
-    //     })
-    //     .then((response) => {
-    //       this.school = response.data.data.results;
-    //       return response.data.data.results;
-    //     });
-    // },
-
-    filterSchools(){
-      if(this.school.length == 0){
-        this.fileredSchools = this.schools;
-      }
-      this.filterSchools = this.schools.filter(school => {
-        return school.toLowerCase().startsWith(this.school.toLowerCase());
-      })
+    passwordCheck: function () {
+      this.inputNum = /\d/.test(this.password);
+      this.inputLowerCase = /[a-z]/.test(this.password);
+      this.inputUpperCase = /[A-Z]/.test(this.password);
+      // this.inputSchool = /[!@#%^&*)(+=._-]/.test(this.password);
     },
 
-    setSchool(school){
-      this.school = school;
-      this.modal = false;
+    async getSchool() {
+      axios
+        .get(this.urlSchool, {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        })
+        .then((response) => {
+          this.schools = response.data.data.results;
+        });
+    },
+
+    async onOpen() {
+      if (this.hasNextPage) {
+        await this.$nextTick();
+        this.observer.observe(this.$refs.load);
+      }
+    },
+    onClose() {
+      this.observer.disconnect();
+    },
+
+    async infiniteScroll([{ isIntersecting, target }]) {
+      if (isIntersecting) {
+        const ul = target.offsetParent;
+        const scrollTop = target.offsetParent.scrollTop;
+        this.limit += 10;
+        await this.$nextTick();
+        ul.scrollTop = scrollTop;
+      }
     },
 
     async createAccount() {
       this.inputFirstname = this.firstname === "" ? true : false;
-      this.inputLastname = this.lastName === "" ? true : false;
+      this.inputLastname = this.lastname === "" ? true : false;
       this.inputEmail = this.email === "" ? true : false;
       this.inputPassword = this.password === "" ? true : false;
-      this.inputConfirm = this.password !== this.confirmPassword ? true : false;
+      this.inputConfirmPassword = this.confirmPassword === "" ? true : false;
+      this.inputSchool = this.test === "" ? true : false;
       if (
+        this.password.length < 9 &&
+        this.password.match(/[a-z]+/) &&
+        this.password.match(/[A-Z]+/) &&
+        this.password.match(/[0-9]+/) &&
+        this.password.match(/[$@#&!]+/)
+      ) {
+        return alert("รหัสผ่านต้องประกอบด้วยตัวอักษรภาษาอังกฤษ");
+      } else if (this.password != this.confirmPassword) {
+        return alert("รหัสผ่านไมตรงกัน");
+      } else if (
         this.inputFirstname ||
         this.inputLastname ||
         this.inputEmail ||
         this.inputPassword ||
-        this.inputConfirmPassword
+        this.inputConfirmPassword ||
+        this.inputSchool
       ) {
         return;
       }
@@ -180,11 +322,11 @@ export default {
     async addAccount() {
       const formData = new FormData();
       let data = {
-        firstname: this.firstname,
-        lastname: this.lastname,
+        firstName: this.firstname,
+        lastName: this.lastname,
         email: this.email,
         password: this.password,
-        confirmPassword: this.confirmPassword,
+        schoolId: this.test,
       };
 
       const json = JSON.stringify(data);
@@ -194,7 +336,7 @@ export default {
       formData.append("data", blob);
 
       axios
-        .post(`${this.url}/addAccount`, formData, {
+        .post(`${this.url}/account/register`, formData, {
           headers: {
             Authorization: localStorage.getItem("token"),
           },
@@ -206,11 +348,32 @@ export default {
             this.email = "";
             this.password = "";
             this.confirmPassword = "";
+            this.test = "";
           }
         })
         .catch((err) => {
           alert(err.response.data);
         });
+    },
+  },
+
+  async created() {
+    await this.getSchool();
+  },
+
+  computed: {
+    filtered() {
+      return this.schools.filter((results) => {
+        return results.schoolName
+          .toLocaleLowerCase()
+          .includes(this.school.toLocaleLowerCase());
+      });
+    },
+    paginated() {
+      return this.filtered.slice(0, this.limit);
+    },
+    hasNextPage() {
+      return this.paginated.length < this.filtered.length;
     },
   },
 };
@@ -241,10 +404,73 @@ span {
   @apply xl:mr-1 xl:text-base;
 }
 input {
-  @apply text-primary px-2 lg:w-56;
+  @apply px-2 lg:w-56;
   font-size: small;
 }
 .google {
   @apply xl:w-20 xl:h-20;
+}
+.loader {
+  text-align: center;
+  color: #bbbbbb;
+}
+.inputDetail {
+  @apply px-2 py-1 mb-4 w-full sm:w-32 md:w-40 lg:w-56 lg:text-base;
+}
+sup {
+  @apply justify-end lg:pr-20;
+}
+.container {
+  width: 400px;
+  margin: 50px auto;
+  background: white;
+  padding: 10px;
+  font-family: Arial, Helvetica, sans-serif, sans-serif;
+  border-radius: 3px;
+}
+h1 {
+  font-size: 24px;
+  text-align: center;
+  text-transform: uppercase;
+}
+.frmField {
+  background-color: white;
+  color: #495057;
+  line-height: 1.25;
+  font-size: 16px;
+  font-family: "Roboto", sans-serif;
+  border: 0;
+  padding: 10px;
+  border: 1px solid #dbdbdb;
+  border-radius: 3px;
+  width: 90%;
+}
+.frmLabel {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+.frmValidation {
+  font-size: 13px;
+}
+.frmValidation--passed {
+  color: #717b85;
+}
+.frmIcon {
+  color: #eb0029;
+}
+.frmValidation--passed .frmIcon {
+  color: #0fa140;
+}
+
+.howToBuild {
+  text-align: center;
+  color: purple;
+}
+.howToBuild a {
+  color: grey;
+  font-weight: bold;
+  text-decoration: none;
+  text-transform: uppercase;
 }
 </style>

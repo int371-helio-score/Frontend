@@ -5,44 +5,47 @@
       <sidebarTeacher />
 
       <div class="data">
-        <div class="grid grid-cols-2 ml-10">
-          <!-- <div class="title"><router-link to="/">หน้าหลัก > </router-link></div> -->
-          <div class="title">
-            {{ subjectName }} ชั้นมัธยมศึกษาปีที่ {{ grade }} ห้อง {{ room }}
+        <div class="sm:mx-10 mx-5 divide-y divide-gray10">
+          <div class="title flex">
+            <div><router-link to="/">หน้าหลัก</router-link></div>
+            <div class="mx-2">></div>
+            <div>{{ subjectName }} ชั้นมัธยมศึกษาปีที่ {{ grade }}</div>
+            <div class="mx-2">></div>
+            <div>ห้อง {{ room }}</div>
           </div>
 
-          <div class="flex justify-end">
-            <div class="sm:grid sm:grid-cols-2 gap-4 md:gap-2">
-              <button
-                class="bg-babyblue text-primary click"
-                @click="clickAnnounce()"
-              >
-                <div
-                  class="flex justify-center self-center md:text-xs lg:text-base"
-                >
-                  <span class="material-symbols-outlined">
-                    pending_actions </span
-                  >คะแนนที่รอประกาศ
-                </div>
-              </button>
+          <div class="my-5 pt-10 py-5 grid grid-cols-2">
+            <div class="flex justify-start text-secondary">รายชื่อทั้งหมด</div>
+            <div class="flex justify-end">
+              <div class="sm:grid sm:grid-cols-2 gap-4 md:gap-2">
+                <button class="add click" @click="clickAnnounce()">
+                  <div
+                    class="flex justify-center self-center md:text-xs lg:text-base"
+                  >
+                    <span class="material-symbols-outlined">
+                      pending_actions </span
+                    >คะแนนที่รอประกาศ
+                  </div>
+                </button>
 
-              <button
-                class="buttom bg-babyblue text-primary md:block hidden click"
-                @click="clickUpload()"
-              >
-                <div
-                  class="flex justify-center self-center md:text-xs lg:text-base"
+                <button
+                  class="add md:block hidden click"
+                  @click="clickUpload()"
                 >
-                  <span class="material-symbols-outlined"> upload_file </span>
-                  <div>อัปโหลดคะแนน</div>
-                </div>
-              </button>
+                  <div
+                    class="flex justify-center self-center md:text-xs lg:text-base"
+                  >
+                    <span class="material-symbols-outlined"> upload_file </span>
+                    <div>อัปโหลดคะแนน</div>
+                  </div>
+                </button>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- รอประกาศคะแนน -->
-        <div class="grid grid-cols-4 mt-20 mx-10 gap-8">
+        <div class="grid grid-cols-4 mx-10 gap-8">
           <div v-if="announce">
             <div
               class="content border-2 rounded-lg md:w-60 md:h-60 bg-white px-10 pt-10 pb-2 text-sm text-center"
@@ -119,7 +122,6 @@
             </div>
           </div>
         </div>
-
         <!-- Score List -->
 
         <div
@@ -145,17 +147,19 @@
 
           <div
             class="bg-light px-10 py-10 text-sm rounded-md lg:col-span-2 mb-10 pl-5"
-            v-for="list in std"
-            :key="list.score_id"
           >
+            <table>
+              <tr>
+                <th v-for="tt in std" :key="tt._id">{{ tt.title }}</th>
+              </tr>
+            </table>
             <tr>
-              <th>{{ list.title }}</th>
+              <th v-for="sList in std" :key="sList._id">
+                <template v-for="s in sList.scores" :key="s.studentId">
+                  <li class="list-none">{{ s.score }}</li>
+                </template>
+              </th>
             </tr>
-            <!-- <table v-for="(score, index) in std[index].scores" :key="index">
-            <tr>
-              <th class="pl-3">{{ score.score }}</th>
-            </tr>
-          </table> -->
           </div>
         </div>
       </div>
@@ -171,7 +175,6 @@ export default {
   components: { SidebarTeacher },
   name: "StudentList",
   props: ["classId", "subjectName"],
-
   data() {
     return {
       url: "http://localhost:3000/api/helio/score",
@@ -387,19 +390,12 @@ th {
   md:w-36 md:mb-4 cursor-pointer lg:rounded-b-lg rounded-md;
 }
 .data {
-    @apply ml-60 mt-1 h-fit;
+  @apply ml-60 mt-20 h-fit;
 }
 .title {
-  @apply text-sm font-bold mt-5
+  @apply text-sm font-bold mt-5 text-secondary
   lg:text-xl lg:font-semibold
-  md:text-base md:font-bold md:mt-10;
-}
-.order {
-  @apply grid mx-10 mt-10 gap-4 justify-center
-  xl:grid-cols-5 xl:gap-8
-  lg:grid-cols-4 lg:gap-10 lg:mb-20
-  md:grid-cols-3 md:gap-4
-  sm:grid-cols-2;
+  md:mt-10 md:text-lg md:font-bold;
 }
 .dropzone {
   position: absolute;
@@ -443,4 +439,26 @@ th {
 .ojb {
   @apply md:py-2;
 }
+
+.add {
+  background: white;
+  box-shadow: 0px 1px 5px rgba(214, 214, 214, 0.5);
+  border-radius: 22px;
+  @apply px-8 py-1;
+}
+/* table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+  background-color: #d6eeee;
+} */
 </style>

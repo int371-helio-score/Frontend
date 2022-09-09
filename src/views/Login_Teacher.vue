@@ -9,7 +9,7 @@
       </div>
 
       <div class="box bg-white">
-        <div class="pt-20 text-xl font-bold text-primary justify-center flex">
+        <div class="pt-14 text-xl font-bold text-primary justify-center flex">
           <h1>เข้าสู่ระบบ</h1>
         </div>
 
@@ -47,9 +47,9 @@
             <!-- <div class="text-primary flex justify-end mr-24">ลืมรหัสผ่าน</div> -->
           </div>
 
-          <div class="flex justify-center mt-20" @click="login">
-            <button class="bg-primary rounded-md w-40 justify-center flex">
-              <p class="text-white">เข้าสู่ระบบ</p>
+          <div class="flex justify-center mt-14" @click="login">
+            <button class="bg-primary rounded-md w-56 justify-center flex py-2">
+              <p class="text-white text-sm">เข้าสู่ระบบ</p>
             </button>
           </div>
         </form>
@@ -59,21 +59,11 @@
         </div>
 
         <div class="flex justify-center">
-          <!-- <h1>IsInit: {{ Vue3GoogleOauth.isInit }}</h1> -->
-          <!-- <button
-            class="bg-white rounded-md w-40 justify-center flex border-gray50 border"
-            @click="clickSignIn"
-          >
-            <p class="text-gray50">Sign in with Google</p>
-          </button> -->
           <GoogleLogin :callback="callback" />
-          <!-- <a class="google-link" href="http://localhost:3000/api/helio/account/auth/google">
-            <Button> Continue with Google </Button>
-          </a> -->
         </div>
 
-        <div class="flex justify-center mt-14">
-          <p class="inline-block text-gray100">หากคุณเป็นสมาชิกใหม่</p>
+        <div class="flex justify-center mt-10 text-sm">
+          <p class="inline-block text-gray100 ">หากคุณเป็นสมาชิกใหม่</p>
           <p class="inline-block text-primary underline">
             <a href="/helioscore/signup"> สร้างบัญชี</a>
           </p>
@@ -86,86 +76,45 @@
 
 <script setup>
 import { decodeCredential } from "vue3-google-login";
-// import axios from "axios";
+import router from '@/router'
 
-const googleAuth = "http://localhost:3000/api/helio/account/google/redirect";
-let callback = (response) => {
+const callback = (response) => {
   // This callback will be triggered when the user selects or login to
   // his Google account from the popup
-  console.log("Handle the response", response);
-  let userData = decodeCredential(response.credential);
-  console.log("Handle the userData", userData);
-  console.log(userData.given_name);
-  // return this.signUpGoogle(userData);
-};
-
-this.callback = signUpGoogle();
-
-  function signUpGoogle(userData) {
+  const userData = decodeCredential(response.credential);
+  const url = "http://localhost:3000/api/helio/account/google/redirect";
   axios
-    .post(googleAuth, {
+    .post(url, {
       firstName: userData.given_name,
       lastName: userData.family_name,
       email: userData.email,
       googleId: userData.sub,
       image: userData.picture,
     })
-    .then((res) => {
-      if (res.data.statusCode === 200) {
-        localStorage.setItem("token", res.data.data.token);
-        return this.$router.push("/helioscore");
+    .then((response) => {
+      if (response.data.statusCode === 200) {
+        localStorage.setItem("token", response.data.data.token);
+        console.log(response.data);
+        return router.push({path: "/helioscore"});
       }
-      console.log(res);
+      console.log(response);
     });
-}
+};
 </script>
 
 <script>
 import axios from "axios";
-// import { decodeCredential } from "vue3-google-login";
 
 export default {
-  setup() {
-    console.log("Setup");
-    // const callbacks = (response) => {
-    //   // This callback will be triggered when the user selects or login to
-    //   // his Google account from the popup
-    //   console.log("Handle the response", response);
-    //   const userData = decodeCredential(response.credential);
-    //   console.log("Handle the userData", userData);
-    // };
-  },
-
   data() {
     return {
       url: "http://localhost:3000/api/helio/account/login",
       user: "",
       pass: "",
-      // callback: null,
     };
   },
 
   methods: {
-    // async signUp(userData) {
-    //   const googleAuth =
-    //     "http://localhost:3000/api/helio/account/google/redirect";
-    //   axios
-    //     .post(googleAuth, {
-    //       firstName: userData.given_name,
-    //       lastName: userData.family_name,
-    //       email: userData.email,
-    //       googleId: userData.sub,
-    //       image: userData.picture,
-    //     })
-    //     .then((res) => {
-    //       if (res.data.statusCode === 200) {
-    //         localStorage.setItem("token", res.data.data.token);
-    //         return this.$router.push("/helioscore");
-    //       }
-    //       console.log(res);
-    //     });
-    // },
-
     async login() {
       if (!this.user || !this.pass) {
         alert("กรุณากรอก อีเมล และ รหัสผ่าน");
@@ -187,6 +136,8 @@ export default {
           });
       }
     },
+
+    async signinGoogle() {},
   },
 };
 </script>

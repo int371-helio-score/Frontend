@@ -10,23 +10,23 @@
         </router-link>
       </div>
 
-      <div class="layout">
+      <!-- <div class="layout">
         <router-link to="/studentlist">
           <div class="object">
             <span class="material-symbols-outlined"> group </span>
             <div>จัดการรายชื่อ</div>
           </div>
         </router-link>
-      </div>
+      </div> -->
 
-      <div class="layout">
+      <!-- <div class="layout">
         <router-link to="/studentlist">
           <div class="object">
             <span class="material-symbols-outlined"> add </span>
             <div>เพิ่มวิชาที่สอน</div>
           </div>
         </router-link>
-      </div>
+      </div> -->
     </div>
 
     <!-- <div class="menu">

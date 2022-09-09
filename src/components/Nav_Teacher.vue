@@ -1,17 +1,18 @@
 <template>
-  <div class="bg-white grid grid-cols-2 sm:py-5 sm:px-10 px-1 py-4">
-    <div class="">
-      <div>
-        <h1><router-link to="/"> HELIOSCORE </router-link></h1>
-      </div>
+  <div
+    class="bg-white grid grid-cols-2 sm:py-5 sm:px-10 px-1 py-4 fixed w-full"
+  >
+    <div class="flex self-center items-center">
+      <router-link to="/"> <div class="text-xl font-bold ml-5 text-secondary">HELIOSCORE</div></router-link>
     </div>
+
     <div class="flex justify-end">
       <div class="dropdown">
         <div
           class="dropbtn flex items-center border border-light cursor-pointer"
         >
           <img :src="getImage()" class="profile rounded-full" />
-          <div class="ml-4 account">
+          <div class="ml-4 account text-secondary">
             {{ this.account.firstName }} {{ this.account.lastName }}
           </div>
         </div>
@@ -37,12 +38,12 @@
           </div>
 
           <div class="mx-20 mt-10">
-            <p class="text-seccondary font-bold my-2">อีเมล</p>
+            <p class="text-secondary font-bold my-2">อีเมล</p>
             <p class="text-gray50">{{ this.account.email }}</p>
           </div>
 
           <div class="mx-20 mt-10">
-            <p class="text-seccondary font-bold my-2">โรงเรียน</p>
+            <p class="text-secondary font-bold my-2">โรงเรียน</p>
             <p class="text-gray50">{{ this.account.email }}</p>
           </div>
 
