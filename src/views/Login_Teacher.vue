@@ -92,10 +92,12 @@ const callback = (response) => {
       image: userData.picture,
     })
     .then((response) => {
-      if (response.data.statusCode === 200) {
+      if (response.data.data.schoolId == 0) {
         localStorage.setItem("token", response.data.data.token);
+        // console.log(response.data);
         return router.push({ path: "/helioscore/school" });
-      }else{
+      } else if (response.data.statusCode === 200) {
+        localStorage.setItem("token", response.data.data.token);
         return router.push({ path: "/helioscore" });
       }
     });
@@ -112,15 +114,10 @@ export default {
       user: "",
       pass: "",
       email: "",
-      // reg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
     };
   },
 
   methods: {
-    // isEmailValid: function(){
-    //   return (this.email == "") ? "" : (this.reg.test(this.email)) ? 'has-success' : 'has-error';
-    // },
-
     async login() {
       if (!this.user && !this.pass) {
         alert("กรุณากรอก อีเมล และ รหัสผ่าน");

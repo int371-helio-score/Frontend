@@ -3,7 +3,11 @@
     class="bg-white grid grid-cols-2 sm:py-5 sm:px-10 px-1 py-4 fixed w-full"
   >
     <div class="flex self-center items-center">
-      <router-link to="/"> <div class="text-xl font-bold ml-5 text-secondary">HELIOSCORE</div></router-link>
+      <router-link to="/">
+        <div class="text-xl font-bold ml-5 text-secondary">
+          HELIOSCORE
+        </div></router-link
+      >
     </div>
 
     <div class="flex justify-end">
@@ -11,7 +15,7 @@
         <div
           class="dropbtn flex items-center border border-light cursor-pointer"
         >
-          <img :src="getImage()" class="profile rounded-full " />
+          <img :src="getImage()" class="profile rounded-full" />
           <div class="ml-4 account text-secondary">
             {{ this.account.firstName }} {{ this.account.lastName }}
           </div>
@@ -33,33 +37,74 @@
             <img :src="getImage()" class="pic rounded-full w-28 h-28" />
           </div>
 
-          <div class="font-extrabold text-md mx-20 mt-14">
-            {{ this.account.firstName }} {{ this.account.lastName }}
+          <div class="" v-if="edit == false">
+            <div class="font-extrabold text-md mx-20 mt-14">
+              {{ this.account.firstName }} {{ this.account.lastName }}
+            </div>
+
+            <div class="mx-20 mt-10">
+              <p class="text-secondary font-bold my-2">อีเมล</p>
+              <p class="text-gray50">{{ this.account.email }}</p>
+            </div>
+
+            <div class="mx-20 mt-10">
+              <p class="text-secondary font-bold my-2">โรงเรียน</p>
+              <p class="text-gray50">{{ this.account.schoolName }}</p>
+            </div>
           </div>
 
-          <div class="mx-20 mt-10">
-            <p class="text-secondary font-bold my-2">อีเมล</p>
-            <p class="text-gray50">{{ this.account.email }}</p>
-          </div>
+          <div v-else class="grid grid-cols-2 mx-20 mt-14">
+            <div class="box">
+              <p class="title">ชื่อ</p>
+              <input class="border border-gray50" />
+            </div>
 
-          <div class="mx-20 mt-10">
-            <p class="text-secondary font-bold my-2">โรงเรียน</p>
-            <p class="text-gray50">{{ this.account.schoolName }}</p>
+            <div class="box">
+              <p class="title">นามสกุล</p>
+              <input class="border border-gray50" />
+            </div>
+
+            <div class="box">
+              <p class="title">อีเมล</p>
+              <input class="border border-gray50" />
+            </div>
+
+            <div class="box">
+              <p class="title">รหัสผ่าน</p>
+              <button class="bg-gray10 text-gray50 py-1 rounded-md">
+                เปลี่ยนรหัสผ่าน
+              </button>
+            </div>
           </div>
 
           <div class="flex justify-center mt-12">
-            <div class="grid grid-cols-2">
+            <div class="grid grid-cols-2" v-if="edit == false">
               <button
-                class="border border-primary rounded-md mr-2 px-2 py-1"
+                class="bg-light text-primary rounded-md mr-2 px-2 py-1"
                 @click="editProfile()"
               >
                 แก้ไขข้อมูล
               </button>
               <button
-                class="bg-primary rounded-md px-2 py-1 ml-2"
+                class="bg-secondary2 text-white rounded-md px-2 py-1 ml-2"
                 @click="showModal = false"
               >
                 ออก
+              </button>
+            </div>
+
+            <div class="grid grid-cols-2" v-else>
+              <button
+                class="bg-light text-primary rounded-md mr-2 px-2 py-1"
+                @click="cancle()"
+              >
+                ยกเลิก
+              </button>
+              <button
+                class="bg-secondary2 text-white rounded-md px-2 py-1 ml-2"
+                @click="showModal = false"
+              >
+                บันทึก
               </button>
             </div>
           </div>
@@ -106,6 +151,10 @@ export default {
 
     editProfile() {
       this.edit = true;
+    },
+
+    cancle() {
+      this.edit = false;
     },
 
     logout() {
@@ -238,11 +287,14 @@ span {
 .borderPic {
   border-radius: 49.9%;
   width: 160px;
-  /* height: 160px; */
-  /* box-sizing: border-box; */
 }
-/* .backgroundPic {
-  background-clip: border-box;
-  background-color: var(--color-background-container);
-} */
+input {
+  @apply rounded-md py-1 px-2;
+}
+.box {
+  @apply mt-5;
+}
+.title{
+  @apply text-secondary;
+}
 </style>
