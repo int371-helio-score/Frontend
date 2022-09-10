@@ -186,6 +186,6 @@ select {
 md:text-base;
 }
 .data {
-  @apply ml-60 mt-20 h-fit;
+  @apply pl-60 mt-24 w-screen;
 }
 </style>

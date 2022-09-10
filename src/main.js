@@ -5,12 +5,13 @@ import "./assets/tailwind.css";
 import 'vue-select/dist/vue-select.css';
 import 'vue3-easy-data-table/dist/style.css';
 import NavTeacher from "@/components/Nav_Teacher.vue";
-import SidebarTeacher from "@/components/SidebarTeacher.vue"
+import SidebarTeacher from "@/components/SidebarTeacher.vue";
 import UploadFile from "@/components/T_Upload.vue";
 import Announce from "@/components/T_Announce.vue";
 import vue3GoogleLogin from 'vue3-google-login'
-import vSelect from 'vue-select'
+import vSelect from 'vue-select';
 import Vue3EasyDataTable from 'vue3-easy-data-table';
+// import VueTagsInput from "@johmun/vue-tags-input";
 
 const gauthOption = {
   clientId: "217234620645-cporrkom4579lu5sdprtth63ph3g21l8.apps.googleusercontent.com",
@@ -29,4 +30,5 @@ app.component("announceScore", Announce);
 app.component("sidebarTeacher", SidebarTeacher);
 app.component('v-select', vSelect);
 app.component('EasyDataTable', Vue3EasyDataTable);
+// app.component('tag-input', VueTagsInput);
 app.mount("#app");

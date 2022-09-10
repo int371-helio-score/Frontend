@@ -11,7 +11,7 @@
         <div
           class="dropbtn flex items-center border border-light cursor-pointer"
         >
-          <img :src="getImage()" class="profile rounded-full" />
+          <img :src="getImage()" class="profile rounded-full " />
           <div class="ml-4 account text-secondary">
             {{ this.account.firstName }} {{ this.account.lastName }}
           </div>
@@ -33,7 +33,7 @@
             <img :src="getImage()" class="pic rounded-full w-28 h-28" />
           </div>
 
-          <div class="font-extrabold text-md mx-20">
+          <div class="font-extrabold text-md mx-20 mt-14">
             {{ this.account.firstName }} {{ this.account.lastName }}
           </div>
 
@@ -44,10 +44,10 @@
 
           <div class="mx-20 mt-10">
             <p class="text-secondary font-bold my-2">โรงเรียน</p>
-            <p class="text-gray50">{{ this.account.email }}</p>
+            <p class="text-gray50">{{ this.account.schoolName }}</p>
           </div>
 
-          <div class="flex justify-center mt-16">
+          <div class="flex justify-center mt-12">
             <div class="grid grid-cols-2">
               <button
                 class="border border-primary rounded-md mr-2 px-2 py-1"
@@ -94,13 +94,14 @@ export default {
           }
         );
         this.account = response.data.data;
+        // console.log(this.account)
       } catch (error) {
         console.log(`Could not get! ${error}`);
       }
     },
 
     getImage() {
-      return "http://localhost:3000/public/images/Account.jpg";
+      return this.account.image;
     },
 
     editProfile() {
@@ -125,7 +126,7 @@ export default {
 
 <style scoped>
 .profile {
-  @apply lg:w-10 sm:w-9 w-8;
+  @apply lg:w-10 lg:h-10 sm:w-9 sm:h-9 w-8 h-8;
 }
 .menu {
   @apply flex justify-center bg-gradient-to-r from-light to-babyblue self-center rounded-md
@@ -176,7 +177,8 @@ span {
   display: block;
 }
 .account {
-  @apply text-xs md:text-base;
+  @apply text-xs 
+  md:text-base;
 }
 .modal-mask {
   position: fixed;
@@ -236,7 +238,7 @@ span {
 .borderPic {
   border-radius: 49.9%;
   width: 160px;
-  height: 160px;
+  /* height: 160px; */
   /* box-sizing: border-box; */
 }
 /* .backgroundPic {

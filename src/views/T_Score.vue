@@ -14,11 +14,20 @@
             <div>ห้อง {{ room }}</div>
           </div>
 
-          <div class="my-5 pt-10 py-5 grid grid-cols-2">
+          <div class="my-5 pt-10 py-5 flex">
             <div class="flex justify-start text-secondary">รายชื่อทั้งหมด</div>
-            <div class="flex justify-end">
-              <div class="sm:grid sm:grid-cols-2 gap-4 md:gap-2">
-                <button class="add click" @click="clickAnnounce()">
+            <div class="">
+              <div class="mx-2">
+                <button class="add click">
+                  <div
+                    class="flex justify-center self-center md:text-xs lg:text-base"
+                  >
+                    <span class="material-symbols-outlined"> group_add </span>
+                    <div>อัปโหลดรายชื่อ</div>
+                  </div>
+                </button>
+
+                <button class="add" @click="clickAnnounce()">
                   <div
                     class="flex justify-center self-center md:text-xs lg:text-base"
                   >
@@ -386,11 +395,12 @@ th {
   display: block;
 }
 .click {
-  @apply lg:w-48
-  md:w-36 md:mb-4 cursor-pointer lg:rounded-b-lg rounded-md;
+  @apply cursor-pointer
+  md:w-36 md:mb-4 
+  lg:rounded-b-lg rounded-md lg:w-48;
 }
 .data {
-  @apply ml-60 mt-20 h-fit;
+  @apply pl-60 mt-24 w-screen;
 }
 .title {
   @apply text-sm font-bold mt-5 text-secondary
@@ -446,19 +456,4 @@ th {
   border-radius: 22px;
   @apply px-8 py-1;
 }
-/* table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-th,
-td {
-  padding: 8px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-}
-
-tr:hover {
-  background-color: #d6eeee;
-} */
 </style>

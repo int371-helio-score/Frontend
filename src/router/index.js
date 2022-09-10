@@ -1,13 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Login from "../views/Login_Teacher.vue";
 import Subject from "../views/T_Subject.vue";
-// import Upload from "../components/T_Upload.vue";
 import Score from "../views/T_Score.vue";
 import Class from "../views/T_Class.vue";
-// import Announce from "../components/T_Announce.vue";
 import CreateAccount from "../views/CreateAccount.vue"
+import AddSubject from "../views/Add_Subject.vue"
+import AddSchool from "../views/Add_School.vue"
 
-const routes = [{
+const routes = [
+    {
         path: "/",
         name: "login",
         component: Login,
@@ -19,6 +20,16 @@ const routes = [{
                 next();
             }
         },
+    },
+    {
+        path: "/helioscore/newsubject",
+        name: "addsubject",
+        component: AddSubject,
+    },
+    {
+        path: "/helioscore/school",
+        name: "addschool",
+        component: AddSchool,
     },
     {
         path: "/helioscore",

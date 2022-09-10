@@ -47,7 +47,7 @@
             <!-- <div class="text-primary flex justify-end mr-24">ลืมรหัสผ่าน</div> -->
           </div>
 
-          <div class="flex justify-center mt-14" @click="login">
+          <div class="flex justify-center mt-14" @click="login()">
             <button class="bg-primary rounded-md w-56 justify-center flex py-2">
               <p class="text-white text-sm">เข้าสู่ระบบ</p>
             </button>
@@ -63,7 +63,7 @@
         </div>
 
         <div class="flex justify-center mt-10 text-sm">
-          <p class="inline-block text-gray100 ">หากคุณเป็นสมาชิกใหม่</p>
+          <p class="inline-block text-gray100">หากคุณเป็นสมาชิกใหม่</p>
           <p class="inline-block text-primary underline">
             <a href="/helioscore/signup"> สร้างบัญชี</a>
           </p>
@@ -76,7 +76,7 @@
 
 <script setup>
 import { decodeCredential } from "vue3-google-login";
-import router from '@/router'
+import router from "@/router";
 
 const callback = (response) => {
   // This callback will be triggered when the user selects or login to
@@ -94,10 +94,10 @@ const callback = (response) => {
     .then((response) => {
       if (response.data.statusCode === 200) {
         localStorage.setItem("token", response.data.data.token);
-        console.log(response.data);
-        return router.push({path: "/helioscore"});
+        return router.push({ path: "/helioscore/school" });
+      }else{
+        return router.push({ path: "/helioscore" });
       }
-      console.log(response);
     });
 };
 </script>
@@ -111,13 +111,23 @@ export default {
       url: "http://localhost:3000/api/helio/account/login",
       user: "",
       pass: "",
+      email: "",
+      // reg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
     };
   },
 
   methods: {
+    // isEmailValid: function(){
+    //   return (this.email == "") ? "" : (this.reg.test(this.email)) ? 'has-success' : 'has-error';
+    // },
+
     async login() {
-      if (!this.user || !this.pass) {
+      if (!this.user && !this.pass) {
         alert("กรุณากรอก อีเมล และ รหัสผ่าน");
+      } else if (!this.user) {
+        alert("กรุณากรอก อีเมล");
+      } else if (!this.pass) {
+        alert("กรุณากรอก รหัสผ่าน");
       } else {
         axios
           .post(this.url, {
@@ -129,7 +139,6 @@ export default {
               localStorage.setItem("token", res.data.data.token);
               return this.$router.push("/helioscore");
             }
-            console.log(res);
           })
           .catch((err) => {
             alert(err.response.data);

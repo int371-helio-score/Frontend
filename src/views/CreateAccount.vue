@@ -103,62 +103,61 @@
           >
             กรุณากรอกรหัสผ่าน
           </sup>
-          <p
-            class="frmValidation"
-            :class="{ 'frmValidation--passed': password.length > 7 }"
-          >
-            <i
-              class="frmIcon fas"
-              :class="password.length > 7 ? 'fa-check' : 'fa-times'"
-            ></i>
-            Longer than 7 characters
-          </p>
-          <p
-            class="frmValidation"
-            :class="{ 'frmValidation--passed': inputUpperCase }"
-          >
-            <i
-              class="frmIcon fas"
-              :class="inputUpperCase ? 'fa-check' : 'fa-times'"
-            ></i>
-            Has a capital letter
-          </p>
-          <p
-            class="frmValidation"
-            :class="{ 'frmValidation--passed': inputLowerCase }"
-          >
-            <i
-              class="frmIcon fas"
-              :class="inputLowerCase ? 'fa-check' : 'fa-times'"
-            ></i>
-            Has a lowercase letter
-          </p>
-          <p
-            class="frmValidation"
-            :class="{ 'frmValidation--passed': inputNum }"
-          >
-            <i
-              class="frmIcon fas"
-              :class="inputNum ? 'fa-check' : 'fa-times'"
-            ></i>
-            Has a number
-          </p>
-          <!-- <p
-            class="frmValidation"
-            :class="{ 'frmValidation--passed': inputSpecail }"
-          >
-            <i
-              class="frmIcon fas"
-              :class="inputSpecail ? 'fa-check' : 'fa-times'"
-            ></i>
-            Has a special character
-          </p> -->
-          <!-- <sup
-            v-if="strongPassword()"
-            class="text-red-500 flex justify-center mt-4"
-          >
-            รหัสผ่านต้องมีความยาวมากกว่า 7 ตัวอักษร
-          </sup> -->
+          <div class="flex justify-end lg:pr-20">
+            <div>
+              <p
+                class="frmValidation"
+                :class="{ 'frmValidation--passed': password.length > 7 }"
+              >
+                <i
+                  class="frmIcon fas"
+                  :class="password.length > 7 ? 'fa-check' : 'fa-times'"
+                ></i>
+                ความยาว 8 ตัวอักษรขึ้นไป
+              </p>
+
+              <p
+                class="frmValidation"
+                :class="{ 'frmValidation--passed': inputUpperCase }"
+              >
+                <i
+                  class="frmIcon fas"
+                  :class="inputUpperCase ? 'fa-check' : 'fa-times'"
+                ></i>
+                A-Z
+              </p>
+              <p
+                class="frmValidation"
+                :class="{ 'frmValidation--passed': inputLowerCase }"
+              >
+                <i
+                  class="frmIcon fas"
+                  :class="inputLowerCase ? 'fa-check' : 'fa-times'"
+                ></i>
+                a-z
+              </p>
+              <p
+                class="frmValidation"
+                :class="{ 'frmValidation--passed': inputNum }"
+              >
+                <i
+                  class="frmIcon fas"
+                  :class="inputNum ? 'fa-check' : 'fa-times'"
+                ></i>
+                ตัวเลข 0-9
+              </p>
+              <p
+                class="frmValidation"
+                :class="{ 'frmValidation--passed': inputSpecail }"
+              >
+                <i
+                  class="frmIcon fas"
+                  :class="inputSpecail ? 'fa-check' : 'fa-times'"
+                ></i>
+                อักษรพิเศษ ! @ # % ^ & * ) ( + = . _ -
+              </p>
+            </div>
+          </div>
 
           <div class="flex justify-center mt-10">
             <span class="material-symbols-outlined"> lock </span>
@@ -175,12 +174,6 @@
           >
             กรุณายืนยันรหัสผ่าน
           </sup>
-          <!-- <sup
-            v-if="password =! confirmPassword"
-            class="text-red-500 flex justify-center mt-4"
-          >
-            รหัสผ่านไม่ตรงกัน
-          </sup> -->
 
           <button class="button" @click="toggleShow">
             <span class="icon is-small is-right">
@@ -254,7 +247,7 @@ export default {
       this.inputNum = /\d/.test(this.password);
       this.inputLowerCase = /[a-z]/.test(this.password);
       this.inputUpperCase = /[A-Z]/.test(this.password);
-      // this.inputSchool = /[!@#%^&*)(+=._-]/.test(this.password);
+      this.inputSpecail = /[!@#%^&*)(+=._-]/.test(this.password);
     },
 
     async getSchool() {
@@ -297,15 +290,11 @@ export default {
       this.inputConfirmPassword = this.confirmPassword === "" ? true : false;
       this.inputSchool = this.test === "" ? true : false;
       if (
-        this.password.length < 9 &&
-        this.password.match(/[a-z]+/) &&
-        this.password.match(/[A-Z]+/) &&
-        this.password.match(/[0-9]+/) &&
-        this.password.match(/[$@#&!]+/)
+        this.password != "" &&
+        this.confirmPassword != "" &&
+        this.password != this.confirmPassword
       ) {
-        return alert("รหัสผ่านต้องประกอบด้วยตัวอักษรภาษาอังกฤษ");
-      } else if (this.password != this.confirmPassword) {
-        return alert("รหัสผ่านไมตรงกัน");
+        return alert("รหัสผ่านไม่ตรงกัน");
       } else if (
         this.inputFirstname ||
         this.inputLastname ||
@@ -334,25 +323,29 @@ export default {
         type: "application/json",
       });
       formData.append("data", blob);
-
       axios
-        .post(`${this.url}/account/register`, formData, {
+        .post(`${this.url}/account/register`, data, {
           headers: {
             Authorization: localStorage.getItem("token"),
           },
         })
         .then((res) => {
-          if (res.status === 200) {
+          console.log(res)
+          if (res.data.statusCode === 200) {
             this.firstName = "";
             this.lastName = "";
             this.email = "";
             this.password = "";
             this.confirmPassword = "";
             this.test = "";
+            localStorage.setItem("token", res.data.data.token);
+            console.log(res.data.data.token)
+            
+            return this.$router.push("/helioscore")
           }
         })
         .catch((err) => {
-          alert(err.response.data);
+          alert(err.response.data.message);
         });
     },
   },
@@ -451,17 +444,17 @@ h1 {
   font-weight: bold;
 }
 .frmValidation {
-  font-size: 13px;
+  font-size: 12px;
 }
 .frmValidation--passed {
-  color: #717b85;
+  color: #0fa140;
 }
-.frmIcon {
+/* .frmIcon {
   color: #eb0029;
 }
 .frmValidation--passed .frmIcon {
   color: #0fa140;
-}
+} */
 
 .howToBuild {
   text-align: center;
