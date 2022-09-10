@@ -67,12 +67,16 @@
               </h3>
 
               <div class="my-2">ห้องเรียน</div>
-              <input
-                type="text"
-                class="w-full"
-                placeholder="กรุณากรอกห้องเรียนที่สอน (กรอกได้หลายห้อง)"
-              />
-
+              <div class="absolute w-96">
+                <VueMultiselect
+                  placeholder="กรุณากรอกห้องเรียนที่สอน (กรอกได้หลายห้อง)"
+                  v-model="tags"
+                  :multiple="true"
+                  :options="tags"
+                  :taggable="true"
+                  @tag="addTag"
+                />
+              </div>
               <div class="flex justify-center">
                 <button
                   class="px-16 py-2 mt-8 bg-primary rounded-md text-white"
@@ -91,14 +95,13 @@
 </template>
 
 <script>
-// import VueTagsInput from "@johmun/vue-tags-input";
+import VueMultiselect from "vue-multiselect";
 export default {
-  //   components: {
-  //     VueTagsInput,
-  //   },
+  components: {
+    VueMultiselect,
+  },
   data() {
     return {
-      tag: "",
       tags: [],
       inputSemester: false,
       inputAcademicYear: false,
@@ -115,8 +118,8 @@ export default {
     };
   },
   methods: {
-    handleCcChange(list) {
-      console.log(list);
+    addTag(newTag) {
+      this.tags.push(newTag);
     },
   },
 };
@@ -152,3 +155,4 @@ input {
   @apply my-1;
 }
 </style>
+<style src="vue-multiselect/dist/vue-multiselect.css"></style>
