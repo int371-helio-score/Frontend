@@ -92,14 +92,18 @@ const callback = (response) => {
       image: userData.picture,
     })
     .then((response) => {
-      if (response.data.data.schoolId == 0) {
-        localStorage.setItem("token", response.data.data.token);
-        // console.log(response.data);
-        return router.push({ path: "/helioscore/school" });
-      } else if (response.data.statusCode === 200) {
-        localStorage.setItem("token", response.data.data.token);
-        return router.push({ path: "/helioscore" });
+      if (response.data.statusCode === 200) {
+        if (response.data.data.school == 0) {
+          localStorage.setItem("token", response.data.data.token);
+          return router.push({ path: "/helioscore/school" });
+        } else {
+          localStorage.setItem("token", response.data.data.token);
+          return router.push({ path: "/helioscore" });
+        }
       }
+    })
+    .catch((err) => {
+      alert(err.response.data);
     });
 };
 </script>
@@ -142,8 +146,6 @@ export default {
           });
       }
     },
-
-    async signinGoogle() {},
   },
 };
 </script>
