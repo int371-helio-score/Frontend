@@ -1,6 +1,6 @@
 <template>
   <div class="background sm:bg-light bg-white">
-    <div class="md:grid md:grid-cols-2 h-screen">
+    <div class="md:grid md:grid-cols-2 h-full">
       <div>
         <img
           src="http://localhost:3000/public/images/LoginHelio.png"
@@ -103,7 +103,7 @@
           >
             กรุณากรอกรหัสผ่าน
           </sup>
-          <div class="flex justify-end lg:pr-20">
+          <div class="flex justify-start pl-24 mt-1">
             <div>
               <p
                 class="frmValidation"
@@ -124,7 +124,7 @@
                   class="frmIcon fas"
                   :class="inputUpperCase ? 'fa-check' : 'fa-times'"
                 ></i>
-                A-Z
+                อักษร A-Z
               </p>
               <p
                 class="frmValidation"
@@ -134,7 +134,7 @@
                   class="frmIcon fas"
                   :class="inputLowerCase ? 'fa-check' : 'fa-times'"
                 ></i>
-                a-z
+                อักษร a-z
               </p>
               <p
                 class="frmValidation"
@@ -159,7 +159,7 @@
             </div>
           </div>
 
-          <div class="flex justify-center mt-10">
+          <div class="flex justify-center mt-5">
             <span class="material-symbols-outlined"> lock </span>
             <input
               v-model="confirmPassword"
@@ -188,7 +188,7 @@
           </button>
         </div>
 
-        <div class="flex justify-center mt-5" @click="createAccount()">
+        <div class="flex justify-center mt-2" @click="createAccount()">
           <button class="bg-primary rounded-md w-40 justify-center flex">
             <p class="text-white">สร้างบัญชี</p>
           </button>
@@ -330,7 +330,7 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res)
+          console.log(res);
           if (res.data.statusCode === 200) {
             this.firstName = "";
             this.lastName = "";
@@ -339,9 +339,9 @@ export default {
             this.confirmPassword = "";
             this.test = "";
             localStorage.setItem("token", res.data.data.token);
-            console.log(res.data.data.token)
-            
-            return this.$router.push("/helioscore")
+            console.log(res.data.data.token);
+
+            return this.$router.push("/helioscore") && alert("สร้างบัญชีสำเร็จ");
           }
         })
         .catch((err) => {
@@ -378,7 +378,7 @@ export default {
   color: #c4c4c4;
 }
 .background {
-  @apply sm:pt-20 md:pt-0 h-screen;
+  @apply sm:pt-20 md:pt-0 h-full;
 }
 img {
   @apply h-auto
@@ -387,8 +387,9 @@ img {
   md:px-12 md:py-28;
 }
 .box {
-  @apply xl:mr-80 xl:my-20
-  h-3/4 lg:my-20 lg:mr-28
+  @apply h-auto pb-2
+  xl:mr-80 xl:my-20
+  lg:my-20 lg:mr-28
   md:my-16 md:mr-20 md:mx-0 md:rounded-xl
   sm:justify-center sm:mx-40;
 }
@@ -444,7 +445,9 @@ h1 {
   font-weight: bold;
 }
 .frmValidation {
-  font-size: 12px;
+  font-size: 0.7rem;
+  line-height: 1rem;
+  @apply text-gray100;
 }
 .frmValidation--passed {
   color: #0fa140;

@@ -6,10 +6,13 @@
 
       <div class="data">
         <div class="sm:mx-10 mx-5 divide-y divide-gray10">
-          <div class="title">เพิ่มวิชาที่สอน</div>
+          <div class="title" >เพิ่มวิชาที่สอน</div>
 
           <div class="my-5 pt-10 py-5">
-            <form class="bg-white rounded-lg py-5 px-52">
+            <form
+              @submit.prevent="submitForm"
+              class="bg-white rounded-lg py-5 px-52"
+            >
               <div class="flex justify-start text-primary font-bold">
                 รายระเอียดวิชา
               </div>
@@ -22,7 +25,13 @@
                     type="text"
                     name="academic"
                     placeholder="กรุณาระบุปีการศึกษา"
+                    v-model="academic"
                   />
+                  <sup
+                    v-show="inputAcademicYear"
+                    class="text-red-500 flex justify-center mt-4"
+                    >กรอกปีการศึกษา</sup
+                  >
                 </div>
 
                 <div class="inputForm">
@@ -31,7 +40,13 @@
                     type="text"
                     name="academic"
                     placeholder="กรุณาระบุภาคการศึกษา"
+                    v-model="semester"
                   />
+                  <sup
+                    v-show="inputSemester"
+                    class="text-red-500 flex justify-center mt-4"
+                    >กรอกภาคการศึกษา</sup
+                  >
                 </div>
 
                 <div class="inputForm">
@@ -40,7 +55,13 @@
                     type="text"
                     name="academic"
                     placeholder="กรุณาระบุรหัสวิชา"
+                    v-model="subjectId"
                   />
+                   <sup
+                    v-show="inputSubjectId"
+                    class="text-red-500 flex justify-center mt-4"
+                    >กรอกรหัสวิชา</sup
+                  >
                 </div>
 
                 <div class="inputForm">
@@ -49,16 +70,28 @@
                     type="text"
                     name="academic"
                     placeholder="กรุณาระบุปีการศึกษา"
+                    v-model="subject"
                   />
+                   <sup
+                    v-show="inputSubjectName"
+                    class="text-red-500 flex justify-center mt-4"
+                    >กรอกชื่อวิชา</sup
+                  >
                 </div>
 
                 <div class="inputForm">
-                  <p>ชั้นปี</p>
+                  <p>ชั้นปีที่</p>
                   <input
                     type="text"
                     name="academic"
                     placeholder="กรุณาระบุชั้นปีที่สอน"
+                    v-model="grade"
                   />
+                   <sup
+                    v-show="inputClass"
+                    class="text-red-500 flex justify-center mt-4"
+                    >กรอกชั้นปี</sup
+                  >
                 </div>
               </div>
 
@@ -67,7 +100,7 @@
               </h3>
 
               <div class="my-2">ห้องเรียน</div>
-              <div class="absolute w-96">
+              <div class="absolute w-1/3">
                 <VueMultiselect
                   placeholder="กรุณากรอกห้องเรียนที่สอน (กรอกได้หลายห้อง)"
                   v-model="tags"
@@ -79,7 +112,8 @@
               </div>
               <div class="flex justify-center">
                 <button
-                  class="px-16 py-2 mt-8 bg-primary rounded-md text-white"
+                  class="px-16 py-2 mt-16 bg-primary rounded-md text-white"
+                  @click="submitFrom"
                 >
                   สร้าง
                 </button>
@@ -95,6 +129,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import VueMultiselect from "vue-multiselect";
 export default {
   components: {
@@ -102,24 +137,83 @@ export default {
   },
   data() {
     return {
+      url: "http://localhost:3000/api/helio",
       tags: [],
       inputSemester: false,
       inputAcademicYear: false,
-      inputId: false,
+      inputSubjectId: false,
       inputSubjectName: false,
       inputClass: false,
       inputRoom: false,
       semester: "",
       academic: "",
-      id: "",
-      class: "",
-      room: "",
+      subjectId: "",
+      grade: "",
       subject: "",
     };
   },
   methods: {
     addTag(newTag) {
       this.tags.push(newTag);
+    },
+
+    submitFrom() {
+      this.inputSemester = this.semester === "" ? true : false;
+      this.inputAcademicYear = this.academic === "" ? true : false;
+      this.inputSubjectId = this.subjectId === "" ? true : false;
+      this.inputSubjectName = this.subject === "" ? true : false;
+      this.inputClass = this.grade === "" ? true : false;
+      this.inputRoom = this.tags === "" ? true : false;
+      if (
+        this.inputSemester ||
+        this.inputAcademicYear ||
+        this.inputSubjectId ||
+        this.inputSubjectName ||
+        this.inputClass ||
+        this.inputRoom
+      ) {
+        return;
+      }
+      this.addSubject();
+    },
+
+    addSubject() {
+      const formData = new FormData();
+      let data = {
+        semester: this.semester,
+        grade: this.grade,
+        subjectCode: this.subjectId,
+        subjectName: this.subject,
+        academicYear: this.academic,
+        class: this.tags,
+      };
+      const json = JSON.stringify(data);
+      const blob = new Blob([json], {
+        type: "application/json",
+      });
+      formData.append("data", blob);
+      axios
+        .post(`${this.url}/subject`, data, {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        })
+        .then((res) => {
+          if (res.data.statusCode === 200) {
+            this.subject = "";
+            this.subjectId = "",
+            this.academic = "",
+            this.semester = "",
+            this.grade = "",
+            this.tags = "",
+            alert("เพิ่มวิชาสำเร็จ");
+            return this.$router.push("/helioscore");
+          }
+          // alert("Error");
+        })
+        .catch((err) => {
+          alert(err.res.data.message);
+        })
     },
   },
 };

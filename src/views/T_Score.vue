@@ -7,9 +7,14 @@
       <div class="data">
         <div class="sm:mx-10 mx-5 divide-y divide-gray10">
           <div class="title flex">
-            <div><router-link to="/">หน้าหลัก</router-link></div>
+            <div>
+              <router-link to="/">หน้าหลัก</router-link>
+              </div>
             <div class="mx-2">></div>
-            <div>{{ subjectName }} ชั้นมัธยมศึกษาปีที่ {{ grade }}</div>
+            <!-- <router-link :to="`/helioscore/${this.subjectName}/${this.classId}`"> -->
+              <div>{{ subjectName }} ชั้นมัธยมศึกษาปีที่ {{ grade }}</div>
+            <!-- </router-link> -->
+            
             <div class="mx-2">></div>
             <div>ห้อง {{ room }}</div>
           </div>

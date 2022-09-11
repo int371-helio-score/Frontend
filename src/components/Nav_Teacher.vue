@@ -28,6 +28,8 @@
     </div>
   </div>
 
+  <!-- profile preview -->
+
   <div name="modal" v-show="showModal == true">
     <div class="modal-mask">
       <div class="modal-wrapper">
@@ -53,29 +55,114 @@
             </div>
           </div>
 
-          <div v-else class="grid grid-cols-2 mx-20 mt-14">
-            <div class="box">
+          <!-- edit profile -->
+
+          <div v-else-if="edit" class="grid grid-cols-2 mx-20 mt-12">
+            <!-- <div v-if="editPassword = true"> -->
+
+            <div class="box" v-if="!showEditPass">
               <p class="title">ชื่อ</p>
-              <input class="border border-gray50" />
+              <input
+                class="border border-gray50 w-full"
+                v-model="newFirstName"
+              />
+              <sup
+                v-show="inputFirstname"
+                class="text-red-500 flex justify-end mt-4"
+              >
+                Please enter firstname!</sup
+              >
             </div>
 
-            <div class="box">
-              <p class="title">นามสกุล</p>
-              <input class="border border-gray50" />
+            <div class="flex ml-4" v-if="!showEditPass">
+              <div class="box">
+                <p class="title">นามสกุล</p>
+                <div class="flex justify-end">
+                  <input
+                    class="border border-gray50 w-full"
+                    v-model="newLastName"
+                  />
+                </div>
+                <sup
+                  v-show="inputLastname"
+                  class="text-red-500 justify-end mt-4 flex"
+                >
+                  Please enter lastname!</sup
+                >
+              </div>
             </div>
 
-            <div class="box">
+            <div class="box" v-if="!showEditPass">
               <p class="title">อีเมล</p>
-              <input class="border border-gray50" />
+              <div class="bg-gray10 text-gray50 py-1 px-2 rounded-md w-auto">
+                {{ this.account.email }}
+              </div>
             </div>
 
-            <div class="box">
-              <p class="title">รหัสผ่าน</p>
-              <button class="bg-gray10 text-gray50 py-1 rounded-md">
-                เปลี่ยนรหัสผ่าน
-              </button>
+            <div class="flex ml-4">
+              <div class="box" v-if="!showEditPass">
+                <p class="title">รหัสผ่าน</p>
+                <div class="flex justify-end">
+                  <button
+                    class="border border-gray50 py-1 rounded-md w-full"
+                    @click="changePass()"
+                  >
+                    เปลี่ยนรหัสผ่าน
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- edit password -->
+
+            <div class="box" v-if="showEditPass">
+              <p class="title">รหัสผ่านใหม่</p>
+              <input
+                class="bg-gray10 py-1 rounded-md w-56"
+                v-model="password"
+                type="password"
+              />
+              <sup
+                v-show="inputPassword"
+                class="text-red-500 justify-end mt-4 flex"
+              >
+                กรุณาตั้งรหัสผ่าน</sup
+              >
+            </div>
+
+            <div class="box" v-if="showEditPass">
+              <p class="title">ยืนยันรหัสผ่านเดิม</p>
+              <input
+                class="bg-gray10 py-1 rounded-md w-56"
+                placeholder="รหัสผ่านเดิม"
+                v-model="currentPass"
+                type="password"
+              />
+              <sup
+                v-show="inputCurrent"
+                class="text-red-500 justify-end mt-4 flex"
+              >
+                กรุณากรอกหรัสผ่านเดิม</sup
+              >
+            </div>
+
+            <div class="box" v-if="showEditPass">
+              <p class="title">ยืนยันรหัสผ่านใหม่</p>
+              <input
+                class="bg-gray10 py-1 rounded-md w-56"
+                v-model="confirmPassword"
+                type="password"
+              />
+              <sup
+                v-show="inputConfirm"
+                class="text-red-500 justify-end mt-4 flex"
+              >
+                กรุณายืนยันรหัสผ่าน</sup
+              >
             </div>
           </div>
+
+          <!-- button -->
 
           <div class="flex justify-center mt-12">
             <div class="grid grid-cols-2" v-if="edit == false">
@@ -97,14 +184,31 @@
               <button
                 class="bg-light text-primary rounded-md mr-2 px-2 py-1"
                 @click="cancle()"
+                v-if="!showEditPass"
               >
                 ยกเลิก
               </button>
               <button
                 class="bg-secondary2 text-white rounded-md px-2 py-1 ml-2"
-                @click="showModal = false"
+                @click="checkInput()"
+                v-if="!showEditPass"
               >
                 บันทึก
+              </button>
+
+              <button
+                class="bg-light text-primary rounded-md mr-2 px-2 py-1"
+                @click="showEditPass = false"
+                v-if="showEditPass"
+              >
+                ยกเลิก
+              </button>
+              <button
+                class="bg-secondary2 text-white rounded-md px-2 py-1 ml-2"
+                v-if="showEditPass"
+                @click="checkPassword()"
+              >
+                ยืนยันการเปลี่ยนแปลง
               </button>
             </div>
           </div>
@@ -122,8 +226,20 @@ export default {
     return {
       account: [],
       showModal: false,
-      url: "/api/helio/account/info",
+      url: "http://localhost:3000/api/helio/account/info",
       edit: false,
+      editPassword: false,
+      inputFirstname: false,
+      inputLastname: false,
+      newFirstName: "",
+      newLastName: "",
+      showEditPass: false,
+      inputPassword: false,
+      inputCurrent: false,
+      inputConfirm: false,
+      password: "",
+      currentPass: "",
+      confirmPassword: "",
     };
   },
 
@@ -139,7 +255,6 @@ export default {
           }
         );
         this.account = response.data.data;
-        // console.log(this.account)
       } catch (error) {
         console.log(`Could not get! ${error}`);
       }
@@ -151,10 +266,22 @@ export default {
 
     editProfile() {
       this.edit = true;
+      this.newFirstName = this.account.firstName;
+      this.newLastName = this.account.lastName;
+    },
+
+    changePass() {
+      this.showEditPass = true;
+      this.password = "";
+      this.currentPass = "";
+      this.currentPass = "";
     },
 
     cancle() {
       this.edit = false;
+      this.password = "";
+      this.currentPass = "";
+      this.currentPass = "";
     },
 
     logout() {
@@ -164,6 +291,92 @@ export default {
 
     clickInfo() {
       this.showModal = true;
+    },
+
+    checkPassword() {
+      this.inputPassword = this.password === "" ? true : false;
+      this.inputCurrent = this.currentPass === "" ? true : false;
+      this.inputConfirm = this.confirmPassword === "" ? true : false;
+      if (
+        this.password != "" &&
+        this.confirmPassword != "" &&
+        this.password != this.confirmPassword
+      ) {
+        return alert("รหัสผ่านใหม่ไม่ตรงกัน");
+      } else if (this.password.length <= 7) {
+        alert(
+          "รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร ประกอบด้วย A-Z, a-z, ตัวเลข, อีกษรพิเศษ"
+        );
+      } else if (
+        this.inputPassword ||
+        this.confirmPassword ||
+        this.currentPass
+      ) {
+        this.submitPassword();
+      }
+    },
+
+    submitPassword() {
+      console.log(this.password, this.currentPass);
+      var data = {
+        newPassword: this.password,
+        currentPassword: this.currentPass,
+      };
+      axios
+        .patch("http://localhost:3000/api/helio/account/password", data, {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        })
+        .then((res) => {
+          if (res.data.statusCode === 200) {
+            alert("เปลี่ยนหรัสผ่านสำเร็จ");
+            this.showModal = false;
+            this.edit = false;
+            this.getAccount();
+            (this.password = ""),
+              (this.currentPass = ""),
+              (this.currentPass = "");
+          }
+        })
+        .catch((err) => {
+          alert(err.response.data.message);
+        });
+    },
+
+    checkInput() {
+      this.inputFirstname = this.newFirstName === "" ? true : false;
+      this.inputLastname = this.newLastName === "" ? true : false;
+      if (!this.inputFirstName || !this.inputLastName) {
+        return this.submitEdit();
+      }
+    },
+
+    async submitEdit() {
+      var data = {
+        firstName: this.newFirstName,
+        lastName: this.newLastName,
+      };
+      axios
+        .patch(this.url, data, {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        })
+        .then((res) => {
+          if (res.data.statusCode === 200) {
+            alert("Edit success");
+            this.showModal = false;
+            this.edit = false;
+            this.getAccount();
+            this.newFirstName = "";
+            this.newLastName = "";
+          }
+        })
+        .catch((err) => {
+          alert(err.response.data.message);
+          // alert("ไม่สำเร็จ");
+        });
     },
   },
 
@@ -292,9 +505,9 @@ input {
   @apply rounded-md py-1 px-2;
 }
 .box {
-  @apply mt-5;
+  @apply mt-5 w-full;
 }
-.title{
+.title {
   @apply text-secondary;
 }
 </style>

@@ -16,7 +16,7 @@
         </div>
 
         <!-- <div class="layout">
-        <router-link to="/studentlist">
+        <router-link to="/helioscore/newclassroom">
           <div class="object">
             <span class="material-symbols-outlined"> group </span>
             <div>จัดการรายชื่อ</div>

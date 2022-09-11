@@ -6,6 +6,7 @@ import Class from "../views/T_Class.vue";
 import CreateAccount from "../views/CreateAccount.vue"
 import AddSubject from "../views/Add_Subject.vue"
 import AddSchool from "../views/Add_School.vue"
+import AddClass from "../views/Add_Class.vue"
 
 const routes = [
     {
@@ -25,6 +26,12 @@ const routes = [
         path: "/helioscore/newsubject",
         name: "addsubject",
         component: AddSubject,
+    },
+    {
+        path: "/helioscore/newclassroom",
+        name: "addclass",
+        component: AddClass,
+        props: true,
     },
     {
         path: "/helioscore/school",

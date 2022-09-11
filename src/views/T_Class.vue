@@ -19,10 +19,16 @@
           <div class="my-5 pt-10 py-5 grid grid-cols-2">
             <div class="flex justify-start">วิชาทั้งหมด</div>
             <div class="flex justify-end">
-              <button class="add flex justify-center self-center items-center">
-                <span class="material-symbols-outlined mr-2"> add </span>
-                <p>เพิ่มห้องเรียน</p>
-              </button>
+              <router-link
+                :to="`newclassroom`" :sub-id="this.$route.query.subjectId"
+              >
+                <button
+                  class="add flex justify-center self-center items-center"
+                >
+                  <span class="material-symbols-outlined mr-2"> add </span>
+                  <p>เพิ่มห้องเรียน</p>
+                </button>
+              </router-link>
             </div>
           </div>
         </div>
@@ -56,6 +62,8 @@ export default {
   async created() {
     this.subjectId = this.$route.query.subjectId;
     this.classId = this.$route.query.classId;
+    console.log(this.subjectName)
+    console.log(this.subjectId)
     await this.getClassroom();
   },
 
@@ -70,6 +78,7 @@ export default {
         return (this.subject = res.data);
       });
   },
+
   data() {
     return {
       classroom: [],
@@ -122,7 +131,7 @@ export default {
   @apply pl-60 mt-24 w-screen;
 }
 .add {
-  background:white;
+  background: white;
   box-shadow: 0px 1px 5px rgba(214, 214, 214, 0.5);
   border-radius: 22px;
   @apply px-8 py-1;
