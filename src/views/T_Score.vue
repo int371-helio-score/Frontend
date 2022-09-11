@@ -9,41 +9,24 @@
           <div class="title flex">
             <div>
               <router-link to="/">หน้าหลัก</router-link>
-              </div>
+            </div>
             <div class="mx-2">></div>
-            <!-- <router-link :to="`/helioscore/${this.subjectName}/${this.classId}`"> -->
-              <div>{{ subjectName }} ชั้นมัธยมศึกษาปีที่ {{ grade }}</div>
-            <!-- </router-link> -->
-            
+            <div>{{ subjectName }} ชั้นมัธยมศึกษาปีที่ {{ grade }}</div>
             <div class="mx-2">></div>
             <div>ห้อง {{ room }}</div>
           </div>
 
-          <div
-            class="my-5 pb-5 pt-15 grid grid-cols-2 w-screen max-w-screen-2xl"
-          >
-            <div class="flex justify-start text-secondary text-lg pt-3">
-              รายชื่อทั้งหมด
-            </div>
-            <div class="flex justify-end">
-              <div class="grid grid-cols-3 gap-4 md:gap-2 pt-3">
-                <!-- class="mx-2" -->
-                <button class="add click">
+          <div class="my-5 pb-5 pt-15 flex">
+            <div class="text-secondary text-lg pt-3">รายชื่อทั้งหมด</div>
+
+            <div class="ml-28">
+              <div class="grid grid-cols-3 gap-4 md:gap-4 pt-3">
+                <button class="add click" @click="clickUploadStd()">
                   <div
                     class="flex justify-center self-center md:text-xs lg:text-base"
                   >
                     <span class="material-symbols-outlined"> group_add </span>
                     <div>อัปโหลดรายชื่อ</div>
-                  </div>
-                </button>
-
-                <button class="add click" @click="clickAnnounce()">
-                  <div
-                    class="flex justify-center self-center md:text-xs lg:text-base"
-                  >
-                    <span class="material-symbols-outlined">
-                      pending_actions </span
-                    >คะแนนที่รอประกาศ
                   </div>
                 </button>
 
@@ -56,6 +39,16 @@
                   >
                     <span class="material-symbols-outlined"> upload_file </span>
                     <div>อัปโหลดคะแนน</div>
+                  </div>
+                </button>
+
+                <button class="add click" @click="clickAnnounce()">
+                  <div
+                    class="flex justify-center self-center md:text-xs lg:text-base"
+                  >
+                    <span class="material-symbols-outlined">
+                      pending_actions </span
+                    >รายชื่อ และ คะแนนที่รอประกาศ
                   </div>
                 </button>
               </div>
@@ -82,9 +75,27 @@
               </div>
             </div>
           </div>
+
+          <!-- <div >
+            <div
+              class="content border-2 rounded-lg md:w-60 md:h-60 bg-white px-10 pt-10 pb-2 text-sm text-center"
+              v-for="assign in toAnnounce"
+              :key="assign.id"
+            >
+              <div class="stitle mb-5">{{ assign.title }}</div>
+              <div class="flex justify-center">
+                <button
+                  class="ojb bg-babyblue text-primary click"
+                  @click="sentEmail(assign.title)"
+                >
+                  ประกาศ
+                </button>
+              </div>
+            </div>
+          </div> -->
         </div>
 
-        <!-- อัปโหลด -->
+        <!-- อัปโหลดคะแนน -->
 
         <div v-if="uploadFile">
           <div class="flex justify-center">
@@ -141,14 +152,66 @@
             </div>
           </div>
         </div>
+
+        <!-- อัปโหลดรายชื่อ -->
+
+        <div v-if="uploadStd">
+          <div class="flex justify-center">
+            <div class="container flex flex-col mt-10">
+              <div class="self-center">
+                <input
+                  class="wrapper flex justify-content-center align-items-center"
+                  type="file"
+                  ref="file"
+                  @change="handleFileStd()"
+                />
+                <div class="md:grid md:grid-cols-2">
+                  <div class="md:text-xs text-gray-400 mt-2">
+                    * อัปโหลดได้เฉพาะไฟล์ CSV เท่านั้น
+                  </div>
+                  <button
+                    class="relative md:mb-4 md:text-base flex justify-end"
+                    style="color: #42a5f5"
+                    @click="downloadTempStd(this.class_id)"
+                  >
+                    ดาวน์โหลดไฟล์เทมเพลตรายชื่อ
+                  </button>
+                </div>
+
+                <div class="flex gap-10 justify-center mt-8">
+                  <div class="flex justify-center ojb bg-light text-primary">
+                    <button
+                      class="md:w-32 h-12 text-sm"
+                      id="custom-btn"
+                      @click="clickUploadStd()"
+                    >
+                      ยกเลิก
+                    </button>
+                  </div>
+                  <div class="flex justify-center ojb">
+                    <button
+                      class="md:w-32 h-12 text-sm bg-primary text-white md:rounded-lg"
+                      @click="submitFileStd()"
+                    >
+                      อัปโหลดรายชื่อ
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Score List -->
 
         <div
-          v-if="(uploadFile == false) & (announce == false)"
-          class="mx-10 ml-20 max-w-screen-2xl tab"
-          :class="{ 'overflow-x-auto': scroll}"
+          v-if="
+            (uploadFile == false) & (announce == false) & (uploadStd == false)
+          "
+          class="mx-10 tab"
+          :class="{ 'overflow-x-auto': scroll }"
         >
-          <table class="w-screen max-w-screen-2xl h-fit">
+          <table class="h-fit">
             <tr class="bg-babyblue p-4">
               <th>เลขที่</th>
               <th>รหัส</th>
@@ -190,20 +253,37 @@ export default {
     return {
       url: "http://localhost:3000/api/helio/score",
       template: "http://localhost:3000/api/helio/score/template",
+      templateStd: "http://localhost:3000/api/helio/studentList/template",
       announceUrl: "http://localhost:3000/api/helio/score/toAnnounce",
+      importStd: "http://localhost:3000/api/helio/studentList",
       sent: "http://localhost:3000/api/helio/mail",
       toAnnounce: [],
       std: [],
       grade: null,
       room: null,
       class_id: null,
+      subject_id: null,
       uploadFile: false,
       announce: false,
       file: "",
+      fileStd: "",
       sentToEmail: "",
       stdScore: [],
       scroll: false,
+      uploadStd: false,
     };
+  },
+  
+  async created() {
+    this.grade = this.$route.params.grade;
+    this.room = this.$route.query.room;
+    this.class_id = this.$route.query.class_id;
+    this.subject_id = this.$route.params.subId;
+
+    console.log(this.subject_id);
+
+    await this.getStudent(this.$route.query.class_id);
+    await this.getAnnounce(this.$route.query.class_id);
   },
 
   methods: {
@@ -225,9 +305,14 @@ export default {
           }
         });
     },
+
     handleFileUpload() {
       this.file = this.$refs.file.files[0];
-      console.log(this.file);
+    },
+
+    handleFileStd() {
+      this.fileStd = this.$refs.file.files[0];
+      console.log(this.fileStd);
     },
 
     submitFile() {
@@ -252,14 +337,50 @@ export default {
         });
     },
 
+    submitFileStd() {
+      let formData = new FormData();
+      formData.append("file", this.fileStd);
+      formData.append("classId", this.class_id);
+      formData.append("subjectId", this.$route.params.subId);
+      console.log(this.$route.params.subId);
+      console.log(this.room);
+      axios
+        .post(`${this.importStd}`, formData, {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          if (res.data.statusCode === 200 || res.status === 201) {
+            // this.getStudent().$router.go();
+            console.log(res.data);
+            (this.fileStd = ""), alert("อัปโหลดราชื่อ สำเร็จ");
+            // this.getAnnounce(this.$route.query.class_id);
+            this.$router.go();
+          }
+        })
+        .catch((err) => {
+          console.log(`Could not get! ${err}`);
+        });
+    },
+
+    clickUploadStd() {
+      this.uploadStd = !this.uploadStd;
+      this.announce = false;
+      this.uploadFile = false;
+    },
+
     clickUpload() {
       this.uploadFile = !this.uploadFile;
       this.announce = false;
+      this.uploadStd = false;
     },
 
     clickAnnounce() {
       this.announce = !this.announce;
       this.uploadFile = false;
+      this.uploadStd = false;
     },
 
     downloadTemp(classId) {
@@ -269,6 +390,25 @@ export default {
           headers: {
             Authorization: localStorage.getItem("token"),
           },
+          responseType: "blob",
+        })
+        .then((response) => {
+          window.URL = window.webkitURL || window.URL;
+          const contentType = "text/csv";
+          const csvFile = new Blob([response.data], { type: contentType });
+          const downloadURL = window.URL.createObjectURL(csvFile);
+          const downloadLink = document.createElement("a");
+          downloadLink.href = downloadURL;
+          downloadLink.setAttribute("download", "helioscore.xlsx");
+          document.body.appendChild(downloadLink);
+          downloadLink.click();
+        });
+    },
+
+    downloadTempStd() {
+      console.log("const filename = response.headers['content-disposition']");
+      axios
+        .get(this.templateStd, {
           responseType: "blob",
         })
         .then((response) => {
@@ -318,8 +458,8 @@ export default {
                 }
               });
             }
-            if(this.std.length > 5){
-              this.scroll = true
+            if (this.std.length > 5) {
+              this.scroll = true;
             }
             return response.data.data.results;
           });
@@ -346,14 +486,6 @@ export default {
     },
   },
 
-  async created() {
-    this.grade = this.$route.params.grade;
-    this.room = this.$route.query.room;
-    this.class_id = this.$route.query.class_id;
-
-    await this.getStudent(this.$route.query.class_id);
-    await this.getAnnounce(this.$route.query.class_id);
-  },
 };
 </script>
 
@@ -425,12 +557,12 @@ th {
   display: block;
 }
 .click {
-  @apply cursor-pointer
+  @apply cursor-pointer rounded-full 
   md:w-36 md:mb-4 
-  lg:rounded-b-lg rounded-md lg:w-56;
+  lg:rounded-b-lg lg:w-auto;
 }
 .data {
-  @apply pl-60 mt-24 w-screen max-w-screen-2xl h-screen max-h-full;
+  @apply h-screen max-h-full pl-60 mt-24 w-screen;
 }
 .title {
   @apply text-sm font-bold mt-5 text-secondary
@@ -495,7 +627,8 @@ th {
   border: 1px solid #ccc;
 }
 .tab {
-  width: 90rem;
+  /* width: 90rem; */
+  @apply w-screen;
 }
 table::-webkit-scrollbar {
   scrollbar-color: rgba(255, 100, 70, 0.8) rgba(0, 100, 200, 0.5);

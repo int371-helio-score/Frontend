@@ -11,7 +11,7 @@
           <div class="my-5 pt-10 py-5">
             <form
               @submit.prevent="submitForm"
-              class="bg-white rounded-lg py-5 px-52"
+              class="bg-white rounded-lg lg:py-5 lg:px-48"
             >
               <div class="flex justify-start text-primary font-bold">
                 รายระเอียดวิชา
@@ -240,7 +240,7 @@ select {
 md:text-base;
 }
 .data {
-  @apply pl-60 mt-24 w-screen;
+  @apply md:pl-40 mt-24 w-screen lg:pl-60;
 }
 input {
   @apply border border-gray50 rounded-md px-2 py-1 pt-1;

@@ -7,7 +7,7 @@
             <div class="object">
               <span class="material-symbols-outlined home mr-2"> home </span>
               <div
-                class="bdutsky sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 text-primary"
+                class="sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 text-primary"
               >
                 หน้าหลัก
               </div>
@@ -40,7 +40,7 @@
           @click="() => $router.push('/helioscore/newsubject')"
         >
           <span class="material-symbols-outlined text-primary mr-2"> add </span>
-          <div class="text-secondary sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1">
+          <div class="text-secondary sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 md:text-sm">
             เพิ่มวิชาที่สอน
           </div>
         </button>
@@ -67,27 +67,23 @@ export default {
 
 <style scoped>
 .background {
-  /* position: absolute; */
-  width: 238px;
+  /* width: 238px; */
   left: 3px;
   top: 89px;
+  @apply lg:w-52 sm:w-40;
 }
 .layout {
   @apply py-10 flex justify-start;
 }
 .object {
-  @apply flex text-primary;
+  @apply flex text-primary sm:text-sm;
 }
 button {
   position: absolute;
   left: 8.82%;
   right: 8.4%;
-  /* top: 89.74%; */
-  /* bottom: 5.41%; */
   background: #ffffff;
-  /* Shadow */
   box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.5);
   border-radius: 22px;
-  /* @apply lg:mb-20; */
 }
 </style>

@@ -33,7 +33,7 @@
                 class="border-b border-gray50"
               />
             </div>
-            <button class="button" @click="toggleShow">
+            <!-- <button class="button" @click="toggleShow">
               <span class="icon is-small is-right">
                 <i
                   class="fas"
@@ -43,11 +43,11 @@
                   }"
                 ></i>
               </span>
-            </button>
+            </button> -->
             <!-- <div class="text-primary flex justify-end mr-24">ลืมรหัสผ่าน</div> -->
           </div>
 
-          <div class="flex justify-center mt-14" @click="login()">
+          <div class="flex justify-center mt-14">
             <button class="bg-primary rounded-md w-56 justify-center flex py-2">
               <p class="text-white text-sm">เข้าสู่ระบบ</p>
             </button>
@@ -124,6 +124,7 @@ export default {
 
   methods: {
     async login() {
+      console.log(this.pass);
       if (!this.user && !this.pass) {
         alert("กรุณากรอก อีเมล และ รหัสผ่าน");
       } else if (!this.user) {
@@ -143,7 +144,9 @@ export default {
             }
           })
           .catch((err) => {
-            alert(err.response.data);
+            alert(err.response.data.message);
+            this.user = "",
+            this.pass = ""
           });
       }
     },

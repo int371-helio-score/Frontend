@@ -11,7 +11,7 @@ import Announce from "@/components/T_Announce.vue";
 import vue3GoogleLogin from 'vue3-google-login'
 import vSelect from 'vue-select';
 import Vue3EasyDataTable from 'vue3-easy-data-table';
-// import VueTagsInput from "@johmun/vue-tags-input";
+import UploadStudent from "@/components/UploadStd.vue"
 
 const gauthOption = {
   clientId: "217234620645-cporrkom4579lu5sdprtth63ph3g21l8.apps.googleusercontent.com",
@@ -30,5 +30,5 @@ app.component("announceScore", Announce);
 app.component("sidebarTeacher", SidebarTeacher);
 app.component('v-select', vSelect);
 app.component('EasyDataTable', Vue3EasyDataTable);
-// app.component('tag-input', VueTagsInput);
+app.component("uploadStd", UploadStudent);
 app.mount("#app");

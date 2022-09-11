@@ -34,9 +34,25 @@
         </div>
 
         <div class="order">
-          <div v-for="room in classroom" :key="room.room">
+          <div 
+          v-for="room in classroom" :key="room.room">
             <router-link
-              :to="`/helioscore/${this.subjectName}/${this.classId}?room=${room.room}&class_id=${room._id}`"
+              :to="{
+                path: `/helioscore/${this.subjectName}/${this.classId}?room=${room.room}&class_id=${room._id}`,
+                name: 'score',
+                params: {
+                  grade: this.classId,
+                  subjectName: this.subjectName,
+                  classId: this.classId,
+                  subId: this.subjectId
+                },
+                query: {
+                  subjectName: this.subjectName,
+                  classId: this.classId,
+                  room: room.room,
+                  class_id: room._id,
+                },
+              }"
             >
               <div class="class bg-white px-10 pt-10 pb-2 text-sm text-center">
                 <div class="mb-5">ม.{{ classId }} ห้อง {{ room.room }}</div>
@@ -62,8 +78,8 @@ export default {
   async created() {
     this.subjectId = this.$route.query.subjectId;
     this.classId = this.$route.query.classId;
-    console.log(this.subjectName)
-    console.log(this.subjectId)
+    // console.log(this.subjectName)
+    // console.log(this.subjectId)
     await this.getClassroom();
   },
 
@@ -99,6 +115,7 @@ export default {
           })
           .then((res) => {
             this.classroom = res.data.data.results;
+            console.log(res.data.data);
             return res.data.data.results;
           });
       } catch (error) {

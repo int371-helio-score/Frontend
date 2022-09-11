@@ -330,7 +330,7 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           if (res.data.statusCode === 200) {
             this.firstName = "";
             this.lastName = "";
@@ -339,7 +339,7 @@ export default {
             this.confirmPassword = "";
             this.test = "";
             localStorage.setItem("token", res.data.data.token);
-            console.log(res.data.data.token);
+            // console.log(res.data.data.token);
 
             return this.$router.push("/helioscore") && alert("สร้างบัญชีสำเร็จ");
           }
@@ -412,7 +412,9 @@ input {
   @apply px-2 py-1 mb-4 w-full sm:w-32 md:w-40 lg:w-56 lg:text-base;
 }
 sup {
-  @apply justify-end lg:pr-20;
+  @apply justify-end pr-14
+  lg:pr-20
+  md:pr-16;
 }
 .container {
   width: 400px;

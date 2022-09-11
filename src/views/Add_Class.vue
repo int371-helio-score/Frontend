@@ -28,7 +28,7 @@
                 />
               </div>
               <div class="flex justify-center">
-                <button
+                <button @click="addClassroom()"
                   class="px-16 py-2 mt-32 bg-primary rounded-md text-white"
                 >
                   สร้าง

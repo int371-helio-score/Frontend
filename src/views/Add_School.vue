@@ -62,7 +62,9 @@
               <div class="flex justify-center">
                 <button
                   @click="addSchool"
-                  class="px-16 py-2 mt-8 bg-primary rounded-md text-white"
+                  class="md:px-10
+                  lg:px-16 lg:py-2 lg:mt-8 
+                  bg-primary rounded-md text-white"
                 >
                   ต่อไป
                 </button>
