@@ -14,10 +14,15 @@
             <div>ห้อง {{ room }}</div>
           </div>
 
-          <div class="my-5 pt-10 py-5 flex">
-            <div class="flex justify-start text-secondary">รายชื่อทั้งหมด</div>
-            <div class="">
-              <div class="mx-2">
+          <div
+            class="my-5 pb-5 pt-15 grid grid-cols-2 w-screen max-w-screen-2xl"
+          >
+            <div class="flex justify-start text-secondary text-lg pt-3">
+              รายชื่อทั้งหมด
+            </div>
+            <div class="flex justify-end">
+              <div class="grid grid-cols-3 gap-4 md:gap-2 pt-3">
+                <!-- class="mx-2" -->
                 <button class="add click">
                   <div
                     class="flex justify-center self-center md:text-xs lg:text-base"
@@ -27,7 +32,7 @@
                   </div>
                 </button>
 
-                <button class="add" @click="clickAnnounce()">
+                <button class="add click" @click="clickAnnounce()">
                   <div
                     class="flex justify-center self-center md:text-xs lg:text-base"
                   >
@@ -134,42 +139,34 @@
         <!-- Score List -->
 
         <div
-          class="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 mx-10 gap-2"
           v-if="(uploadFile == false) & (announce == false)"
+          class="mx-10 ml-20 max-w-screen-2xl tab"
+          :class="{ 'overflow-x-auto': scroll}"
         >
-          <div class="bg-light px-5 py-10 text-sm rounded-md mb-10">
-            <tr class="">
+          <table class="w-screen max-w-screen-2xl h-fit">
+            <tr class="bg-babyblue p-4">
               <th>เลขที่</th>
-              <th class="md:pl-10">รหัส</th>
-              <th class="md:pl-10 lg:pl-16">ชื่อ-นามสกุล</th>
-            </tr>
-            <table v-for="list in std[0].scores" :key="list.no">
-              <tr class="font-light">
-                <th class="md:pl-3">{{ list.no }}</th>
-                <th class="md:pl-12">{{ list.studentId }}</th>
-                <th class="md:pl-8 lg:pl-12">
-                  {{ list.firstName }} &nbsp;&nbsp; {{ list.lastName }}
-                </th>
-              </tr>
-            </table>
-          </div>
-
-          <div
-            class="bg-light px-10 py-10 text-sm rounded-md lg:col-span-2 mb-10 pl-5"
-          >
-            <table>
-              <tr>
-                <th v-for="tt in std" :key="tt._id">{{ tt.title }}</th>
-              </tr>
-            </table>
-            <tr>
-              <th v-for="sList in std" :key="sList._id">
-                <template v-for="s in sList.scores" :key="s.studentId">
-                  <li class="list-none">{{ s.score }}</li>
-                </template>
+              <th>รหัส</th>
+              <th>ชื่อ-นามสกุล</th>
+              <th v-for="tt in std" :key="tt._id">
+                {{ tt.title }}
               </th>
             </tr>
-          </div>
+
+            <tr
+              v-for="list in stdScore"
+              :key="list.no"
+              class="font-light bg-white hover:bg-light"
+            >
+              <th>{{ list.no }}</th>
+              <th>{{ list.studentId }}</th>
+              <th>
+                {{ list.firstName }} &nbsp;&nbsp;
+                {{ list.lastName }}
+              </th>
+              <th v-for="(s, index) in list.score" :key="index">{{ s }}</th>
+            </tr>
+          </table>
         </div>
       </div>
     </div>
@@ -199,6 +196,8 @@ export default {
       announce: false,
       file: "",
       sentToEmail: "",
+      stdScore: [],
+      scroll: false,
     };
   },
 
@@ -290,7 +289,33 @@ export default {
           })
           .then((response) => {
             this.std = response.data.data.results;
-            console.log(response);
+            for (const s of this.std) {
+              s.scores.forEach((each) => {
+                let dup = this.stdScore.filter((el) => {
+                  return el.no === each.no;
+                });
+
+                if (dup.length == 0) {
+                  const obj = {
+                    no: each.no,
+                    studentId: each.studentId,
+                    title: each.title,
+                    firstName: each.firstName,
+                    lastName: each.lastName,
+                    score: [],
+                  };
+                  obj.score.push(each.score);
+                  this.stdScore.push(obj);
+                } else {
+                  this.stdScore
+                    .find((x) => x.no === each.no)
+                    .score.push(each.score);
+                }
+              });
+            }
+            if(this.std.length > 5){
+              this.scroll = true
+            }
             return response.data.data.results;
           });
       } catch (error) {
@@ -397,10 +422,10 @@ th {
 .click {
   @apply cursor-pointer
   md:w-36 md:mb-4 
-  lg:rounded-b-lg rounded-md lg:w-48;
+  lg:rounded-b-lg rounded-md lg:w-56;
 }
 .data {
-  @apply pl-60 mt-24 w-screen;
+  @apply pl-60 mt-24 w-screen max-w-screen-2xl h-screen max-h-full;
 }
 .title {
   @apply text-sm font-bold mt-5 text-secondary
@@ -455,5 +480,25 @@ th {
   box-shadow: 0px 1px 5px rgba(214, 214, 214, 0.5);
   border-radius: 22px;
   @apply px-8 py-1;
+}
+
+table {
+  border-collapse: collapse;
+}
+table tr td,
+th {
+  border: 1px solid #ccc;
+}
+.tab {
+  width: 90rem;
+}
+table::-webkit-scrollbar {
+  scrollbar-color: rgba(255, 100, 70, 0.8) rgba(0, 100, 200, 0.5);
+}
+table::-webkit-scrollbar-thumb {
+  scrollbar-color: rgba(255, 100, 70, 0.8) rgba(0, 100, 200, 0.5);
+}
+table::-webkit-scrollbar-thumb:window-inactive {
+  scrollbar-color: rgba(255, 100, 70, 0.8) rgba(0, 100, 200, 0.5);
 }
 </style>
