@@ -141,6 +141,7 @@ export default {
     },
     logout() {
       localStorage.removeItem("token");
+      localStorage.removeItem("school");
       return this.$router.push("/");
     },
     async addSchool() {
@@ -156,6 +157,7 @@ export default {
         })
         .then((res) => {
           if (res.data.statusCode === 200) {
+            localStorage.removeItem("school");
             return this.$router.push("/helioscore");
           }
         })
