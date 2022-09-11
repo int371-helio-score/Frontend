@@ -82,7 +82,7 @@ const callback = (response) => {
   // This callback will be triggered when the user selects or login to
   // his Google account from the popup
   const userData = decodeCredential(response.credential);
-  const url = "http://localhost:3000/api/helio/account/google/redirect";
+  const url = "https://helioscore.sytes.net/backend/api/helio/account/google/redirect";
   axios
     .post(url, {
       firstName: userData.given_name,
