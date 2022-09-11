@@ -20,7 +20,13 @@
             <div class="flex justify-start">วิชาทั้งหมด</div>
             <div class="flex justify-end">
               <router-link
-                :to="`newclassroom`" :sub-id="this.$route.query.subjectId"
+                :to="{
+                  name: 'addclass',
+                  params: {
+                    subject: this.$route.query.subjectId,
+                    grade: this.$route.query.classId,
+                  },
+                }"
               >
                 <button
                   class="add flex justify-center self-center items-center"
@@ -34,8 +40,7 @@
         </div>
 
         <div class="order">
-          <div 
-          v-for="room in classroom" :key="room.room">
+          <div v-for="room in classroom" :key="room.room">
             <router-link
               :to="{
                 path: `/helioscore/${this.subjectName}/${this.classId}?room=${room.room}&class_id=${room._id}`,
@@ -44,7 +49,7 @@
                   grade: this.classId,
                   subjectName: this.subjectName,
                   classId: this.classId,
-                  subId: this.subjectId
+                  subId: this.subjectId,
                 },
                 query: {
                   subjectName: this.subjectName,

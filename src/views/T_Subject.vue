@@ -186,6 +186,8 @@ select {
 md:text-base;
 }
 .data {
-  @apply pl-60 mt-24 w-screen;
+  @apply md:pl-48 mt-20
+  lg:pl-60 lg:mt-24 
+  w-screen;
 }
 </style>

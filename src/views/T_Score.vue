@@ -280,7 +280,7 @@ export default {
     this.class_id = this.$route.query.class_id;
     this.subject_id = this.$route.params.subId;
 
-    console.log(this.subject_id);
+    // console.log(this.subject_id);
 
     await this.getStudent(this.$route.query.class_id);
     await this.getAnnounce(this.$route.query.class_id);
@@ -312,7 +312,7 @@ export default {
 
     handleFileStd() {
       this.fileStd = this.$refs.file.files[0];
-      console.log(this.fileStd);
+      // console.log(this.fileStd);
     },
 
     submitFile() {
@@ -354,7 +354,7 @@ export default {
         .then((res) => {
           if (res.data.statusCode === 200 || res.status === 201) {
             // this.getStudent().$router.go();
-            console.log(res.data);
+            // console.log(res.data);
             (this.fileStd = ""), alert("อัปโหลดราชื่อ สำเร็จ");
             // this.getAnnounce(this.$route.query.class_id);
             this.$router.go();
@@ -384,7 +384,7 @@ export default {
     },
 
     downloadTemp(classId) {
-      console.log("const filename = response.headers['content-disposition']");
+      // console.log("const filename = response.headers['content-disposition']");
       axios
         .get(`${this.template}/${classId}`, {
           headers: {
@@ -406,7 +406,7 @@ export default {
     },
 
     downloadTempStd() {
-      console.log("const filename = response.headers['content-disposition']");
+      // console.log("const filename = response.headers['content-disposition']");
       axios
         .get(this.templateStd, {
           responseType: "blob",

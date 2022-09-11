@@ -40,7 +40,7 @@
           @click="() => $router.push('/helioscore/newsubject')"
         >
           <span class="material-symbols-outlined text-primary mr-2"> add </span>
-          <div class="text-secondary sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 md:text-sm">
+          <div class="text-secondary sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 md:text-xs">
             เพิ่มวิชาที่สอน
           </div>
         </button>
@@ -70,7 +70,7 @@ export default {
   /* width: 238px; */
   left: 3px;
   top: 89px;
-  @apply lg:w-52 sm:w-40;
+  @apply lg:w-52 md:w-48 sm:w-40;
 }
 .layout {
   @apply py-10 flex justify-start;

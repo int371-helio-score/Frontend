@@ -7,11 +7,11 @@
       <div class="data">
         <div class="sm:mx-10 mx-5 divide-y divide-gray10">
           <div class="title">
-            เพิ่มห้องเรียน ชั้นมัธยมศึกษาปีที่ {{ subjectName }}
+            เพิ่มห้องเรียน ชั้นมัธยมศึกษาปีที่ {{ grade }}
           </div>
 
           <div class="my-5 pt-10 py-5">
-            <form class="bg-white rounded-lg py-5 px-52 h-96">
+            <div class="bg-white rounded-lg py-5 px-52 h-96">
               <h3 class="flex justify-start text-primary font-bold mt-5">
                 เพิ่มห้องเรียน
               </h3>
@@ -27,14 +27,22 @@
                   @tag="addTag"
                 />
               </div>
+              <sup
+                v-show="inputRoom"
+                class="text-red-500 flex justify-center mt-4"
+              >
+                กรุณาระบุห้องเรียนที่ต้องการเพิ่ม
+              </sup>
+
               <div class="flex justify-center">
-                <button @click="addClassroom()"
+                <button
+                  @click="checkInput()"
                   class="px-16 py-2 mt-32 bg-primary rounded-md text-white"
                 >
                   สร้าง
                 </button>
               </div>
-            </form>
+            </div>
           </div>
 
           <div class="bg-white"></div>
@@ -65,11 +73,8 @@ export default {
       classId: null,
     };
   },
-  async created() {
-    this.subjectId = this.$route.params.subject;
-    this.classId = this.$route.params.grade;
-    console.log(this.subjectName)
-    console.log(this.subject)
+
+  created() {
   },
 
   methods: {
@@ -78,28 +83,32 @@ export default {
     },
 
     checkInput() {
-      this.inputRoom = this.tags === " " ? true : false;
+      this.inputRoom = this.tags === "" ? true : false;
       if (this.inputRoom) {
-        return this.addClassroom();
+        return;
       }
+      this.addClassroom();
     },
 
     addClassroom() {
+      console.log("Hi");
+      console.log(this.inputRoom);
       let data = {
         class: this.tags,
-        subjectId: this.subjectId,
-        // grade: this.classId,
+        subjectId: this.subject,
       };
       axios
-        .post(this.url, data, {
+        .post(this.urlClass, data, {
           headers: {
             Authorization: localStorage.getItem("token"),
           },
         })
         .then((res) => {
           if (res.data.statusCode === 200) {
-            (this.tags = ""), alert("เพิ่มห้องเรียนสำเร็จ");
-            return this.$router.go();
+            console.log(res.data);
+            this.tags = "";
+            alert("เพิ่มห้องเรียนสำเร็จ");
+            // return this.$router.go();
           }
         })
         .catch((err) => {
