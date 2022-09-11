@@ -212,8 +212,8 @@ import axios from "axios";
 export default {
   data() {
     return {
-      url: "http://localhost:3000/api/helio",
-      urlSchool: "http://localhost:3000/api/helio/school",
+      url: "https://helioscore.sytes.net/backend/api/helio",
+      urlSchool: "https://helioscore.sytes.net/backend/api/helio/school",
       inputFirstname: false,
       inputLastname: false,
       inputEmail: false,

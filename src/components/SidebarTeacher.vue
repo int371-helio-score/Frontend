@@ -53,14 +53,10 @@
 export default {
   data() {
     return {
-      url: "",
     };
   },
 
   methods: {
-    add() {
-      this.router.push({ path: "/helioscore/newsubject" });
-    },
   },
 };
 </script>

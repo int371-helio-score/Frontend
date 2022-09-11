@@ -226,7 +226,7 @@ export default {
     return {
       account: [],
       showModal: false,
-      url: "http://localhost:3000/api/helio/account/info",
+      url: "https://helioscore.sytes.net/backend/api/helio/account/info",
       edit: false,
       editPassword: false,
       inputFirstname: false,
@@ -247,7 +247,7 @@ export default {
     async getAccount() {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/helio/account/info",
+          "https://helioscore.sytes.net/backend/api/helio/account/info",
           {
             headers: {
               Authorization: localStorage.getItem("token"),
@@ -324,7 +324,7 @@ export default {
         currentPassword: this.currentPass,
       };
       axios
-        .patch("http://localhost:3000/api/helio/account/password", data, {
+        .patch("https://helioscore.sytes.net/backend/api/helio/account/password", data, {
           headers: {
             Authorization: localStorage.getItem("token"),
           },

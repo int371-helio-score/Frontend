@@ -137,7 +137,7 @@ export default {
   },
   data() {
     return {
-      url: "http://localhost:3000/api/helio",
+      url: "https://helioscore.sytes.net/backend/api/helio",
       tags: [],
       inputSemester: false,
       inputAcademicYear: false,
