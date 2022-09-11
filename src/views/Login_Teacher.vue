@@ -95,6 +95,7 @@ const callback = (response) => {
       if (response.data.statusCode === 200) {
         if (response.data.data.school == 0) {
           localStorage.setItem("token", response.data.data.token);
+          localStorage.setItem("school", true);
           return router.push({ path: "/helioscore/school" });
         } else {
           localStorage.setItem("token", response.data.data.token);

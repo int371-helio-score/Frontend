@@ -15,9 +15,14 @@ const routes = [
         component: Login,
         beforeEnter: (to, from, next) => {
             const login = localStorage.getItem("token");
-            if (login) {
+            const school = localStorage.getItem("school")
+            if (login || school === undefined) {
                 next("/helioscore");
-            } else {
+            }
+            if (school) {
+                next('/helioscore/school')
+            }
+            else {
                 next();
             }
         },
@@ -26,6 +31,15 @@ const routes = [
         path: "/helioscore/newsubject",
         name: "addsubject",
         component: AddSubject,
+        beforeEnter: (to, from, next) => {
+            const login = localStorage.getItem("token");
+            const school = localStorage.getItem("school")
+            if (!login || school) {
+                next('/')
+            } else {
+                next()
+            }
+        }
     },
     {
         path: "/helioscore/newclassroom",
@@ -37,23 +51,60 @@ const routes = [
         path: "/helioscore/school",
         name: "addschool",
         component: AddSchool,
+        beforeEnter: (to, from, next) => {
+            const school = localStorage.getItem("school")
+            if (school) {
+                next()
+            } else {
+                next(`${from.path}`)
+            }
+        }
     },
     {
         path: "/helioscore",
         name: "subject",
         component: Subject,
+        beforeEnter: (to, from, next) => {
+            const login = localStorage.getItem("token");
+            const school = localStorage.getItem("school")
+            if (school) {
+                next('/helioscore/school')
+            } else if (!login) {
+                next('/')
+            }
+            else {
+                next()
+            }
+        }
     },
     {
         path: "/helioscore/:subjectName",
         name: "class",
         component: Class,
         props: true,
+        beforeEnter: (to, from, next) => {
+            const login = localStorage.getItem("token");
+            if (!login) {
+                next('/')
+            } else {
+                next()
+            }
+        }
+
     },
     {
         path: "/helioscore/:subjectName/:grade",
         name: "score",
         component: Score,
         props: true,
+        beforeEnter: (to, from, next) => {
+            const login = localStorage.getItem("token");
+            if (!login) {
+                next('/')
+            } else {
+                next()
+            }
+        }
     },
     {
         path: "/helioscore/signup",

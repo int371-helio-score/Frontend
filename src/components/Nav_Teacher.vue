@@ -286,6 +286,7 @@ export default {
 
     logout() {
       localStorage.removeItem("token");
+      localStorage.removeItem("school")
       return this.$router.push("/");
     },
 
