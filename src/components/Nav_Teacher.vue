@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-white grid grid-cols-2 sm:py-5 sm:px-10 px-1 py-4 fixed w-full"
+    class="bg-white grid grid-cols-2 sm:py-5 sm:px-10 px-1 py-4 fixed xl:w-full md:w-screen"
   >
     <div class="flex self-center items-center">
       <router-link to="/">
@@ -57,9 +57,7 @@
 
           <!-- edit profile -->
 
-          <div v-else-if="edit" class="grid grid-cols-2 mx-20 mt-12">
-            <!-- <div v-if="editPassword = true"> -->
-
+          <div v-else-if="edit" class="grid grid-cols-2 lg:mx-20 mt-12 md:mx-10 mx-5">
             <div class="box" v-if="!showEditPass">
               <p class="title">ชื่อ</p>
               <input
@@ -104,7 +102,7 @@
                 <p class="title">รหัสผ่าน</p>
                 <div class="flex justify-end">
                   <button
-                    class="border border-gray50 py-1 rounded-md w-full"
+                    class="border border-gray50 py-1 rounded-md w-full text-xs lg:text-sm"
                     @click="changePass()"
                   >
                     เปลี่ยนรหัสผ่าน
@@ -115,10 +113,10 @@
 
             <!-- edit password -->
 
-            <div class="box" v-if="showEditPass">
+            <div class="box ml-4" v-if="showEditPass">
               <p class="title">รหัสผ่านใหม่</p>
               <input
-                class="bg-gray10 py-1 rounded-md w-56"
+                class="bg-gray10 py-1 rounded-md lg:w-56 w-full"
                 v-model="password"
                 type="password"
               />
@@ -133,7 +131,7 @@
             <div class="box" v-if="showEditPass">
               <p class="title">ยืนยันรหัสผ่านเดิม</p>
               <input
-                class="bg-gray10 py-1 rounded-md w-56"
+                class="bg-gray10 py-1 rounded-md lg:w-auto w-full"
                 placeholder="รหัสผ่านเดิม"
                 v-model="currentPass"
                 type="password"
@@ -146,10 +144,10 @@
               >
             </div>
 
-            <div class="box" v-if="showEditPass">
+            <div class="box ml-4" v-if="showEditPass">
               <p class="title">ยืนยันรหัสผ่านใหม่</p>
               <input
-                class="bg-gray10 py-1 rounded-md w-56"
+                class="bg-gray10 py-1 rounded-md lg:w-56 w-full"
                 v-model="confirmPassword"
                 type="password"
               />
@@ -468,6 +466,7 @@ span {
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   border-radius: 25px;
+  @apply w-3/4 md:w-96 lg:w-1/2;
 }
 
 .modal-header h3 {
@@ -503,7 +502,8 @@ span {
   width: 160px;
 }
 input {
-  @apply rounded-md py-1 px-2;
+  @apply rounded-md py-1 px-2
+  md:text-xs lg:text-sm;
 }
 .box {
   @apply mt-5 w-full;

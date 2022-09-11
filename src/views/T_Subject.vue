@@ -174,7 +174,7 @@ select {
   xl:grid-cols-5 xl:gap-8
   lg:grid-cols-4 lg:gap-10 lg:mb-20
   md:grid-cols-3 md:gap-4
-  sm:grid-cols-2;
+  sm:grid-cols-1;
 }
 .title {
   @apply text-sm font-bold mt-5 text-secondary
@@ -186,8 +186,9 @@ select {
 md:text-base;
 }
 .data {
-  @apply md:pl-48 mt-20
+  @apply pl-36 sm:pl-36 w-screen
+  md:pl-44 mt-20
   lg:pl-60 lg:mt-24 
-  w-screen;
+  ;
 }
 </style>

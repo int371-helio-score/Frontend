@@ -11,7 +11,7 @@
           <div class="my-5 pt-10 py-5">
             <form
               @submit.prevent="submitForm"
-              class="bg-white rounded-lg lg:py-5 lg:px-48"
+              class="bg-white rounded-lg lg:py-5 lg:px-48 px-20"
             >
               <div class="flex justify-start text-primary font-bold">
                 รายระเอียดวิชา
@@ -247,6 +247,9 @@ input {
 }
 .inputForm {
   @apply my-1;
+}
+sup{
+  @apply xl:mr-5;
 }
 </style>
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>
