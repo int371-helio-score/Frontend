@@ -17,13 +17,14 @@
           </div>
 
           <div class="my-5 pb-5 pt-15 flex">
-            <div class="text-secondary text-lg pt-3">รายชื่อทั้งหมด</div>
+            <div class="text-secondary text-sm md:text-base xl:text-lg pt-3 hidden xl:block">รายชื่อทั้งหมด</div>
 
-            <div class="ml-28">
-              <div class="grid grid-cols-3 gap-4 md:gap-4 pt-3">
-                <button class="add click" @click="clickUploadStd()">
+            <div class="xl:ml-28 lg:ml-5">
+              <div class="grid grid-cols-3 gap-4 xl:gap-4 md:gap-2 pt-3">
+
+                <button class="add" @click="clickUploadStd()">
                   <div
-                    class="flex justify-center self-center md:text-xs lg:text-base"
+                    class="flex justify-center items-center self-center md:text-xs lg:text-sm"
                   >
                     <span class="material-symbols-outlined"> group_add </span>
                     <div>อัปโหลดรายชื่อ</div>
@@ -31,20 +32,20 @@
                 </button>
 
                 <button
-                  class="add md:block hidden click"
+                  class="add md:block hidden"
                   @click="clickUpload()"
                 >
                   <div
-                    class="flex justify-center self-center md:text-xs lg:text-base"
+                    class="flex justify-center items-center self-center md:text-xs lg:text-sm"
                   >
                     <span class="material-symbols-outlined"> upload_file </span>
                     <div>อัปโหลดคะแนน</div>
                   </div>
                 </button>
 
-                <button class="add click" @click="clickAnnounce()">
+                <button class="add" @click="clickAnnounce()">
                   <div
-                    class="flex justify-center self-center md:text-xs lg:text-base"
+                    class="flex justify-center items-center self-center md:text-xs lg:text-sm"
                   >
                     <span class="material-symbols-outlined">
                       pending_actions </span
@@ -57,14 +58,15 @@
         </div>
 
         <!-- รอประกาศคะแนน -->
-        <div class="grid grid-cols-4 mx-10 gap-8">
-          <div v-if="announce">
+        <div  v-if="announce">
+          <div class="grid lg:grid-cols-4 md:grid-cols-2 mx-10 gap-4">
             <div
-              class="content border-2 rounded-lg md:w-60 md:h-60 bg-white px-10 pt-10 pb-2 text-sm text-center"
+              class="content border-2 rounded-lg md:w-auto md:h-auto bg-white px-10 pt-10 pb-2 text-sm text-center"
               v-for="assign in toAnnounce"
               :key="assign.id"
             >
-              <div class="stitle mb-5">{{ assign.title }}</div>
+              <div class="stitle mb-5">ชื่องาน : {{ assign.title }}</div>
+
               <div class="flex justify-center">
                 <button
                   class="ojb bg-babyblue text-primary click"
@@ -75,24 +77,6 @@
               </div>
             </div>
           </div>
-
-          <!-- <div >
-            <div
-              class="content border-2 rounded-lg md:w-60 md:h-60 bg-white px-10 pt-10 pb-2 text-sm text-center"
-              v-for="assign in toAnnounce"
-              :key="assign.id"
-            >
-              <div class="stitle mb-5">{{ assign.title }}</div>
-              <div class="flex justify-center">
-                <button
-                  class="ojb bg-babyblue text-primary click"
-                  @click="sentEmail(assign.title)"
-                >
-                  ประกาศ
-                </button>
-              </div>
-            </div>
-          </div> -->
         </div>
 
         <!-- อัปโหลดคะแนน -->
@@ -109,13 +93,6 @@
                   ref="file"
                   @change="handleFileUpload()"
                 />
-
-                <!-- <div class="bar"></div>
-              <div
-                class="wrapper md:px-48 md:py-20 flex justify-center place-content-center"
-              >
-                <input type="file" class="input" @change="handleFileUpload()" />
-              </div> -->
                 <div class="md:grid md:grid-cols-2">
                   <div class="md:text-xs text-gray-400 mt-2">
                     * อัปโหลดได้เฉพาะไฟล์ CSV เท่านั้น
@@ -130,7 +107,7 @@
                 </div>
 
                 <div class="flex gap-10 justify-center mt-8">
-                  <div class="flex justify-center ojb bg-light text-primary">
+                  <div class="flex justify-center ojb bg-white text-primary md:rounded-lg">
                     <button
                       class="md:w-32 h-12 text-sm"
                       id="custom-btn"
@@ -181,7 +158,7 @@
                 <div class="flex gap-10 justify-center mt-8">
                   <div class="flex justify-center ojb bg-light text-primary">
                     <button
-                      class="md:w-32 h-12 text-sm"
+                      class="md:w-32 h-12 text-sm bg-white text-primary md:rounded-lg"
                       id="custom-btn"
                       @click="clickUploadStd()"
                     >
@@ -211,7 +188,7 @@
           class="mx-10 tab"
           :class="{ 'overflow-x-auto': scroll }"
         >
-          <table class="h-fit">
+          <table class="h-fit rounded-md">
             <tr class="bg-babyblue p-4">
               <th>เลขที่</th>
               <th>รหัส</th>
@@ -226,12 +203,12 @@
               :key="list.no"
               class="font-light bg-white hover:bg-light"
             >
-              <th>{{ list.no }}</th>
-              <th>{{ list.studentId }}</th>
-              <th>
+              <td>{{ list.no }}</td>
+              <td>{{ list.studentId }}</td>
+              <td>
                 {{ list.firstName }} &nbsp;&nbsp;
                 {{ list.lastName }}
-              </th>
+              </td>
               <th v-for="(s, index) in list.score" :key="index">{{ s }}</th>
             </tr>
           </table>
@@ -555,9 +532,8 @@ th {
   display: block;
 }
 .click {
-  @apply cursor-pointer rounded-full 
-  md:w-36 md:mb-4 
-  lg:rounded-b-lg lg:w-auto;
+  @apply cursor-pointer rounded-md
+  md:w-36 md:mb-4 lg:w-36;
 }
 .data {
   @apply h-screen max-h-full pl-60 mt-24 w-screen;
@@ -607,7 +583,7 @@ th {
 }
 
 .ojb {
-  @apply md:py-2;
+  @apply md:py-2 ;
 }
 
 .add {
@@ -619,10 +595,15 @@ th {
 
 table {
   border-collapse: collapse;
+  /* border-radius: 100px; */
 }
 table tr td,
 th {
   border: 1px solid #ccc;
+  
+}
+table td{
+  @apply py-2 px-2;
 }
 .tab {
   /* width: 90rem; */

@@ -11,7 +11,7 @@
           </div>
 
           <div class="my-5 pt-10 py-5">
-            <div class="bg-white rounded-lg py-5 px-52 h-96">
+            <div class="bg-white rounded-lg py-5 xl:px-52 md:px-20 h-96">
               <h3 class="flex justify-start text-primary font-bold mt-5">
                 เพิ่มห้องเรียน
               </h3>
@@ -105,10 +105,9 @@ export default {
         })
         .then((res) => {
           if (res.data.statusCode === 200) {
-            console.log(res.data);
             this.tags = "";
             alert("เพิ่มห้องเรียนสำเร็จ");
-            // return this.$router.go();
+            // this.$router.go(1);
           }
         })
         .catch((err) => {

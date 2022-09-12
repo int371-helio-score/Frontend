@@ -143,14 +143,17 @@ export default {
   md:mt-10 md:text-lg md:font-bold;
 }
 .order {
-  @apply grid mx-10 gap-4 justify-center w-full
+  @apply grid mx-10 gap-4 justify-center
   xl:grid-cols-5 xl:gap-8
   lg:grid-cols-4 lg:gap-10 lg:mb-20
   md:grid-cols-3 md:gap-4
-  sm:grid-cols-2;
+  sm:grid-cols-1;
 }
 .data {
-  @apply pl-60 mt-24 w-screen;
+  @apply pl-36 sm:pl-36 w-screen
+  md:pl-44 mt-20
+  lg:pl-60 lg:mt-24 
+  ;
 }
 .add {
   background: white;
