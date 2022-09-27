@@ -20,9 +20,18 @@
       </template>
     </v-select>
   </div>
+  
   <div class="flex justify-center">
     <button class="bg-primary rounded text-white">ถัดไป</button>
   </div>
+
+  <div class="flex justify-center mt-10 md:text-sm text-xs">
+          <p class="inline-block text-gray100">หากคุณเป็นสมาชิกใหม่</p>
+          <p class="inline-block text-primary underline">
+            <a href="/helioscore/signup"> สร้างบัญชี</a>
+          </p>
+          <p class="inline-block text-gray100">ที่นี่</p>
+        </div>
 </template>
 
 <script>

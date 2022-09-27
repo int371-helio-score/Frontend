@@ -4,7 +4,7 @@
       <!-- image -->
       <div>
         <img
-          src="https://helioscore.sytes.net/backend/public/images/LoginHelio.png"
+          src="http://localhost:3000/public/images/LoginHelio.png"
           class="justify-center place-content-center h-screen md:block hidden"
         />
       </div>
@@ -62,7 +62,7 @@
           <p>or</p>
         </div>
 
-        <div class="flex justify-center lg:mx-20 md:mx-10 mx-20">
+        <div class="flex justify-center w-full lg:mx-20 md:mx-10 mx-20">
           <GoogleLogin :callback="callback" />
         </div>
 
