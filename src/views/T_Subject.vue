@@ -138,7 +138,7 @@ export default {
     },
 
     getPicture() {
-      return "http://localhost:3000/public/images/pic1.png";
+      return "https://helioscore.sytes.net/backend/public/images/pic1.png";
     },
   },
 };

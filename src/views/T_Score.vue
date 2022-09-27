@@ -361,7 +361,6 @@ export default {
     },
 
     downloadTemp(classId) {
-      // console.log("const filename = response.headers['content-disposition']");
       axios
         .get(`${this.template}/${classId}`, {
           headers: {
@@ -383,7 +382,6 @@ export default {
     },
 
     downloadTempStd() {
-      // console.log("const filename = response.headers['content-disposition']");
       axios
         .get(this.templateStd, {
           responseType: "blob",
