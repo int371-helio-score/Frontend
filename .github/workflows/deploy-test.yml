@@ -46,5 +46,5 @@ jobs:
     needs: deploy-test
     runs-on: ubuntu-latest
     steps:
-      - name: telnet
-        run: telnet http://${{ secrets.T_IP }}
+      - name: curl check
+        run: curl http://${{ secrets.T_IP }} -I

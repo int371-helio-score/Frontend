@@ -62,7 +62,7 @@
           <p>or</p>
         </div>
 
-        <div class="flex justify-center lg:mx-20 md:mx-10 mx-20">
+        <div class="flex justify-center w-full lg:mx-20 md:mx-10 mx-20">
           <GoogleLogin :callback="callback" />
         </div>
 
