@@ -84,9 +84,9 @@ export default {
   data() {
     return {
       account: [],
-      getInfoUrl: "https://helioscore.sytes.net/backend/api/helio/account/info",
-      addSchoolUrl: "https://helioscore.sytes.net/backend/api/helio/account/school",
-      getSchoolUrl: "https://helioscore.sytes.net/backend/api/helio/school",
+      getInfoUrl: "helio/account/info",
+      addSchoolUrl: "helio/account/school",
+      getSchoolUrl: "helio/school",
       school: "",
       test: "",
       schools: [],

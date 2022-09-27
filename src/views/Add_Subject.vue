@@ -137,7 +137,7 @@ export default {
   },
   data() {
     return {
-      url: "https://helioscore.sytes.net/backend/api/helio",
+      url: "helio",
       tags: [],
       inputSemester: false,
       inputAcademicYear: false,
