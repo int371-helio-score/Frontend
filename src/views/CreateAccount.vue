@@ -3,7 +3,7 @@
     <div class="md:grid md:grid-cols-2 h-full">
       <div>
         <img
-          src="https://helioscore.sytes.net/backend/public/images/LoginHelio.png"
+          src="http://localhost:3000/api/public/images/LoginHelio.png"
           class="justify-center place-content-center h-screen md:block hidden"
         />
       </div>
@@ -221,8 +221,8 @@ import axios from "axios";
 export default {
   data() {
     return {
-      url: "https://helioscore.sytes.net/backend/api/helio",
-      urlSchool: "https://helioscore.sytes.net/backend/api/helio/school",
+      url: "helio",
+      urlSchool: "helio/school",
       inputFirstname: false,
       inputLastname: false,
       inputEmail: false,

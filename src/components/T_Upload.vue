@@ -56,7 +56,7 @@ export default {
   data() {
     return {
       // class_id: null,
-      url: "http://localhost:3000/api/helio/score/template"
+      url: "helio/score/template"
     };
   },
 

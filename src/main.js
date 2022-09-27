@@ -13,6 +13,9 @@ import vSelect from 'vue-select';
 import Vue3EasyDataTable from 'vue3-easy-data-table';
 import UploadStudent from "@/components/UploadStd.vue"
 import SelectSchool from "@/components/SelectSchool.vue"
+import axios from "axios";
+
+axios.defaults.baseURL = 'http://localhost:3000/api/';
 
 const gauthOption = {
   clientId: "217234620645-cporrkom4579lu5sdprtth63ph3g21l8.apps.googleusercontent.com",

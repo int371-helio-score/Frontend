@@ -23,7 +23,7 @@
                 v-model="user"
                 type="text"
                 placeholder="อีเมล"
-                class="border-b border-gray50 "
+                class="border-b border-gray50"
               />
             </div>
             <div class="flex justify-center mt-10">
@@ -46,7 +46,9 @@
                 ></i>
               </span>
             </button> -->
-            <div class="text-gray100 flex justify-end text-xs mt-2">ลืมรหัสผ่าน</div>
+            <div class="text-gray100 flex justify-end text-xs mt-2">
+              ลืมรหัสผ่าน
+            </div>
           </div>
 
           <div class="flex justify-center mt-14 lg:mx-20 md:mx-10 mx-20">
@@ -84,8 +86,7 @@ const callback = (response) => {
   // This callback will be triggered when the user selects or login to
   // his Google account from the popup
   const userData = decodeCredential(response.credential);
-  const url =
-    "https://helioscore.sytes.net/backend/api/helio/account/google/redirect";
+  const url = "helio/account/google/redirect";
   axios
     .post(url, {
       firstName: userData.given_name,
@@ -118,7 +119,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      url: "https://helioscore.sytes.net/backend/api/helio/account/login",
+      url: "helio/account/login",
       user: "",
       pass: "",
       email: "",
@@ -127,7 +128,7 @@ export default {
 
   methods: {
     async login() {
-      console.log(this.pass);
+      // console.log(this.pass);
       if (!this.user && !this.pass) {
         alert("กรุณากรอก อีเมล และ รหัสผ่าน");
       } else if (!this.user) {
@@ -144,7 +145,7 @@ export default {
             if (res.data.statusCode === 200) {
               localStorage.setItem("token", res.data.data.token);
               return this.$router.push("/helioscore");
-            } else if(res.data.statusCode === 403){
+            } else if (res.data.statusCode === 403) {
               alert("อีเมล และ หรัสผ่านไม่ถูกต้อง");
               (this.user = ""), (this.pass = "");
             }
@@ -161,7 +162,7 @@ export default {
 </script>
 
 <style scoped>
-::placeholder { 
+::placeholder {
   color: #c4c4c4;
 }
 .background {
@@ -186,7 +187,7 @@ span {
   text-sm;
 }
 input {
-  @apply text-primary w-full px-2 ;
+  @apply text-primary w-full px-2;
   font-size: small;
 }
 </style>

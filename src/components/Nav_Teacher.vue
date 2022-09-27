@@ -57,7 +57,10 @@
 
           <!-- edit profile -->
 
-          <div v-else-if="edit" class="grid grid-cols-2 lg:mx-20 mt-12 md:mx-10 mx-5">
+          <div
+            v-else-if="edit"
+            class="grid grid-cols-2 lg:mx-20 mt-12 md:mx-10 mx-5"
+          >
             <div class="box" v-if="!showEditPass">
               <p class="title">ชื่อ</p>
               <input
@@ -224,7 +227,7 @@ export default {
     return {
       account: [],
       showModal: false,
-      url: "https://helioscore.sytes.net/backend/api/helio/account/info",
+      url: "helio/account/info",
       edit: false,
       editPassword: false,
       inputFirstname: false,
@@ -242,17 +245,18 @@ export default {
   },
 
   methods: {
-    async getAccount() {
+    getAccount() {
       try {
-        const response = await axios.get(
-          "https://helioscore.sytes.net/backend/api/helio/account/info",
-          {
+        axios
+          .get(this.url, {
             headers: {
               Authorization: localStorage.getItem("token"),
             },
-          }
-        );
-        this.account = response.data.data;
+          })
+          .then((res) => {
+            this.account = res.data.data;
+            // console.log(this.account);
+          });
       } catch (error) {
         console.log(`Could not get! ${error}`);
       }
@@ -284,7 +288,7 @@ export default {
 
     logout() {
       localStorage.removeItem("token");
-      localStorage.removeItem("school")
+      localStorage.removeItem("school");
       return this.$router.push("/");
     },
 
@@ -322,7 +326,7 @@ export default {
         currentPassword: this.currentPass,
       };
       axios
-        .patch("https://helioscore.sytes.net/backend/api/helio/account/password", data, {
+        .patch("helio/account/password", data, {
           headers: {
             Authorization: localStorage.getItem("token"),
           },

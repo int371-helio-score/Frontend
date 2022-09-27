@@ -103,7 +103,7 @@ export default {
   data() {
     return {
       classroom: [],
-      url: "https://helioscore.sytes.net/backend/api/helio/class",
+      url: "helio/class",
       subject: "",
       subjectId: null,
       classId: null,

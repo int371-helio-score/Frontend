@@ -66,8 +66,8 @@ export default {
     return {
       tags: [],
       inputRoom: false,
-      url: "https://helioscore.sytes.net/backend/api/helio/subject",
-      urlClass: "https://helioscore.sytes.net/backend/api/helio/class",
+      url: "helio/subject",
+      urlClass: "helio/class",
       subjectId: null,
       classroom: [],
       classId: null,
