@@ -1,6 +1,7 @@
 <template>
   <div class="background sm:bg-light bg-white">
     <div class="md:grid md:grid-cols-2 h-screen">
+      <!-- image -->
       <div>
         <img
           src="http://localhost:3000/public/images/LoginHelio.png"
@@ -8,20 +9,21 @@
         />
       </div>
 
+      <!-- login -->
       <div class="box bg-white">
         <div class="pt-14 text-xl font-bold text-primary justify-center flex">
           <h1>เข้าสู่ระบบ</h1>
         </div>
 
-        <form @submit.prevent="login" class="">
-          <div class="pt-2">
-            <div class="flex justify-center mt-20">
+        <form @submit.prevent="login">
+          <div class="pt-2 lg:mx-20 md:mx-12 mx-20">
+            <div class="flex justify-center lg:mt-20 md:mt-10 mt-20">
               <span class="material-symbols-outlined"> alternate_email </span>
               <input
                 v-model="user"
                 type="text"
                 placeholder="อีเมล"
-                class="border-b border-gray50"
+                class="border-b border-gray50 "
               />
             </div>
             <div class="flex justify-center mt-10">
@@ -44,11 +46,11 @@
                 ></i>
               </span>
             </button> -->
-            <!-- <div class="text-primary flex justify-end mr-24">ลืมรหัสผ่าน</div> -->
+            <div class="text-gray100 flex justify-end text-xs mt-2">ลืมรหัสผ่าน</div>
           </div>
 
-          <div class="flex justify-center mt-14">
-            <button class="bg-primary rounded-md w-56 justify-center flex py-2">
+          <div class="flex justify-center mt-14 lg:mx-20 md:mx-10 mx-20">
+            <button class="bg-primary rounded w-full justify-center flex py-2">
               <p class="text-white text-sm">เข้าสู่ระบบ</p>
             </button>
           </div>
@@ -58,11 +60,11 @@
           <p>or</p>
         </div>
 
-        <div class="flex justify-center">
+        <div class="flex justify-center lg:mx-20 md:mx-10 mx-20">
           <GoogleLogin :callback="callback" />
         </div>
 
-        <div class="flex justify-center mt-10 text-sm">
+        <div class="flex justify-center mt-10 md:text-sm text-xs">
           <p class="inline-block text-gray100">หากคุณเป็นสมาชิกใหม่</p>
           <p class="inline-block text-primary underline">
             <a href="/helioscore/signup"> สร้างบัญชี</a>
@@ -82,7 +84,8 @@ const callback = (response) => {
   // This callback will be triggered when the user selects or login to
   // his Google account from the popup
   const userData = decodeCredential(response.credential);
-  const url = "http://localhost:3000/api/helio/account/google/redirect";
+  const url =
+    "https://helioscore.sytes.net/backend/api/helio/account/google/redirect";
   axios
     .post(url, {
       firstName: userData.given_name,
@@ -115,7 +118,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      url: "http://localhost:3000/api/helio/account/login",
+      url: "https://helioscore.sytes.net/backend/api/helio/account/login",
       user: "",
       pass: "",
       email: "",
@@ -141,12 +144,15 @@ export default {
             if (res.data.statusCode === 200) {
               localStorage.setItem("token", res.data.data.token);
               return this.$router.push("/helioscore");
+            } else if(res.data.statusCode === 403){
+              alert("อีเมล และ หรัสผ่านไม่ถูกต้อง");
+              (this.user = ""), (this.pass = "");
             }
           })
-          .catch((err) => {
-            alert(err.response.data.message);
-            this.user = "",
-            this.pass = ""
+          .catch(() => {
+            // alert(err.response.data.message);
+            alert("อีเมล และ หรัสผ่านไม่ถูกต้อง");
+            (this.user = ""), (this.pass = "");
           });
       }
     },
@@ -155,7 +161,7 @@ export default {
 </script>
 
 <style scoped>
-::placeholder {
+::placeholder { 
   color: #c4c4c4;
 }
 .background {
@@ -175,13 +181,12 @@ img {
 }
 span {
   color: #b3dbfb;
-  @apply xl:mr-1 xl:text-base;
+  @apply lg:mr-1 lg:text-base 
+  md:text-base
+  text-sm;
 }
 input {
-  @apply text-primary px-2 lg:w-56;
+  @apply text-primary w-full px-2 ;
   font-size: small;
-}
-.google {
-  @apply xl:w-20 xl:h-20;
 }
 </style>

@@ -73,10 +73,10 @@ export default {
   components: { SidebarTeacher },
   data() {
     return {
-      url: "http://localhost:3000/api/helio/subject",
+      url: "https://helioscore.sytes.net/backend/api/helio/subject",
       subjects: null,
       totalRoom: "",
-      academic: "http://localhost:3000/api/helio/academic",
+      academic: "https://helioscore.sytes.net/backend/api/helio/academic",
       academics: [],
       picture: "",
       selected: "",
@@ -102,7 +102,7 @@ export default {
     async getAcademics() {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/helio/academic",
+          "https://helioscore.sytes.net/backend/api/helio/academic",
           {
             headers: {
               Authorization: localStorage.getItem("token"),
@@ -138,7 +138,7 @@ export default {
     },
 
     getPicture() {
-      return "http://localhost:3000/public/images/pic1.png";
+      return "https://helioscore.sytes.net/backend/public/images/pic1.png";
     },
   },
 };

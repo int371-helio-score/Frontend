@@ -12,6 +12,7 @@ import vue3GoogleLogin from 'vue3-google-login'
 import vSelect from 'vue-select';
 import Vue3EasyDataTable from 'vue3-easy-data-table';
 import UploadStudent from "@/components/UploadStd.vue"
+import SelectSchool from "@/components/SelectSchool.vue"
 
 const gauthOption = {
   clientId: "217234620645-cporrkom4579lu5sdprtth63ph3g21l8.apps.googleusercontent.com",
@@ -31,4 +32,5 @@ app.component("sidebarTeacher", SidebarTeacher);
 app.component('v-select', vSelect);
 app.component('EasyDataTable', Vue3EasyDataTable);
 app.component("uploadStd", UploadStudent);
+app.component("selectSchool", SelectSchool);
 app.mount("#app");

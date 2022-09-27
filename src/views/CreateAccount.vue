@@ -3,203 +3,212 @@
     <div class="md:grid md:grid-cols-2 h-full">
       <div>
         <img
-          src="http://localhost:3000/public/images/LoginHelio.png"
+          src="https://helioscore.sytes.net/backend/public/images/LoginHelio.png"
           class="justify-center place-content-center h-screen md:block hidden"
         />
       </div>
 
       <div class="box bg-white">
         <div class="pt-14 text-xl font-bold text-primary justify-center flex">
-          <h1>สร้างบัญชี</h1>
+          <p>สร้างบัญชี</p>
         </div>
 
-        <div class="flex justify-center mt-10">
-          <span class="material-symbols-outlined self-center"> school </span>
-          <v-select
-            class="select lg:w-56 placeholder-opacity-60 placeholder-gray-400"
-            placeholder="กรุณาเลือกโรงเรียน"
-            label="schoolName"
-            v-model="test"
-            :filterable="false"
-            :options="paginated"
-            :reduce="(school) => school.schoolId"
-            @open="onOpen"
-            @close="onClose"
-            @search="(query) => (school = query)"
-          >
-            <template #list-footer>
-              <li v-show="hasNextPage" ref="load" class="loader">
-                Loading more options...
-              </li>
-            </template>
-          </v-select>
+        <div v-if="!nextForm">
+          <selectSchool></selectSchool>
         </div>
-        <sup v-show="inputSchool" class="text-red-500 flex justify-center mt-4">
-          กรุณาเลือกโรงเรียน
-        </sup>
-        <div class="">
+
+        <div v-else>
           <div class="flex justify-center mt-10">
-            <span class="material-symbols-outlined"> account_circle </span>
-            <input
-              v-model="firstname"
-              type="text"
-              placeholder="ชื่อ"
-              class="border-b border-gray50"
-            />
+            <span class="material-symbols-outlined self-center"> school </span>
+            <v-select
+              class="select lg:w-56 placeholder-opacity-60 placeholder-gray-400"
+              placeholder="กรุณาเลือกโรงเรียน"
+              label="schoolName"
+              v-model="test"
+              :filterable="false"
+              :options="paginated"
+              :reduce="(school) => school.schoolId"
+              @open="onOpen"
+              @close="onClose"
+              @search="(query) => (school = query)"
+            >
+              <template #list-footer>
+                <li v-show="hasNextPage" ref="load" class="loader">
+                  Loading more options...
+                </li>
+              </template>
+            </v-select>
           </div>
           <sup
-            v-show="inputFirstname"
+            v-show="inputSchool"
             class="text-red-500 flex justify-center mt-4"
           >
-            กรุณากรอกชื่อจริง
+            กรุณาเลือกโรงเรียน
           </sup>
-
-          <div class="flex justify-center mt-10">
-            <span class="material-symbols-outlined"> account_circle </span>
-            <input
-              v-model="lastname"
-              type="text"
-              placeholder="นามสกุล"
-              class="border-b border-gray50"
-            />
-          </div>
-          <sup
-            v-show="inputLastname"
-            class="text-red-500 flex justify-center mt-4"
-          >
-            กรุณากรอกนามสกุล
-          </sup>
-
-          <div class="flex justify-center mt-10">
-            <span class="material-symbols-outlined"> alternate_email </span>
-            <input
-              v-model="email"
-              type="text"
-              placeholder="อีเมล"
-              class="border-b border-gray50"
-            />
-          </div>
-          <sup
-            v-show="inputEmail"
-            class="text-red-500 flex justify-center mt-4"
-          >
-            กรุณากรอกอีเมล
-          </sup>
-
-          <div class="flex justify-center mt-10">
-            <span class="material-symbols-outlined"> lock </span>
-            <input
-              v-model="password"
-              @input="passwordCheck"
-              type="password"
-              placeholder="รหัสผ่าน"
-              class="border-b border-gray50"
-            />
-          </div>
-          <div></div>
-          <sup
-            v-show="inputPassword"
-            class="text-red-500 flex justify-center mt-4"
-          >
-            กรุณากรอกรหัสผ่าน
-          </sup>
-          <div class="flex justify-start pl-24 mt-1">
-            <div>
-              <p
-                class="frmValidation"
-                :class="{ 'frmValidation--passed': password.length > 7 }"
-              >
-                <i
-                  class="frmIcon fas"
-                  :class="password.length > 7 ? 'fa-check' : 'fa-times'"
-                ></i>
-                ความยาว 8 ตัวอักษรขึ้นไป
-              </p>
-
-              <p
-                class="frmValidation"
-                :class="{ 'frmValidation--passed': inputUpperCase }"
-              >
-                <i
-                  class="frmIcon fas"
-                  :class="inputUpperCase ? 'fa-check' : 'fa-times'"
-                ></i>
-                อักษร A-Z
-              </p>
-              <p
-                class="frmValidation"
-                :class="{ 'frmValidation--passed': inputLowerCase }"
-              >
-                <i
-                  class="frmIcon fas"
-                  :class="inputLowerCase ? 'fa-check' : 'fa-times'"
-                ></i>
-                อักษร a-z
-              </p>
-              <p
-                class="frmValidation"
-                :class="{ 'frmValidation--passed': inputNum }"
-              >
-                <i
-                  class="frmIcon fas"
-                  :class="inputNum ? 'fa-check' : 'fa-times'"
-                ></i>
-                ตัวเลข 0-9
-              </p>
-              <p
-                class="frmValidation"
-                :class="{ 'frmValidation--passed': inputSpecail }"
-              >
-                <i
-                  class="frmIcon fas"
-                  :class="inputSpecail ? 'fa-check' : 'fa-times'"
-                ></i>
-                อักษรพิเศษ ! @ # % ^ & * ) ( + = . _ -
-              </p>
+          <div class="">
+            <div class="flex justify-center mt-10">
+              <span class="material-symbols-outlined"> account_circle </span>
+              <input
+                v-model="firstname"
+                type="text"
+                placeholder="ชื่อ"
+                class="border-b border-gray50"
+              />
             </div>
-          </div>
+            <sup
+              v-show="inputFirstname"
+              class="text-red-500 flex justify-center mt-4"
+            >
+              กรุณากรอกชื่อจริง
+            </sup>
 
-          <div class="flex justify-center mt-5">
-            <span class="material-symbols-outlined"> lock </span>
-            <input
-              v-model="confirmPassword"
-              type="password"
-              placeholder="ยืนยันรหัสผ่าน"
-              class="border-b border-gray50"
-            />
-          </div>
-          <sup
-            v-show="inputConfirmPassword"
-            class="text-red-500 flex justify-center mt-4"
-          >
-            กรุณายืนยันรหัสผ่าน
-          </sup>
+            <div class="flex justify-center mt-10">
+              <span class="material-symbols-outlined"> account_circle </span>
+              <input
+                v-model="lastname"
+                type="text"
+                placeholder="นามสกุล"
+                class="border-b border-gray50"
+              />
+            </div>
+            <sup
+              v-show="inputLastname"
+              class="text-red-500 flex justify-center mt-4"
+            >
+              กรุณากรอกนามสกุล
+            </sup>
 
-          <button class="button" @click="toggleShow">
-            <span class="icon is-small is-right">
-              <!-- <i
+            <div class="flex justify-center mt-10">
+              <span class="material-symbols-outlined"> alternate_email </span>
+              <input
+                v-model="email"
+                type="text"
+                placeholder="อีเมล"
+                class="border-b border-gray50"
+              />
+            </div>
+            <sup
+              v-show="inputEmail"
+              class="text-red-500 flex justify-center mt-4"
+            >
+              กรุณากรอกอีเมล
+            </sup>
+
+            <div class="flex justify-center mt-10">
+              <span class="material-symbols-outlined"> lock </span>
+              <input
+                v-model="password"
+                @input="passwordCheck"
+                type="password"
+                placeholder="รหัสผ่าน"
+                class="border-b border-gray50"
+              />
+            </div>
+            <div></div>
+            <sup
+              v-show="inputPassword"
+              class="text-red-500 flex justify-center mt-4"
+            >
+              กรุณากรอกรหัสผ่าน
+            </sup>
+            <div class="flex justify-start pl-24 mt-1">
+              <div>
+                <p
+                  class="frmValidation"
+                  :class="{ 'frmValidation--passed': password.length > 7 }"
+                >
+                  <i
+                    class="frmIcon fas"
+                    :class="password.length > 7 ? 'fa-check' : 'fa-times'"
+                  ></i>
+                  ความยาว 8 ตัวอักษรขึ้นไป
+                </p>
+
+                <p
+                  class="frmValidation"
+                  :class="{ 'frmValidation--passed': inputUpperCase }"
+                >
+                  <i
+                    class="frmIcon fas"
+                    :class="inputUpperCase ? 'fa-check' : 'fa-times'"
+                  ></i>
+                  อักษร A-Z
+                </p>
+                <p
+                  class="frmValidation"
+                  :class="{ 'frmValidation--passed': inputLowerCase }"
+                >
+                  <i
+                    class="frmIcon fas"
+                    :class="inputLowerCase ? 'fa-check' : 'fa-times'"
+                  ></i>
+                  อักษร a-z
+                </p>
+                <p
+                  class="frmValidation"
+                  :class="{ 'frmValidation--passed': inputNum }"
+                >
+                  <i
+                    class="frmIcon fas"
+                    :class="inputNum ? 'fa-check' : 'fa-times'"
+                  ></i>
+                  ตัวเลข 0-9
+                </p>
+                <p
+                  class="frmValidation"
+                  :class="{ 'frmValidation--passed': inputSpecail }"
+                >
+                  <i
+                    class="frmIcon fas"
+                    :class="inputSpecail ? 'fa-check' : 'fa-times'"
+                  ></i>
+                  อักษรพิเศษ ! @ # % ^ & * ) ( + = . _ -
+                </p>
+              </div>
+            </div>
+
+            <div class="flex justify-center mt-5">
+              <span class="material-symbols-outlined"> lock </span>
+              <input
+                v-model="confirmPassword"
+                type="password"
+                placeholder="ยืนยันรหัสผ่าน"
+                class="border-b border-gray50"
+              />
+            </div>
+            <sup
+              v-show="inputConfirmPassword"
+              class="text-red-500 flex justify-center mt-4"
+            >
+              กรุณายืนยันรหัสผ่าน
+            </sup>
+
+            <button class="button" @click="toggleShow">
+              <span class="icon is-small is-right">
+                <!-- <i
                   class="fas"
                   :class="{
                     'fa-eye-slash': showPassword,
                     'fa-eye': !showPassword,
                   }"
                 ></i> -->
-            </span>
-          </button>
-        </div>
+              </span>
+            </button>
+          </div>
 
-        <div class="flex justify-center mt-2" @click="createAccount()">
-          <button class="bg-primary rounded-md w-40 justify-center flex">
-            <p class="text-white">สร้างบัญชี</p>
-          </button>
-        </div>
+          <div class="flex justify-center mt-2" @click="createAccount()">
+            <button class="bg-primary rounded-md w-40 justify-center flex">
+              <p class="text-white">สร้างบัญชี</p>
+            </button>
+          </div>
 
-        <div class="flex justify-center mt-10 text-sm">
-          <p class="inline-block text-gray100">หากคุณมีบัญชีแล้ว</p>
-          <p class="inline-block text-primary underline">
-            <a href="/"> เข้าสู่ระบบ</a>
-          </p>
-          <p class="inline-block text-gray100">ที่นี่</p>
+          <div class="flex justify-center mt-10 text-sm">
+            <p class="inline-block text-gray100">หากคุณมีบัญชีแล้ว</p>
+            <p class="inline-block text-primary underline">
+              <a href="/"> เข้าสู่ระบบ</a>
+            </p>
+            <p class="inline-block text-gray100">ที่นี่</p>
+          </div>
         </div>
       </div>
     </div>
@@ -212,8 +221,8 @@ import axios from "axios";
 export default {
   data() {
     return {
-      url: "http://localhost:3000/api/helio",
-      urlSchool: "http://localhost:3000/api/helio/school",
+      url: "https://helioscore.sytes.net/backend/api/helio",
+      urlSchool: "https://helioscore.sytes.net/backend/api/helio/school",
       inputFirstname: false,
       inputLastname: false,
       inputEmail: false,
@@ -235,6 +244,7 @@ export default {
       inputLowerCase: false,
       inputUpperCase: false,
       inputSpecail: false,
+      nextForm: false,
     };
   },
 
@@ -341,7 +351,9 @@ export default {
             localStorage.setItem("token", res.data.data.token);
             // console.log(res.data.data.token);
 
-            return this.$router.push("/helioscore") && alert("สร้างบัญชีสำเร็จ");
+            return (
+              this.$router.push("/helioscore") && alert("สร้างบัญชีสำเร็จ")
+            );
           }
         })
         .catch((err) => {
@@ -454,13 +466,6 @@ h1 {
 .frmValidation--passed {
   color: #0fa140;
 }
-/* .frmIcon {
-  color: #eb0029;
-}
-.frmValidation--passed .frmIcon {
-  color: #0fa140;
-} */
-
 .howToBuild {
   text-align: center;
   color: purple;

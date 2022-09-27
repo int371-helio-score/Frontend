@@ -228,12 +228,12 @@ export default {
   props: ["classId", "subjectName"],
   data() {
     return {
-      url: "http://localhost:3000/api/helio/score",
-      template: "http://localhost:3000/api/helio/score/template",
-      templateStd: "http://localhost:3000/api/helio/studentList/template",
-      announceUrl: "http://localhost:3000/api/helio/score/toAnnounce",
-      importStd: "http://localhost:3000/api/helio/studentList",
-      sent: "http://localhost:3000/api/helio/mail",
+      url: "https://helioscore.sytes.net/backend/api/helio/score",
+      template: "https://helioscore.sytes.net/backend/api/helio/score/template",
+      templateStd: "https://helioscore.sytes.net/backend/api/helio/studentList/template",
+      announceUrl: "https://helioscore.sytes.net/backendapi/helio/score/toAnnounce",
+      importStd: "https://helioscore.sytes.net/backend/api/helio/studentList",
+      sent: "https://helioscore.sytes.net/backend/api/helio/mail",
       toAnnounce: [],
       std: [],
       grade: null,
