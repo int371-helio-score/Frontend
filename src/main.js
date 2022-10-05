@@ -4,7 +4,7 @@ import router from "./router";
 import "./assets/tailwind.css";
 import 'vue-select/dist/vue-select.css';
 import 'vue3-easy-data-table/dist/style.css';
-import NavTeacher from "@/components/Nav_Teacher.vue";
+import NavTeacher from "@/components/Navigation_bar.vue";
 import SidebarTeacher from "@/components/SidebarTeacher.vue";
 import UploadFile from "@/components/T_Upload.vue";
 import Announce from "@/components/T_Announce.vue";

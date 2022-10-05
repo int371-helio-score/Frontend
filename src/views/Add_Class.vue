@@ -91,7 +91,7 @@ export default {
     },
 
     addClassroom() {
-      console.log("Hi");
+      // console.log("Hi");
       console.log(this.inputRoom);
       let data = {
         class: this.tags,
