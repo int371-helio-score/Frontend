@@ -41,7 +41,7 @@
           </div>
           <sup
             v-show="inputSchool"
-            class="text-red-500 flex justify-center mt-4"
+            class="text-red-500 flex mt-4"
           >
             กรุณาเลือกโรงเรียน
           </sup>
@@ -58,7 +58,7 @@
             </div>
             <sup
               v-show="inputFirstname"
-              class="text-red-500 flex justify-center mt-4"
+              class="text-red-500 flex mt-4"
             >
               กรุณากรอกชื่อจริง
             </sup>
@@ -74,7 +74,7 @@
             </div>
             <sup
               v-show="inputLastname"
-              class="text-red-500 flex justify-center mt-4"
+              class="text-red-500 flex mt-4"
             >
               กรุณากรอกนามสกุล
             </sup>
@@ -90,7 +90,7 @@
             </div>
             <sup
               v-show="inputEmail"
-              class="text-red-500 flex justify-center mt-4"
+              class="text-red-500 flex mt-4"
             >
               กรุณากรอกอีเมล
             </sup>
@@ -108,7 +108,7 @@
             <div></div>
             <sup
               v-show="inputPassword"
-              class="text-red-500 flex justify-center mt-4"
+              class="text-red-500 flex mt-4"
             >
               กรุณากรอกรหัสผ่าน
             </sup>
@@ -180,7 +180,7 @@
             </div>
             <sup
               v-show="inputConfirmPassword"
-              class="text-red-500 flex justify-center mt-4"
+              class="text-red-500 flex mt-4"
             >
               กรุณายืนยันรหัสผ่าน
             </sup>
@@ -426,9 +426,7 @@ input {
   @apply px-2 py-1 mb-4 w-full sm:w-32 md:w-40 lg:w-56 lg:text-base;
 }
 sup {
-  @apply justify-end pr-14
-  lg:pr-20
-  md:pr-16;
+  @apply justify-end;
 }
 .container {
   width: 400px;

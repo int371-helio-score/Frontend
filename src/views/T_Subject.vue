@@ -41,7 +41,7 @@
                   classId: subject.grade,
                 },
                 query: {
-                  subjectId: subject.subject_id,
+                  subjectId: subject._id,
                   classId: subject.grade,
                 },
               }"
@@ -138,7 +138,7 @@ export default {
     },
 
     getPicture() {
-      return "https://helioscore.sytes.net/backend/public/images/pic1.png";
+      return "http://localhost:3000/public/images/pic1.png";
     },
   },
 };
