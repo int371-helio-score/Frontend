@@ -3,25 +3,25 @@
     <div class="md:grid md:grid-cols-2 h-full">
       <div>
         <img
-          src="http://localhost:3000/api/public/images/LoginHelio.png"
+          src="http://localhost:3000/public/images/LoginHelio.png"
           class="justify-center place-content-center h-screen md:block hidden"
         />
       </div>
 
       <div class="box bg-white">
-        <div class="pt-14 text-xl font-bold text-primary justify-center flex">
+        <div class="sm:pt-14 text-xl font-bold text-primary justify-center flex">
           <p>สร้างบัญชี</p>
         </div>
 
-        <div v-if="!nextForm">
-          <selectSchool></selectSchool>
-        </div>
+        <!-- <div v-if="!nextForm"> -->
+        <!-- <selectSchool></selectSchool> -->
+        <!-- </div> -->
 
-        <div v-else>
+        <div class="md:mx-10 lg:mx-18 sm:mx-10 mx-14">
           <div class="flex justify-center mt-10">
             <span class="material-symbols-outlined self-center"> school </span>
             <v-select
-              class="select lg:w-56 placeholder-opacity-60 placeholder-gray-400"
+              class="select w-full placeholder-opacity-60 placeholder-gray-400"
               placeholder="กรุณาเลือกโรงเรียน"
               label="schoolName"
               v-model="test"
@@ -45,6 +45,7 @@
           >
             กรุณาเลือกโรงเรียน
           </sup>
+
           <div class="">
             <div class="flex justify-center mt-10">
               <span class="material-symbols-outlined"> account_circle </span>
@@ -52,7 +53,7 @@
                 v-model="firstname"
                 type="text"
                 placeholder="ชื่อ"
-                class="border-b border-gray50"
+                class="border-b border-gray50 w-full"
               />
             </div>
             <sup
@@ -68,7 +69,7 @@
                 v-model="lastname"
                 type="text"
                 placeholder="นามสกุล"
-                class="border-b border-gray50"
+                class="border-b border-gray50 w-full"
               />
             </div>
             <sup
@@ -84,7 +85,7 @@
                 v-model="email"
                 type="text"
                 placeholder="อีเมล"
-                class="border-b border-gray50"
+                class="border-b border-gray50 w-full"
               />
             </div>
             <sup
@@ -101,7 +102,7 @@
                 @input="passwordCheck"
                 type="password"
                 placeholder="รหัสผ่าน"
-                class="border-b border-gray50"
+                class="border-b border-gray50 w-full"
               />
             </div>
             <div></div>
@@ -111,7 +112,8 @@
             >
               กรุณากรอกรหัสผ่าน
             </sup>
-            <div class="flex justify-start pl-24 mt-1">
+
+            <div class="flex justify-start lg:pl-5 md:pl-4 sm:pl-4 mt-1">
               <div>
                 <p
                   class="frmValidation"
@@ -173,7 +175,7 @@
                 v-model="confirmPassword"
                 type="password"
                 placeholder="ยืนยันรหัสผ่าน"
-                class="border-b border-gray50"
+                class="border-b border-gray50 w-full"
               />
             </div>
             <sup
@@ -197,8 +199,8 @@
           </div>
 
           <div class="flex justify-center mt-2" @click="createAccount()">
-            <button class="bg-primary rounded-md w-40 justify-center flex">
-              <p class="text-white">สร้างบัญชี</p>
+            <button class="bg-primary rounded justify-center flex w-full py-1">
+              <p class="text-white md:text-sm lg:text-base">สร้างบัญชี</p>
             </button>
           </div>
 
@@ -217,7 +219,6 @@
 
 <script>
 import axios from "axios";
-
 export default {
   data() {
     return {
@@ -390,7 +391,7 @@ export default {
   color: #c4c4c4;
 }
 .background {
-  @apply sm:pt-20 md:pt-0 h-full;
+  @apply sm:pt-10 sm:pb-10 pb-8 md:pt-0 h-full;
 }
 img {
   @apply h-auto
@@ -399,7 +400,7 @@ img {
   md:px-12 md:py-28;
 }
 .box {
-  @apply h-auto pb-2
+  @apply h-auto pb-2 rounded-lg pt-8
   xl:mr-80 xl:my-20
   lg:my-20 lg:mr-28
   md:my-16 md:mr-20 md:mx-0 md:rounded-xl
@@ -407,11 +408,12 @@ img {
 }
 span {
   color: #b3dbfb;
-  @apply xl:mr-1 xl:text-base;
+  @apply mr-1 xl:text-base
+  md:text-sm
+  sm:text-sm;
 }
 input {
-  @apply px-2 lg:w-56;
-  font-size: small;
+  @apply px-2 text-sm md:text-base;
 }
 .google {
   @apply xl:w-20 xl:h-20;
