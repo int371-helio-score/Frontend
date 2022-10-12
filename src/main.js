@@ -15,7 +15,7 @@ import UploadStudent from "@/components/UploadStd.vue"
 import SelectSchool from "@/components/SelectSchool.vue"
 import axios from "axios";
 
-axios.defaults.baseURL = 'http://20.82.6.4/backend/api/';
+axios.defaults.baseURL = 'https://test-helioscore.sytes.net/backend/api/';
 
 const gauthOption = {
   clientId: "217234620645-cporrkom4579lu5sdprtth63ph3g21l8.apps.googleusercontent.com",
