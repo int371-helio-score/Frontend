@@ -4,7 +4,7 @@
       <!-- image -->
       <div>
         <img
-          src="https://helioscore.sytes.net/backend/public/images/LoginHelio.png"
+          src="http://20.82.6.4/backend/public/images/LoginHelio.png"
           class="justify-center place-content-center h-screen md:block hidden"
         />
       </div>
@@ -115,7 +115,6 @@ const callback = (response) => {
 
 <script>
 import axios from "axios";
-
 export default {
   data() {
     return {
