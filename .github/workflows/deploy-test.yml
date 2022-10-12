@@ -1,0 +1,50 @@
+name: frontend Testing
+
+on:
+  push:
+    branches:
+      - "uat"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: build docker images
+        run: |
+          docker build . --tag ghcr.io/int371-helio-score/helio-score-fe:test
+          docker images
+      - name: push docker image to registy
+        run: |
+          docker push ghcr.io/int371-helio-score/helio-score-fe:test
+  deploy-test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.T_IP }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            export CR_PAT=${{ secrets.GITHUB_TOKEN }}
+            echo $CR_PAT | docker login ghcr.io -u giftsnt --password-stdin
+            docker pull ghcr.io/int371-helio-score/helio-score-fe:test
+            docker images
+            docker rm frontend -f
+            docker run -p 80:80 -d --name frontend --network helio-network --ip 172.18.0.4 ghcr.io/int371-helio-score/helio-score-fe:test
+  test:
+    needs: deploy-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: curl check
+        run: curl http://${{ secrets.T_IP }} -I
