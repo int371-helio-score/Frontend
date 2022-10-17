@@ -26,13 +26,13 @@
                   :taggable="true"
                   @tag="addTag"
                 />
+                <sup
+                  v-show="inputRoom"
+                  class="text-red-500 flex justify-center mt-4"
+                >
+                  กรุณาระบุห้องเรียนที่ต้องการเพิ่ม
+                </sup>
               </div>
-              <sup
-                v-show="inputRoom"
-                class="text-red-500 flex justify-center mt-4"
-              >
-                กรุณาระบุห้องเรียนที่ต้องการเพิ่ม
-              </sup>
 
               <div class="flex justify-center">
                 <button
@@ -74,8 +74,7 @@ export default {
     };
   },
 
-  created() {
-  },
+  created() {},
 
   methods: {
     addTag(newTag) {
@@ -83,7 +82,9 @@ export default {
     },
 
     checkInput() {
-      this.inputRoom = this.tags === "" ? true : false;
+      this.inputRoom = this.tags === 0 ? true : false;
+      console.log(this.inputRoom);
+      console.log(this.tags);
       if (this.inputRoom) {
         return;
       }
@@ -91,8 +92,7 @@ export default {
     },
 
     addClassroom() {
-      // console.log("Hi");
-      console.log(this.inputRoom);
+      // console.log(this.inputRoom);
       let data = {
         class: this.tags,
         subjectId: this.subject,

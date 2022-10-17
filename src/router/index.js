@@ -7,6 +7,7 @@ import CreateAccount from "../views/CreateAccount.vue"
 import AddSubject from "../views/Add_Subject.vue"
 import AddSchool from "../views/Add_School.vue"
 import AddClass from "../views/Add_Class.vue"
+import StudentList from "../views/Add_StudentList.vue"
 
 const routes = [
     {
@@ -112,18 +113,11 @@ const routes = [
         component: CreateAccount,
         props: true,
     },
-    // {
-    //     path: "/helioscore/:subjectName/:grade/upload",
-    //     name: "Upload",
-    //     component: Upload,
-    //     props: true,
-    // },
-    // {
-    //     path: "/helioscore/:subjectName/:grade/announce",
-    //     name: "announce",
-    //     component: Announce,
-    //     props: true,
-    // },
+    {
+        path: "/helioscore/newstudentlist",
+        name: "newstd",
+        component: StudentList,
+    }
 ];
 
 const router = createRouter({

@@ -40,6 +40,7 @@
         </div>
 
         <div class="order">
+
           <div v-for="room in classroom" :key="room.room">
             <router-link
               :to="{
@@ -59,6 +60,8 @@
                 },
               }"
             >
+            <!-- {{ subjectId }}
+            {{ classId }} -->
               <div class="class bg-white px-10 pt-10 pb-2 text-sm text-center">
                 <div class="mb-5">ม.{{ classId }} ห้อง {{ room.room }}</div>
                 <div>{{ room.totalStudent }} คน</div>
@@ -85,6 +88,7 @@ export default {
     this.classId = this.$route.query.classId;
     // console.log(this.subjectName)
     // console.log(this.subjectId)
+    // console.log(this.classId)
     await this.getClassroom();
   },
 
@@ -120,7 +124,7 @@ export default {
           })
           .then((res) => {
             this.classroom = res.data.data.results;
-            console.log(res.data.data);
+            // console.log(res.data.data);
             return res.data.data.results;
           });
       } catch (error) {

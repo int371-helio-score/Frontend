@@ -5,7 +5,7 @@
         <div class="layout">
           <router-link to="/helioscore">
             <div class="object">
-              <span class="material-symbols-outlined home mr-2"> home </span>
+              <span class="material-symbols-outlined home  mr-2"> home </span>
               <div
                 class="sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 text-primary"
               >
@@ -15,14 +15,14 @@
           </router-link>
         </div>
 
-        <!-- <div class="layout">
-        <router-link to="/helioscore/newclassroom">
+        <div class="layout">
+        <router-link to="/helioscore/newstudentlist">
           <div class="object">
-            <span class="material-symbols-outlined"> group </span>
-            <div>จัดการรายชื่อ</div>
+            <span class="material-symbols-outlined mr-2"> group </span>
+            <div class="sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 text-primary">จัดการรายชื่อ</div>
           </div>
         </router-link>
-      </div> -->
+      </div>
 
         <!-- <div class="layout">
         <router-link to="/studentlist">

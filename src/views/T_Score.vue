@@ -17,11 +17,14 @@
           </div>
 
           <div class="my-5 pb-5 pt-15 flex">
-            <div class="text-secondary text-sm md:text-base xl:text-lg pt-3 hidden xl:block">รายชื่อทั้งหมด</div>
+            <div
+              class="text-secondary text-sm md:text-base xl:text-lg pt-3 hidden xl:block"
+            >
+              รายชื่อทั้งหมด
+            </div>
 
             <div class="xl:ml-28 lg:ml-5">
               <div class="grid grid-cols-3 gap-4 xl:gap-4 md:gap-2 pt-3">
-
                 <button class="add" @click="clickUploadStd()">
                   <div
                     class="flex justify-center items-center self-center md:text-xs lg:text-sm"
@@ -31,10 +34,7 @@
                   </div>
                 </button>
 
-                <button
-                  class="add md:block hidden"
-                  @click="clickUpload()"
-                >
+                <button class="add md:block hidden" @click="clickUpload()">
                   <div
                     class="flex justify-center items-center self-center md:text-xs lg:text-sm"
                   >
@@ -58,7 +58,7 @@
         </div>
 
         <!-- รอประกาศคะแนน -->
-        <div  v-if="announce">
+        <div v-if="announce">
           <div class="grid lg:grid-cols-4 md:grid-cols-2 mx-10 gap-4">
             <div
               class="content border-2 rounded-lg md:w-auto md:h-auto bg-white px-10 pt-10 pb-2 text-sm text-center"
@@ -107,7 +107,9 @@
                 </div>
 
                 <div class="flex gap-10 justify-center mt-8">
-                  <div class="flex justify-center ojb bg-white text-primary md:rounded-lg">
+                  <div
+                    class="flex justify-center ojb bg-white text-primary md:rounded-lg"
+                  >
                     <button
                       class="md:w-32 h-12 text-sm"
                       id="custom-btn"
@@ -212,6 +214,14 @@
               <th v-for="(s, index) in list.score" :key="index">{{ s }}</th>
             </tr>
           </table>
+
+          <!-- Manage Score -->
+          <div
+            class="lg:mt-10 flex justify-start sm:mx-10 mx-5 items-center self-center cursor-pointer content-end"
+          >
+            <span class="material-symbols-outlined"> settings </span>
+            <p class="text-sm ml-1 hover:text-primary">การตั้งค่าและแก้ไข</p>
+          </div>
         </div>
       </div>
     </div>
@@ -225,7 +235,7 @@ import SidebarTeacher from "@/components/SidebarTeacher.vue";
 export default {
   components: { SidebarTeacher },
   name: "StudentList",
-  props: ["classId", "subjectName"],
+  props: ["classId", "subjectName", "subId"],
   data() {
     return {
       url: "helio/score",
@@ -250,14 +260,15 @@ export default {
       uploadStd: false,
     };
   },
-  
+
   async created() {
     this.grade = this.$route.params.grade;
     this.room = this.$route.query.room;
     this.class_id = this.$route.query.class_id;
     this.subject_id = this.$route.params.subId;
 
-    // console.log(this.subject_id);
+    console.log("subId: " + this.subject_id);
+    console.log("classId: " + this.class_id);
 
     await this.getStudent(this.$route.query.class_id);
     await this.getAnnounce(this.$route.query.class_id);
@@ -318,9 +329,10 @@ export default {
       let formData = new FormData();
       formData.append("file", this.fileStd);
       formData.append("classId", this.class_id);
-      formData.append("subjectId", this.$route.params.subId);
-      console.log(this.$route.params.subId);
-      console.log(this.room);
+      formData.append("subjectId", this.subject_id);
+      
+      console.log("subId: " + this.subject_id);
+      console.log("classId: " + this.room);
       axios
         .post(`${this.importStd}`, formData, {
           headers: {
@@ -331,7 +343,7 @@ export default {
         .then((res) => {
           if (res.data.statusCode === 200 || res.status === 201) {
             // this.getStudent().$router.go();
-            // console.log(res.data);
+            console.log(res.data);
             (this.fileStd = ""), alert("อัปโหลดราชื่อ สำเร็จ");
             // this.getAnnounce(this.$route.query.class_id);
             this.$router.go();
@@ -369,6 +381,7 @@ export default {
           responseType: "blob",
         })
         .then((response) => {
+          // console.log(response.headers["content-disposition"]);
           window.URL = window.webkitURL || window.URL;
           const contentType = "text/csv";
           const csvFile = new Blob([response.data], { type: contentType });
@@ -393,7 +406,7 @@ export default {
           const downloadURL = window.URL.createObjectURL(csvFile);
           const downloadLink = document.createElement("a");
           downloadLink.href = downloadURL;
-          downloadLink.setAttribute("download", "helioscore.xlsx");
+          downloadLink.setAttribute("download", "helioscore_StudentList.xlsx");
           document.body.appendChild(downloadLink);
           downloadLink.click();
         });
@@ -453,6 +466,7 @@ export default {
           })
           .then((response) => {
             this.toAnnounce = response.data.data.results;
+            console.log(this.toAnnounce);
             return response.data.data.results;
           });
       } catch (error) {
@@ -460,7 +474,6 @@ export default {
       }
     },
   },
-
 };
 </script>
 
@@ -583,7 +596,7 @@ th {
 }
 
 .ojb {
-  @apply md:py-2 ;
+  @apply md:py-2;
 }
 
 .add {
@@ -600,9 +613,8 @@ table {
 table tr td,
 th {
   border: 1px solid #ccc;
-  
 }
-table td{
+table td {
   @apply py-2 px-2;
 }
 .tab {
