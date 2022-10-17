@@ -5,10 +5,10 @@
       <sidebarTeacher />
 
       <div class="data">
-        <div class="sm:mx-10 mx-5 divide-y divide-gray10">
+        <div class="sm:mx-10 md:mx-0 divide-y divide-gray10">
           <div class="title">หน้าหลัก</div>
 
-          <div class="my-5 pt-10 py-5 grid grid-cols-2">
+          <div class="my-5 pt-10 lg:py-5 grid grid-cols-2">
             <div class="flex justify-start">
               <p>วิชาทั้งหมด</p>
             </div>
@@ -57,7 +57,24 @@
                 </div>
               </div>
             </router-link>
+            <div v-show="deletebtn == true">
+              <button
+                class="text-white delete bg-alert cursor-pointer"
+                @click="deleteSubject()"
+              >
+                ลบ
+              </button>
+            </div>
           </div>
+        </div>
+
+        <div class="object" @click="clickDelete()" v-show="deletebtn == false">
+          <span class="material-symbols-outlined mr-2"> edit </span>
+          <p>จัดการรายวิชา</p>
+        </div>
+        <div class="object" v-if="deletebtn" @click="cancleDelete()">
+          <span class="material-symbols-outlined mr-2"> close </span>
+          <p>ยกเลิก</p>
         </div>
       </div>
     </div>
@@ -86,6 +103,7 @@ export default {
           id: "",
         },
       ],
+      deletebtn: false,
     };
   },
 
@@ -99,16 +117,40 @@ export default {
     },
   },
   methods: {
+    clickDelete() {
+      this.deletebtn = true;
+    },
+
+    cancleDelete() {
+      this.deletebtn = false;
+    },
+
+    // async deleteSubject(subjectId){
+    //   axios
+    //     .delete(`${this.remove}/${subjectId}`, {
+    //       headers: {
+    //         Authorization: localStorage.getItem("token"),
+    //       },
+    //     })
+    //     .then((res) => {
+    //       if (res.status === 200) {
+    //         this.cart = this.cart.filter(
+    //           (list) => list.cartItemId !== cartItemId
+    //         );
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       alert(err.response.data);
+    //     });
+    // },
+
     async getAcademics() {
       try {
-        const response = await axios.get(
-          "helio/academic",
-          {
-            headers: {
-              Authorization: localStorage.getItem("token"),
-            },
-          }
-        );
+        const response = await axios.get("helio/academic", {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        });
         this.academics = response.data.data.results;
         this.selected = this.academics[0];
       } catch (error) {
@@ -186,9 +228,20 @@ select {
 md:text-base;
 }
 .data {
-  @apply pl-36 sm:pl-36 w-screen
+  @apply pl-36 pr-10 sm:pl-36 w-screen
   md:pl-44 mt-20
-  lg:pl-60 lg:mt-24 
-  ;
+  lg:pl-60 lg:mt-24;
+}
+.object {
+  @apply flex text-secondary justify-end absolute bottom-8 right-10 items-center cursor-pointer
+  sm:text-sm;
+}
+span {
+  @apply text-lg;
+}
+.delete {
+  text-decoration: underline;
+  @apply lg:text-sm lg:w-full lg:rounded-sm lg:mt-1 
+  flex justify-center;
 }
 </style>

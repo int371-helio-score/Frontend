@@ -8,6 +8,7 @@ import AddSubject from "../views/Add_Subject.vue"
 import AddSchool from "../views/Add_School.vue"
 import AddClass from "../views/Add_Class.vue"
 import StudentList from "../views/Add_StudentList.vue"
+import DeleteScore from "../views/Delete_Score.vue"
 
 const routes = [
     {
@@ -117,7 +118,12 @@ const routes = [
         path: "/helioscore/newstudentlist",
         name: "newstd",
         component: StudentList,
-    }
+    },
+    {
+        path: "/helioscore/deletescore",
+        name: "deletescore",
+        component: DeleteScore,
+    },
 ];
 
 const router = createRouter({

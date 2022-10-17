@@ -10,7 +10,8 @@ module.exports = {
                 secondary2: '#3584C4',
                 gray50: '#C4C4C4',
                 gray100: '#797979',
-                gray10: "#EEEEEE"
+                gray10: "#EEEEEE",
+                alert: "#F5854E",
 
             }
         }

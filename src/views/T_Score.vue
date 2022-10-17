@@ -187,15 +187,15 @@
           v-if="
             (uploadFile == false) & (announce == false) & (uploadStd == false)
           "
-          class="mx-10 tab"
+          class="mx-10"
           :class="{ 'overflow-x-auto': scroll }"
         >
           <table class="h-fit rounded-md">
             <tr class="bg-babyblue p-4">
-              <th>เลขที่</th>
+              <th class="px-2">เลขที่</th>
               <th>รหัส</th>
               <th>ชื่อ-นามสกุล</th>
-              <th v-for="tt in std" :key="tt._id">
+              <th v-for="tt in std" :key="tt._id" class="px-2">
                 {{ tt.title }}
               </th>
             </tr>
@@ -217,10 +217,14 @@
 
           <!-- Manage Score -->
           <div
-            class="lg:mt-10 flex justify-start sm:mx-10 mx-5 items-center self-center cursor-pointer content-end"
+            class="lg:mt-10 flex justify-start sm:mx-10 mx-5 items-center self-center"
           >
             <span class="material-symbols-outlined"> settings </span>
-            <p class="text-sm ml-1 hover:text-primary">การตั้งค่าและแก้ไข</p>
+            <a href="/helioscore/deletescore"
+              ><p class="text-sm ml-1 hover:text-primary cursor-pointer">
+                ลบคะแนนชิ้นงาน
+              </p>
+            </a>
           </div>
         </div>
       </div>
@@ -330,9 +334,9 @@ export default {
       formData.append("file", this.fileStd);
       formData.append("classId", this.class_id);
       formData.append("subjectId", this.subject_id);
-      
-      console.log("subId: " + this.subject_id);
-      console.log("classId: " + this.room);
+
+      // console.log("subId: " + this.subject_id);
+      // console.log("classId: " + this.room);
       axios
         .post(`${this.importStd}`, formData, {
           headers: {
@@ -381,14 +385,19 @@ export default {
           responseType: "blob",
         })
         .then((response) => {
-          // console.log(response.headers["content-disposition"]);
           window.URL = window.webkitURL || window.URL;
-          const contentType = "text/csv";
+          const contentType =
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
           const csvFile = new Blob([response.data], { type: contentType });
           const downloadURL = window.URL.createObjectURL(csvFile);
           const downloadLink = document.createElement("a");
           downloadLink.href = downloadURL;
-          downloadLink.setAttribute("download", "helioscore.xlsx");
+          const fileName = response.headers["content-disposition"]
+            .split(";")[1]
+            .split("=")[1]
+            .replace('"', "")
+            .replace('"', "");
+          downloadLink.setAttribute("download", decodeURI(fileName));
           document.body.appendChild(downloadLink);
           downloadLink.click();
         });
@@ -401,12 +410,17 @@ export default {
         })
         .then((response) => {
           window.URL = window.webkitURL || window.URL;
-          const contentType = "text/csv";
+          const contentType =
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
           const csvFile = new Blob([response.data], { type: contentType });
           const downloadURL = window.URL.createObjectURL(csvFile);
           const downloadLink = document.createElement("a");
           downloadLink.href = downloadURL;
-          downloadLink.setAttribute("download", "helioscore_StudentList.xlsx");
+          const fileName = response.headers["content-disposition"].substring(
+            22,
+            52
+          );
+          downloadLink.setAttribute("download", fileName);
           document.body.appendChild(downloadLink);
           downloadLink.click();
         });
