@@ -128,13 +128,15 @@ export default {
   methods: {
     async login() {
       // console.log(this.pass);
-      if (!this.user && !this.pass) {
+      if (!this.user || !this.pass) {
         alert("กรุณากรอก อีเมล และ รหัสผ่าน");
-      } else if (!this.user) {
-        alert("กรุณากรอก อีเมล");
-      } else if (!this.pass) {
-        alert("กรุณากรอก รหัสผ่าน");
-      } else {
+      } 
+      // else if (!this.user) {
+      //   alert("กรุณากรอก อีเมล");
+      // } else if (!this.pass) {
+      //   alert("กรุณากรอก รหัสผ่าน");
+      // } 
+      else {
         axios
           .post(this.url, {
             email: this.user,
