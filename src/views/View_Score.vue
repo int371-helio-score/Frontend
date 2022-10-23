@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-light h-full">
+  <div class="bg-light backgroundfull h-screen bg-scroll">
     <navTeacher />
     <div class="inline-flex">
       <sidebarTeacher />
@@ -190,7 +190,6 @@
         </div>
 
         <!-- Score List -->
-
         <div
           v-if="
             (uploadFile == false) & (announce == false) & (uploadStd == false)
@@ -205,6 +204,7 @@
               <th>ชื่อ-นามสกุล</th>
               <th v-for="tt in std" :key="tt._id" class="px-2">
                 {{ tt.title }}
+                <p class="text-xs font-extralight">{{ tt.total }} คะแนน</p>
               </th>
             </tr>
 
@@ -239,7 +239,10 @@
               <div class="flex justify-start">
                 {{ tt.title }}
               </div>
-              <button class="flex justify-end" @click="deleteAssignment(tt._id, tt.title)">
+              <button
+                class="flex justify-end"
+                @click="deleteAssignment(tt._id, tt.title)"
+              >
                 ลบ
               </button>
             </div>
@@ -701,4 +704,7 @@ table::-webkit-scrollbar-thumb {
 table::-webkit-scrollbar-thumb:window-inactive {
   scrollbar-color: rgba(255, 100, 70, 0.8) rgba(0, 100, 200, 0.5);
 }
+/* .backgroundfull{
+  background: lightblue no-repeat fixed center; 
+} */
 </style>

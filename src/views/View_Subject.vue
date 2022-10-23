@@ -60,7 +60,7 @@
             <div v-show="deletebtn == true">
               <button
                 class="text-white delete bg-alert cursor-pointer"
-                @click="deleteSubject()"
+                @click="deleteSubject(subject._id, subject.subjectName)"
               >
                 ลบ
               </button>
@@ -125,24 +125,28 @@ export default {
       this.deletebtn = false;
     },
 
-    // async deleteSubject(subjectId){
-    //   axios
-    //     .delete(`${this.remove}/${subjectId}`, {
-    //       headers: {
-    //         Authorization: localStorage.getItem("token"),
-    //       },
-    //     })
-    //     .then((res) => {
-    //       if (res.status === 200) {
-    //         this.cart = this.cart.filter(
-    //           (list) => list.cartItemId !== cartItemId
-    //         );
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       alert(err.response.data);
-    //     });
-    // },
+    async deleteSubject(subjectId, subjectName) {
+      let text = "หากคุณลบรายวิชานี้ คะแนนจะถูกลบทั้งหมด";
+      if (confirm(text) == true) {
+        axios
+          .delete(`helio/subject/${subjectId}`, {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          })
+          .then((res) => {
+            if (res.data.statusCode === 200) {
+              alert("ลบวิชาเรียน " + "'" + subjectName + "'" + " สำเร็จ");
+            }
+            this.$router.go();
+          })
+          .catch((err) => {
+            alert(err.response.message);
+          });
+      } else {
+        return;
+      }
+    },
 
     async getAcademics() {
       try {

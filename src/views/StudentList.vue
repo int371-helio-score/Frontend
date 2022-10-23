@@ -1,7 +1,7 @@
 <template>
-
   <div class="bg-light h-full">
     <navTeacher />
+
     <div class="inline-flex">
       <sidebar-teacher />
 
@@ -12,26 +12,24 @@
 
         <div class="text-xl mt-20">
           <div class="px-52">
-            <template v-for="list in stdList" :key="list._id">
-              <router-link
-                :to="{
-                  name: 'studentGroup',
-                  params: {
-                    group: list._id,
+            <template v-for="stdlist in stdList" :key="stdlist._id">
+              <router-link :to="{
+                name:'studentGroup',
+                params: {
+                    group: stdlist._id,
                   },
                   query: {
-                    group: list._id,
+                    group: stdlist._id,
                   },
-                }"
-              >
+              }">
                 <div
                   class="h-14 flex flex-row justify-between pr-8 bg-white my-10 rounded-2xl drop-shadow-sm"
                 >
                   <p class="self-center ml-10 flex justify-start">
-                    {{ list.groupName }}
+                    {{ stdlist.groupName }}
                   </p>
                   <p class="self-center mr-10 flex justify-end">
-                    {{ list.total }} คน
+                    {{ stdlist.total }} คน
                   </p>
                 </div>
               </router-link>
@@ -45,10 +43,8 @@
 
 <script>
 import axios from "axios";
-import SidebarTeacher from "@/components/SidebarTeacher.vue";
 
 export default {
-  components: { SidebarTeacher },
   name: "StudentLists",
   data() {
     return {
@@ -66,13 +62,16 @@ export default {
         })
         .then((res) => {
           if (res.data.statusCode === 200) {
+            console.log(res.data);
             this.stdList = res.data.data.results;
+            console.log(this.stdList);
           }
         });
     },
   },
   async created() {
     this.getAllStudentList();
+    console.log(this.stdList);
   },
 };
 </script>
