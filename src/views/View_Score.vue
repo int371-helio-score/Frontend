@@ -138,6 +138,14 @@
           <div class="flex justify-center">
             <div class="container flex flex-col mt-10">
               <div class="self-center">
+                <div>
+                  <p>ชื่อ ชั้นเรียน</p>
+                  <input
+                    placeholder="ระบุชื่อไฟล์ชั้นเรียน"
+                    class="w-full py-1 px-2 mb-5"
+                    v-model="groupName"
+                  />
+                </div>
                 <input
                   class="wrapper flex justify-content-center align-items-center"
                   type="file"
@@ -220,9 +228,30 @@
             class="lg:mt-10 flex justify-start sm:mx-10 mx-5 items-center self-center"
           >
             <span class="material-symbols-outlined"> settings </span>
-            <a href="/helioscore/deletescore"
-              ><p class="text-sm ml-1 hover:text-primary cursor-pointer">
+            <div v-show="showList">
+              <p class="text-sm ml-1 hover:text-primary cursor-pointer">
                 ลบคะแนนชิ้นงาน
+              </p>
+            </div>
+          </div>
+          <div>
+            <div v-for="tt in std" :key="tt._id" class="flex justify-between">
+              <div class="flex justify-start">
+                {{ tt.title }}
+              </div>
+              <button class="flex justify-end" @click="deleteAssignment(tt._id, tt.title)">
+                ลบ
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="lg:mt-10 flex justify-start sm:mx-10 mx-5 self-center items-center bottom-0 z-10"
+          >
+            <span class="material-symbols-outlined"> settings </span>
+            <a href="/helioscore"
+              ><p class="text-sm ml-1 hover:text-primary cursor-pointer">
+                แก้ไขคะแนน
               </p>
             </a>
           </div>
@@ -254,6 +283,7 @@ export default {
       room: null,
       class_id: null,
       subject_id: null,
+      groupName: null,
       uploadFile: false,
       announce: false,
       file: "",
@@ -262,6 +292,7 @@ export default {
       stdScore: [],
       scroll: false,
       uploadStd: false,
+      showAssignList: false,
     };
   },
 
@@ -271,14 +302,18 @@ export default {
     this.class_id = this.$route.query.class_id;
     this.subject_id = this.$route.params.subId;
 
-    console.log("subId: " + this.subject_id);
-    console.log("classId: " + this.class_id);
+    // console.log("subId: " + this.subject_id);
+    // console.log("classId: " + this.class_id);
 
     await this.getStudent(this.$route.query.class_id);
     await this.getAnnounce(this.$route.query.class_id);
   },
 
   methods: {
+    showList() {
+      this.showAssignList = true;
+    },
+
     sentEmail(score) {
       axios
         .post(
@@ -333,10 +368,11 @@ export default {
       let formData = new FormData();
       formData.append("file", this.fileStd);
       formData.append("classId", this.class_id);
-      formData.append("subjectId", this.subject_id);
+      formData.append("groupName", this.groupName);
 
       // console.log("subId: " + this.subject_id);
       // console.log("classId: " + this.room);
+      console.log(this.groupName);
       axios
         .post(`${this.importStd}`, formData, {
           headers: {
@@ -345,7 +381,7 @@ export default {
           },
         })
         .then((res) => {
-          if (res.data.statusCode === 200 || res.status === 201) {
+          if (res.data.statusCode === 200) {
             // this.getStudent().$router.go();
             console.log(res.data);
             (this.fileStd = ""), alert("อัปโหลดราชื่อ สำเร็จ");
@@ -354,7 +390,7 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(`Could not get! ${err}`);
+          console.log(err.message);
         });
     },
 
@@ -463,6 +499,7 @@ export default {
             if (this.std.length > 5) {
               this.scroll = true;
             }
+            console.log(this.std);
             return response.data.data.results;
           });
       } catch (error) {
@@ -480,12 +517,31 @@ export default {
           })
           .then((response) => {
             this.toAnnounce = response.data.data.results;
-            console.log(this.toAnnounce);
+            // console.log(this.toAnnounce);
             return response.data.data.results;
           });
       } catch (error) {
         console.log(`Could not get! ${error}`);
       }
+    },
+
+    async deleteAssignment(score_id, title) {
+      axios
+        .delete(`helio/score/${score_id}`, {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          if (res.data.statusCode === 200) {
+            alert("ยืนยันการลบชิ้นงาน" + title);
+            this.$router.go();
+          }
+        })
+        .catch((err) => {
+          alert(err.response.message);
+        });
     },
   },
 };
@@ -563,7 +619,8 @@ th {
   md:w-36 md:mb-4 lg:w-36;
 }
 .data {
-  @apply h-screen max-h-full pl-60 mt-24 w-screen;
+  @apply h-auto max-h-full pl-60 mt-24 w-screen
+  lg:pb-10;
 }
 .title {
   @apply text-sm font-bold mt-5 text-secondary

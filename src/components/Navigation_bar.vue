@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="bg-white grid grid-cols-2 sm:py-5 sm:px-10 px-1 py-4 fixed xl:w-full md:w-screen"
-  >
+  <div class="bg-white grid grid-cols-2 sm:py-5 sm:px-10 px-1 py-4 fixed xl:w-full md:w-screen">
     <div class="flex self-center items-center">
       <router-link to="/">
         <div class="text-xl font-bold ml-5 text-secondary">
@@ -110,6 +108,14 @@
                   >
                     เปลี่ยนรหัสผ่าน
                   </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex ml-4">
+              <div class="box" v-if="!showEditPass">
+                <div class="flex justify-end" @click="deleteAccount()">
+                  ลบบัญชี
                 </div>
               </div>
             </div>
@@ -379,6 +385,26 @@ export default {
         .catch((err) => {
           alert(err.response.data.message);
           // alert("ไม่สำเร็จ");
+        });
+    },
+
+    deleteAccount() {
+      axios
+        .delete(`helio/account/delete`, {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          if (res.data.statusCode === 200) {
+            alert("ลบสำเร็จ");
+            localStorage.removeItem("token");
+            this.$router.push("/")
+          }
+        })
+        .catch((err) => {
+          alert(err.response.message);
         });
     },
   },
