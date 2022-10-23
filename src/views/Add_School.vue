@@ -109,6 +109,7 @@ export default {
         console.log(`Could not get! ${error}`);
       }
     },
+
     async getSchool() {
       axios
         .get(this.getSchoolUrl, {
@@ -117,6 +118,7 @@ export default {
           },
         })
         .then((response) => {
+          console.log(response.data.data.results)
           this.schools = response.data.data.results;
         });
     },
@@ -146,6 +148,7 @@ export default {
       localStorage.removeItem("school");
       return this.$router.push("/");
     },
+
     async addSchool() {
       let data = {
         schoolId: this.test,
@@ -171,7 +174,10 @@ export default {
   async created() {
     await this.getAccount();
     await this.getSchool();
+
+    // console.log(this.schools)
   },
+
   computed: {
     filtered() {
       return this.schools.filter((results) => {

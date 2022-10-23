@@ -15,7 +15,7 @@
           <h1>เข้าสู่ระบบ</h1>
         </div>
 
-        <form @submit.prevent="login">
+        <form @submit.prevent="login()">
           <div class="pt-2 lg:mx-20 md:mx-12 mx-20">
             <div class="flex justify-center lg:mt-20 md:mt-10 mt-20">
               <span class="material-symbols-outlined"> alternate_email </span>
@@ -47,10 +47,11 @@
               </span>
             </button> -->
             <div class="text-gray100 flex justify-end text-xs mt-2">
-              ลืมรหัสผ่าน
+              <router-link to="/helioscore/forgotpassword">
+                ลืมรหัสผ่าน
+              </router-link>
             </div>
           </div>
-
           <div class="flex justify-center mt-14 lg:mx-20 md:mx-10 mx-20">
             <button class="bg-primary rounded w-full justify-center flex py-2">
               <p class="text-white text-sm">เข้าสู่ระบบ</p>
@@ -127,34 +128,36 @@ export default {
 
   methods: {
     async login() {
-      // console.log(this.pass);
       if (!this.user || !this.pass) {
         alert("กรุณากรอก อีเมล และ รหัสผ่าน");
-      } 
+      }
       // else if (!this.user) {
       //   alert("กรุณากรอก อีเมล");
       // } else if (!this.pass) {
       //   alert("กรุณากรอก รหัสผ่าน");
-      // } 
+      // }
       else {
-        axios
+        console.log("email =" + this.user + "pass =" + this.pass);
+        await axios
           .post(this.url, {
             email: this.user,
             password: this.pass,
           })
           .then((res) => {
+            console.log("Hi");
+            console.log(res);
             if (res.data.statusCode === 200) {
               localStorage.setItem("token", res.data.data.token);
               return this.$router.push("/helioscore");
-            } else if (res.data.statusCode === 403) {
-              alert("อีเมล และ หรัสผ่านไม่ถูกต้อง");
-              (this.user = ""), (this.pass = "");
             }
           })
-          .catch(() => {
-            // alert(err.response.data.message);
-            alert("อีเมล และ หรัสผ่านไม่ถูกต้อง");
-            (this.user = ""), (this.pass = "");
+          .catch((err) => {
+            if (err.response.data.message == "Account has not been verified.") {
+              return this.$router.push("/helioscore/resendemail");
+            } else if (err.response.data.message == "Unauthorized") {
+              alert("อีเมล หรือ รหัสผ่าน ไม่ถูกต้อง");
+              this.pass = "";
+            }
           });
       }
     },

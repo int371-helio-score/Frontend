@@ -9,7 +9,9 @@
       </div>
 
       <div class="box bg-white">
-        <div class="sm:pt-14 text-xl font-bold text-primary justify-center flex">
+        <div
+          class="sm:pt-14 text-xl font-bold text-primary justify-center flex"
+        >
           <p>สร้างบัญชี</p>
         </div>
 
@@ -39,10 +41,7 @@
               </template>
             </v-select>
           </div>
-          <sup
-            v-show="inputSchool"
-            class="text-red-500 flex mt-4"
-          >
+          <sup v-show="inputSchool" class="text-red-500 flex mt-4">
             กรุณาเลือกโรงเรียน
           </sup>
 
@@ -56,10 +55,7 @@
                 class="border-b border-gray50 w-full"
               />
             </div>
-            <sup
-              v-show="inputFirstname"
-              class="text-red-500 flex mt-4"
-            >
+            <sup v-show="inputFirstname" class="text-red-500 flex mt-4">
               กรุณากรอกชื่อจริง
             </sup>
 
@@ -72,10 +68,7 @@
                 class="border-b border-gray50 w-full"
               />
             </div>
-            <sup
-              v-show="inputLastname"
-              class="text-red-500 flex mt-4"
-            >
+            <sup v-show="inputLastname" class="text-red-500 flex mt-4">
               กรุณากรอกนามสกุล
             </sup>
 
@@ -88,10 +81,7 @@
                 class="border-b border-gray50 w-full"
               />
             </div>
-            <sup
-              v-show="inputEmail"
-              class="text-red-500 flex mt-4"
-            >
+            <sup v-show="inputEmail" class="text-red-500 flex mt-4">
               กรุณากรอกอีเมล
             </sup>
 
@@ -106,10 +96,7 @@
               />
             </div>
             <div></div>
-            <sup
-              v-show="inputPassword"
-              class="text-red-500 flex mt-4"
-            >
+            <sup v-show="inputPassword" class="text-red-500 flex mt-4">
               กรุณากรอกรหัสผ่าน
             </sup>
 
@@ -178,10 +165,7 @@
                 class="border-b border-gray50 w-full"
               />
             </div>
-            <sup
-              v-show="inputConfirmPassword"
-              class="text-red-500 flex mt-4"
-            >
+            <sup v-show="inputConfirmPassword" class="text-red-500 flex mt-4">
               กรุณายืนยันรหัสผ่าน
             </sup>
 
@@ -341,7 +325,6 @@ export default {
           },
         })
         .then((res) => {
-          // console.log(res);
           if (res.data.statusCode === 200) {
             this.firstName = "";
             this.lastName = "";
@@ -349,12 +332,8 @@ export default {
             this.password = "";
             this.confirmPassword = "";
             this.test = "";
-            localStorage.setItem("token", res.data.data.token);
-            // console.log(res.data.data.token);
-
-            return (
-              this.$router.push("/helioscore") && alert("สร้างบัญชีสำเร็จ")
-            );
+            // localStorage.setItem("token", res.data.data.token);
+            this.$router.push("/helioscore/verifyEmail") && alert("สร้างบัญชีสำเร็จ กรุณายืนยันบัญชีของคุณ");
           }
         })
         .catch((err) => {

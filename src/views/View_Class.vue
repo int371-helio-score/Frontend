@@ -40,7 +40,6 @@
         </div>
 
         <div class="order">
-
           <div v-for="room in classroom" :key="room.room">
             <router-link
               :to="{
@@ -60,14 +59,29 @@
                 },
               }"
             >
-            <!-- {{ subjectId }}
-            {{ classId }} -->
               <div class="class bg-white px-10 pt-10 pb-2 text-sm text-center">
                 <div class="mb-5">ม.{{ classId }} ห้อง {{ room.room }}</div>
                 <div>{{ room.totalStudent }} คน</div>
               </div>
             </router-link>
+            <div v-show="deletebtn == true">
+              <button
+                class="text-white delete bg-alert cursor-pointer"
+                @click="deleteSubject()"
+              >
+                ลบ
+              </button>
+            </div>
           </div>
+        </div>
+
+        <div class="object" @click="clickDelete()" v-show="deletebtn == false">
+          <span class="material-symbols-outlined mr-2"> edit </span>
+          <p>จัดการรายวิชา</p>
+        </div>
+        <div class="object" v-if="deletebtn" @click="cancleDelete()">
+          <span class="material-symbols-outlined mr-2"> close </span>
+          <p>ยกเลิก</p>
         </div>
       </div>
     </div>
@@ -111,6 +125,7 @@ export default {
       subject: "",
       subjectId: null,
       classId: null,
+      deletebtn: false,
     };
   },
   methods: {
@@ -130,6 +145,14 @@ export default {
       } catch (error) {
         console.log(`Could not get! ${error}`);
       }
+    },
+
+    clickDelete() {
+      this.deletebtn = true;
+    },
+
+    cancleDelete() {
+      this.deletebtn = false;
     },
   },
 };
@@ -156,13 +179,24 @@ export default {
 .data {
   @apply pl-36 sm:pl-36 w-screen
   md:pl-44 mt-20
-  lg:pl-60 lg:mt-24 
-  ;
+  lg:pl-60 lg:mt-24;
 }
 .add {
   background: white;
   box-shadow: 0px 1px 5px rgba(214, 214, 214, 0.5);
   border-radius: 22px;
   @apply px-8 py-1;
+}
+.object {
+  @apply flex text-secondary justify-end absolute bottom-8 right-10 items-center cursor-pointer
+  sm:text-sm;
+}
+span {
+  @apply text-lg;
+}
+.delete {
+  text-decoration: underline;
+  @apply lg:text-sm lg:w-full lg:rounded-sm lg:mt-1 
+  flex justify-center;
 }
 </style>
