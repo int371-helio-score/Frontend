@@ -12,11 +12,7 @@ import Vue3EasyDataTable from 'vue3-easy-data-table';
 import EditImage from "@/components/Edit_Image.vue"
 import axios from "axios";
 
-<<<<<<< HEAD
 axios.defaults.baseURL = 'https://test-helioscore.sytes.net/backend/api/';
-=======
-axios.defaults.baseURL = 'http://localhost:3000/api/';
->>>>>>> 463934192dde75b4e8b7679589026e402f4d30d7
 
 const gauthOption = {
   clientId: "217234620645-cporrkom4579lu5sdprtth63ph3g21l8.apps.googleusercontent.com",
