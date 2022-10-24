@@ -35,17 +35,7 @@
                 class="border-b border-gray50"
               />
             </div>
-            <!-- <button class="button" @click="toggleShow">
-              <span class="icon is-small is-right">
-                <i
-                  class="fas"
-                  :class="{
-                    'fa-eye-slash': showPassword,
-                    'fa-eye': !showPassword,
-                  }"
-                ></i>
-              </span>
-            </button> -->
+
             <div class="text-gray100 flex justify-end text-xs mt-2">
               <router-link to="/helioscore/forgotpassword">
                 ลืมรหัสผ่าน
