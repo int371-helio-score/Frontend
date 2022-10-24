@@ -9,7 +9,7 @@ import SidebarTeacher from "@/components/SidebarTeacher.vue";
 import vue3GoogleLogin from 'vue3-google-login'
 import vSelect from 'vue-select';
 import Vue3EasyDataTable from 'vue3-easy-data-table';
-// import SelectSchool from "@/components/SelectSchool.vue"
+import EditImage from "@/components/Edit_Image.vue"
 import axios from "axios";
 
 <<<<<<< HEAD
@@ -33,5 +33,5 @@ app.component("navTeacher", NavTeacher);
 app.component("sidebarTeacher", SidebarTeacher);
 app.component('v-select', vSelect);
 app.component('EasyDataTable', Vue3EasyDataTable);
-// app.component("selectSchool", SelectSchool);
+app.component("editImage", EditImage);
 app.mount("#app");

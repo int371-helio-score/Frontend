@@ -6,9 +6,7 @@
           <router-link to="/helioscore">
             <div class="object">
               <span class="material-symbols-outlined home mr-2"> home </span>
-              <div
-                class="sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 text-primary"
-              >
+              <div class="sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 text-primary">
                 หน้าหลัก
               </div>
             </div>
@@ -16,13 +14,15 @@
         </div>
 
         <div class="layout">
-        <router-link to="/helioscore/studentlist">
-          <div class="object">
-            <span class="material-symbols-outlined mr-2"> group </span>
-            <div class="sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 text-primary">จัดการรายชื่อ</div>
-          </div>
-        </router-link>
-      </div>
+          <router-link to="/helioscore/studentlist">
+            <div class="object">
+              <span class="material-symbols-outlined mr-2"> group </span>
+              <div class="sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 text-primary">
+                จัดการรายชื่อ
+              </div>
+            </div>
+          </router-link>
+        </div>
 
         <!-- <div class="layout">
         <router-link to="/studentlist">
@@ -40,7 +40,9 @@
           @click="() => $router.push('/helioscore/newsubject')"
         >
           <span class="material-symbols-outlined text-primary mr-2"> add </span>
-          <div class="text-secondary sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 md:text-xs">
+          <div
+            class="text-secondary sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 md:text-xs"
+          >
             เพิ่มวิชาที่สอน
           </div>
         </button>
@@ -52,12 +54,10 @@
 <script>
 export default {
   data() {
-    return {
-    };
+    return {};
   },
 
-  methods: {
-  },
+  methods: {},
 };
 </script>
 

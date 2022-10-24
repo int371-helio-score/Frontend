@@ -180,7 +180,8 @@ img {
 }
 .box {
   @apply xl:mr-80 xl:my-20
-  h-3/4 lg:my-20 lg:mr-28
+  
+  lg:my-20 lg:mr-28 lg:pb-10
   md:my-16 md:mr-20 md:mx-0 md:rounded-xl
   sm:justify-center sm:mx-40;
 }

@@ -10,21 +10,21 @@
             <router-link to="/helioscore/studentList">รายชื่อ</router-link>
           </div>
           <div>></div>
-          <div>{{ stdList.groupName }}</div>
+          <div>ม. {{ stdList.groupName }}</div>
         </div>
 
         <div class="mt-20">
           <div class="text-xl px-40">
-            <template v-for="std in stdList.members" :key="std.no">
+            <template v-for="stdList in stdList.members" :key="stdList.no">
               <div
                 class="h-14 flex flex-row justify-around bg-white my-4 rounded-2xl drop-shadow-sm"
               >
                 <p class="self-center">
-                  {{ std.title }} {{ std.firstName }} {{ std.lastName }}
+                  {{ stdList.title }} {{ stdList.firstName }} {{ stdList.lastName }}
                 </p>
-                <p class="self-center">{{ std.email }}</p>
-                <p class="self-center">เลขที่ {{ std.no }}</p>
-                <p class="self-center">รหัสนักเรียน {{ std.studentId }}</p>
+                <p class="self-center">{{ stdList.email }}</p>
+                <p class="self-center">เลขที่ {{ stdList.no }}</p>
+                <p class="self-center">รหัสนักเรียน {{ stdList.studentId }}</p>
               </div>
             </template>
           </div>
@@ -36,12 +36,10 @@
 
 <script>
 import axios from "axios";
-import SidebarTeacher from "@/components/SidebarTeacher.vue";
 
 export default {
-  components: { SidebarTeacher },
-  props: ["groupName"],
-  name: "StudentLists",
+  props: ["group"],
+  name: "studentGroup",
   data() {
     return {
       url: "helio/studentList",
@@ -63,6 +61,7 @@ export default {
   },
   async created() {
     this.stdListId = this.$route.query.group;
+    
     this.getStudentList();
   },
 };

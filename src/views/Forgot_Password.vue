@@ -32,16 +32,16 @@
           </div>
 
           <div class="flex justify-center mt-14 lg:mx-20 md:mx-10 mx-20">
-            <button class="bg-primary rounded w-full justify-center flex py-2">
+            <button class="bg-primary">
               <p class="text-white text-sm">ส่งคำขอ</p>
             </button>
           </div>
         </form>
 
-        <div class="flex justify-center mt-10 md:text-sm text-xs">
-          <p class="inline-block text-primary underline pr-2">
-            <a href="/"> เข้าสู่ระบบ</a>
-          </p>
+        <div class="flex justify-center mt-5 lg:mx-20 md:mx-10 mx-20">
+          <button class=" text-primary border ">
+            <a href="/" class="text-sm"> เข้าสู่ระบบ</a>
+          </button>
         </div>
         <div class="flex justify-center mt-10 md:text-sm text-xs">
           <p class="inline-block text-gray100 pr-1">หากคุณเป็นสมาชิกใหม่</p>
@@ -121,5 +121,8 @@ span {
 input {
   @apply text-primary w-full px-2;
   font-size: small;
+}
+button{
+  @apply rounded w-full justify-center flex py-2;
 }
 </style>

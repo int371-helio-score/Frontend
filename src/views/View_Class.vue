@@ -67,7 +67,7 @@
             <div v-show="deletebtn == true">
               <button
                 class="text-white delete bg-alert cursor-pointer"
-                @click="deleteSubject()"
+                @click="deleteclass(room._id, room.room)"
               >
                 ลบ
               </button>
@@ -90,10 +90,8 @@
 
 <script>
 import axios from "axios";
-import SidebarTeacher from "@/components/SidebarTeacher.vue";
 
 export default {
-  components: { SidebarTeacher },
   name: "ClassInSubject",
   props: ["subjectName"],
 
@@ -153,6 +151,29 @@ export default {
 
     cancleDelete() {
       this.deletebtn = false;
+    },
+
+    async deleteclass(classId, room) {
+      let text = "หากคุณลบชั้นเรียนนี้ คะแนนจะถูกลบทั้งหมด";
+      if (confirm(text) == true) {
+        axios
+          .delete(`helio/class/${classId}`, {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          })
+          .then((res) => {
+            if (res.data.statusCode === 200) {
+              alert("ลบชั้นเรียนที่ " + "'" + room + "'" + " สำเร็จ");
+            }
+            this.$router.go();
+          })
+          .catch((err) => {
+            alert(err.response.message);
+          });
+      } else {
+        return;
+      }
     },
   },
 };

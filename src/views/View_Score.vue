@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-light h-full">
+  <div class="bg-light backgroundfull h-screen bg-scroll">
     <navTeacher />
     <div class="inline-flex">
       <sidebarTeacher />
@@ -190,7 +190,6 @@
         </div>
 
         <!-- Score List -->
-
         <div
           v-if="
             (uploadFile == false) & (announce == false) & (uploadStd == false)
@@ -205,6 +204,7 @@
               <th>ชื่อ-นามสกุล</th>
               <th v-for="tt in std" :key="tt._id" class="px-2">
                 {{ tt.title }}
+                <p class="text-xs font-extralight">{{ tt.total }} คะแนน</p>
               </th>
             </tr>
 
@@ -229,19 +229,9 @@
           >
             <span class="material-symbols-outlined"> settings </span>
             <div v-show="showList">
-              <p class="text-sm ml-1 hover:text-primary cursor-pointer">
+              <p class="text-sm ml-1 hover:text-primary cursor-pointer" @click="showDelete()">
                 ลบคะแนนชิ้นงาน
               </p>
-            </div>
-          </div>
-          <div>
-            <div v-for="tt in std" :key="tt._id" class="flex justify-between">
-              <div class="flex justify-start">
-                {{ tt.title }}
-              </div>
-              <button class="flex justify-end" @click="deleteAssignment(tt._id, tt.title)">
-                ลบ
-              </button>
             </div>
           </div>
 
@@ -254,6 +244,53 @@
                 แก้ไขคะแนน
               </p>
             </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Score -->
+
+  <div name="modal" v-show="deleteModal == true">
+    <div class="modal-mask">
+      <div class="modal-wrapper">
+        <div class="modal-container relative">
+          <img src="../../src/assets/Background.png" class="w-full relative" />
+
+          <div>
+            <div class="mx-20 mt-10">
+              <p class="text-secondary font-bold my-2">ชิ้นงาน</p>
+              <div>
+            <div v-for="tt in std" :key="tt._id" class="flex justify-between mt-3">
+              <div class="flex justify-start">
+                {{ tt.title }}
+              </div>
+              <button
+                class="flex justify-end text-gray-600 hover:text-red-500"
+                @click="deleteAssignment(tt._id, tt.title)"
+              >
+                ลบ
+              </button>
+            </div>
+          </div>
+            </div>
+          </div>
+
+          <!-- button -->
+
+          <div class="flex justify-center place-content-end mt-12">
+            <div class="absolute bottom-8 grid grid-cols-2 gap-4">
+              <button
+                class="bg-light text-secondary2 border border-secondary2 rounded-md px-6 py-1 ml-2 "
+                @click="deleteModal = false"
+              >
+                ออก
+              </button>
+              <button class="bg-secondary2 text-white rounded-md px-6 py-1 ml-2 ">
+                บันทึก
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -293,6 +330,7 @@ export default {
       scroll: false,
       uploadStd: false,
       showAssignList: false,
+      deleteModal: false,
     };
   },
 
@@ -339,7 +377,6 @@ export default {
 
     handleFileStd() {
       this.fileStd = this.$refs.file.files[0];
-      // console.log(this.fileStd);
     },
 
     submitFile() {
@@ -370,9 +407,6 @@ export default {
       formData.append("classId", this.class_id);
       formData.append("groupName", this.groupName);
 
-      // console.log("subId: " + this.subject_id);
-      // console.log("classId: " + this.room);
-      console.log(this.groupName);
       axios
         .post(`${this.importStd}`, formData, {
           headers: {
@@ -383,7 +417,6 @@ export default {
         .then((res) => {
           if (res.data.statusCode === 200) {
             // this.getStudent().$router.go();
-            console.log(res.data);
             (this.fileStd = ""), alert("อัปโหลดราชื่อ สำเร็จ");
             // this.getAnnounce(this.$route.query.class_id);
             this.$router.go();
@@ -523,6 +556,11 @@ export default {
       } catch (error) {
         console.log(`Could not get! ${error}`);
       }
+    },
+
+    showDelete(){
+      this.deleteModal = true;
+      console.log(this.deleteModal)
     },
 
     async deleteAssignment(score_id, title) {
@@ -700,5 +738,57 @@ table::-webkit-scrollbar-thumb {
 }
 table::-webkit-scrollbar-thumb:window-inactive {
   scrollbar-color: rgba(255, 100, 70, 0.8) rgba(0, 100, 200, 0.5);
+}
+.modal-mask {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: table;
+  transition: opacity 0.3s ease;
+  
+}
+
+.modal-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.modal-container {
+  width: 721px;
+  height: 531px;
+  margin: 0px auto;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  border-radius: 25px;
+  overflow-y: auto;
+  @apply w-3/4 md:w-96 lg:w-1/2;
+}
+
+.modal-header h3 {
+  margin-top: 0;
+  color: #42b983;
+}
+
+.modal-body {
+  margin: 20px 0;
+}
+
+.modal-enter {
+  opacity: 0;
+}
+
+.modal-leave-active {
+  opacity: 0;
+}
+
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
 }
 </style>

@@ -1,5 +1,7 @@
 <template>
-  <div class="bg-white grid grid-cols-2 sm:py-5 sm:px-10 px-1 py-4 fixed xl:w-full md:w-screen">
+  <div
+    class="bg-white grid grid-cols-2 sm:py-5 sm:px-10 px-1 py-4 fixed xl:w-full md:w-screen"
+  >
     <div class="flex self-center items-center">
       <router-link to="/">
         <div class="text-xl font-bold ml-5 text-secondary">
@@ -28,18 +30,28 @@
 
   <!-- profile preview -->
 
-  <div name="modal" v-show="showModal == true">
+  <div name="modal" v-show="showModal == true ">
     <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
           <img src="../../src/assets/Background.png" class="w-full relative" />
           <div class="borderPic">
-            <img :src="getImage()" class="pic rounded-full w-28 h-28" />
+            <img
+              :src="getImage()"
+              class="pic rounded-full w-28 h-28 cursor-pointer"
+              @click="EditImage()"
+            />
           </div>
 
           <div class="" v-if="edit == false">
             <div class="font-extrabold text-md mx-20 mt-14">
               {{ this.account.firstName }} {{ this.account.lastName }}
+              <span
+                class="material-symbols-outlined ml-2 flex items-end cursor-pointer hover:text-primary"
+                @click="editProfile()"
+              >
+                border_color
+              </span>
             </div>
 
             <div class="mx-20 mt-10">
@@ -172,19 +184,19 @@
           <!-- button -->
 
           <div class="flex justify-center mt-12">
-            <div class="grid grid-cols-2" v-if="edit == false">
+            <div class="" v-if="edit == false">
               <button
-                class="bg-light text-primary rounded-md mr-2 px-2 py-1"
-                @click="editProfile()"
-              >
-                แก้ไขข้อมูล
-              </button>
-              <button
-                class="bg-secondary2 text-white rounded-md px-2 py-1 ml-2"
+                class="bg-secondary2 text-white rounded-md px-6 py-1 ml-2"
                 @click="showModal = false"
               >
                 ออก
               </button>
+              <!-- <button
+                class="bg-light text-primary rounded-md mr-2 px-2 py-1"
+                @click="editProfile()"
+              >
+                แก้ไขข้อมูล
+              </button> -->
             </div>
 
             <div class="grid grid-cols-2" v-else>
@@ -223,12 +235,19 @@
       </div>
     </div>
   </div>
+
+  <diV v-if="showEditImage">
+    <editImage 
+    :editImage="editImg"
+    @EditImage="EditImage"></editImage>
+  </diV>
 </template>
 
 <script>
 import axios from "axios";
 
 export default {
+  // props: [''],
   data() {
     return {
       account: [],
@@ -247,6 +266,7 @@ export default {
       password: "",
       currentPass: "",
       confirmPassword: "",
+      showEditImage: false,
     };
   },
 
@@ -366,6 +386,9 @@ export default {
         firstName: this.newFirstName,
         lastName: this.newLastName,
       };
+      // if(editImage){
+      //   data.image = this.inputFile;
+      // }
       axios
         .patch(this.url, data, {
           headers: {
@@ -373,6 +396,7 @@ export default {
           },
         })
         .then((res) => {
+          console.log(this.newFirstName);
           if (res.data.statusCode === 200) {
             alert("Edit success");
             this.showModal = false;
@@ -384,8 +408,12 @@ export default {
         })
         .catch((err) => {
           alert(err.response.data.message);
-          // alert("ไม่สำเร็จ");
         });
+    },
+
+    EditImage() {
+      this.showEditImage = true;
+      // console.log("Hi");
     },
 
     deleteAccount() {
@@ -400,7 +428,7 @@ export default {
           if (res.data.statusCode === 200) {
             alert("ลบสำเร็จ");
             localStorage.removeItem("token");
-            this.$router.push("/")
+            this.$router.push("/");
           }
         })
         .catch((err) => {
@@ -428,23 +456,17 @@ export default {
   @apply flex self-center;
 }
 span {
-  @apply lg:pr-2 text-primary text-base
+  @apply lg:pr-2 text-secondary text-base
   lg:text-xl
   sm:text-base sm:pr-2;
-  /* width: 15.92px;
-  height: 18px; */
 }
 .dropbtn {
   @apply px-4 py-2 rounded-md;
   padding: 4px;
-  /* font-size: 16px; */
 }
-
 .dropdown {
-  /* position: relative; */
   display: inline-block;
 }
-
 .dropdown-content {
   display: none;
   position: absolute;
