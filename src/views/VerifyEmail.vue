@@ -10,7 +10,7 @@
       </div>
 
       <div class="flex justify-start items-center">
-        <p class="text-secondary font-semibold">ยันยันบัญชีสำเร็จ</p>
+        <p class="text-secondary font-semibold md:text-2xl text-lg">Welcome to Helio Score</p>
       </div>
     </div>
   </div>

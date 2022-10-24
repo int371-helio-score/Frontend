@@ -4,7 +4,7 @@
       <!-- image -->
       <div>
         <img
-          src="http://20.82.6.4/backend/public/images/LoginHelio.png"
+          src="http://localhost:3000/public/images/LoginHelio.png"
           class="justify-center place-content-center h-screen md:block hidden"
         />
       </div>

@@ -411,9 +411,18 @@ export default {
         });
     },
 
-    EditImage() {
-      this.showEditImage = true;
+    EditImage(e) {
+      // this.showEditImage = true;
       // console.log("Hi");
+      const file = e.target.files[0];
+      this.picture = URL.createObjectURL(file);
+      this.imageName = file.name;
+      this.imgFile = file;
+      let reader = new FileReader();
+      reader.onload = (e) => {
+        this.preview = e.target.result;
+      };
+      reader.readAsDataURL(file);
     },
 
     deleteAccount() {

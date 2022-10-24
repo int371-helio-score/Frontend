@@ -3,7 +3,7 @@
     <div class="md:grid md:grid-cols-2 h-full">
       <div>
         <img
-          src="https://test-helioscore.sytes.net/backend/api/public/images/LoginHelio.png"
+          src="http://localhost:3000/public/images/LoginHelio.png"
           class="justify-center place-content-center h-screen md:block hidden"
         />
       </div>
@@ -333,7 +333,7 @@ export default {
             this.confirmPassword = "";
             this.test = "";
             // localStorage.setItem("token", res.data.data.token);
-            this.$router.push("/helioscore/verifyEmail") && alert("สร้างบัญชีสำเร็จ กรุณายืนยันบัญชีของคุณ");
+            this.$router.push("/helioscore/resendemail") && alert("สร้างบัญชีสำเร็จ กรุณายืนยันบัญชีของคุณ");
           }
         })
         .catch((err) => {
