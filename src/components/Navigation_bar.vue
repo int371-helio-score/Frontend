@@ -30,17 +30,20 @@
 
   <!-- profile preview -->
 
-  <div name="modal" v-show="showModal == true ">
+  <div name="modal" v-show="showModal == true">
     <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
           <img src="../../src/assets/Background.png" class="w-full relative" />
           <div class="borderPic">
-            <img
-              :src="getImage()"
-              class="pic rounded-full w-28 h-28 cursor-pointer"
-              @click="EditImage()"
-            />
+            <div>
+              <img
+                :src="getImage()"
+                class="pic rounded-full w-28 h-28 cursor-pointer"
+                
+              />
+              <!-- <input type="file" accept="image/*" @input="selectFile" /> -->
+            </div>
           </div>
 
           <div class="" v-if="edit == false">
@@ -231,9 +234,7 @@
   </div>
 
   <diV v-if="showEditImage">
-    <editImage 
-    :editImage="editImg"
-    @EditImage="EditImage"></editImage>
+    <editImage :editImage="editImg" @EditImage="EditImage"></editImage>
   </diV>
 </template>
 
@@ -405,9 +406,22 @@ export default {
         });
     },
 
-    EditImage() {
-      this.showEditImage = true;
-      // console.log("Hi");
+    chooseImage() {
+      this.$refs.fileInput.click();
+    },
+
+    selectFile(e) {
+      // this.showEditImage = true;
+
+      const file = e.target.files[0];
+      this.picture = URL.createObjectURL(file);
+      this.imageName = file.name;
+      this.imgFile = file;
+      let reader = new FileReader();
+      reader.onload = (e) => {
+        this.preview = e.target.result;
+      };
+      reader.readAsDataURL(file);
     },
 
     deleteAccount() {

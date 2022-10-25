@@ -1,5 +1,5 @@
 <template>
-  <div class="background sm:bg-light bg-white">
+  <div class="background bg-light">
     <div class="md:grid md:grid-cols-2 h-screen">
       <!-- image -->
       <div>
@@ -11,26 +11,31 @@
 
       <div class="flex justify-start items-center">
         <form @submit.prevent="resend">
-          <p class="text-secondary font-semibold">
-            ตรวจสอบอีเมลของคุณเพื่อยืนยันบัญชีนี้
-          </p>
+          <div class="pt-2 lg:mx-20 md:mx-12 mx-20 mt-20 sm:mt-0">
+            <p
+              class="text-secondary font-semibold lg:text-2xl md:text-lg flex justify-center sm:text-lg text-base"
+            >
+              ตรวจสอบอีเมลของคุณเพื่อยืนยันบัญชีนี้
+            </p>
 
-          <div class="pt-2 lg:mx-20 md:mx-12 mx-20">
-            <div class="pt-9 flex justify-center">
-              <p>
+            <div class="pt-9 flex justify-center lg:mt-10 sm:mt-20">
+              <p class="text-gray100 lg:text-base md:text-sm sm:text-base text-xs">
                 หากคุณไม่ได้รับอีเมล คุณสามารถกรอกอีเมลสำหรับการ Verify
                 อีกครั้งได้ที่นี่
               </p>
             </div>
-            <div class="flex justify-center lg:mt-20 md:mt-10 mt-20">
+            <div class="flex justify-center lg:mt-5 md:mt-5 mt-5">
               <span class="material-symbols-outlined"> alternate_email </span>
               <input
                 v-model="email"
                 type="text"
                 placeholder="อีเมล"
-                class="border-b border-gray50"
+                class="border-b border-gray50 bg-light"
               />
             </div>
+            <sup v-show="inputEmail" class="text-red-500 flex mt-4 justify-end md:text-sm">
+              กรุณากรอก อีเมล สำหรับการ verify
+            </sup>
           </div>
 
           <div class="flex justify-center mt-14 lg:mx-20 md:mx-10 mx-20">
@@ -40,49 +45,6 @@
           </div>
         </form>
       </div>
-
-      <!-- forgot -->
-      <!-- <div class="box bg-white">
-        <div class="pt-14 text-xl font-bold text-primary justify-center flex">
-          <h1>ลืมรหัสผ่าน</h1>
-        </div>
-
-        <form @submit.prevent="sendForgot">
-          <div class="pt-2 lg:mx-20 md:mx-12 mx-20">
-            <div class="pt-9 flex justify-center">
-              <p>ส่งคำขอรีเซ็ตรหัสผ่านไปยังอีเมล</p>
-            </div>
-            <div class="flex justify-center lg:mt-20 md:mt-10 mt-20">
-              <span class="material-symbols-outlined"> alternate_email </span>
-              <input
-                v-model="user"
-                type="text"
-                placeholder="อีเมล"
-                class="border-b border-gray50"
-              />
-            </div>
-          </div>
-
-          <div class="flex justify-center mt-14 lg:mx-20 md:mx-10 mx-20">
-            <button class="bg-primary rounded w-full justify-center flex py-2">
-              <p class="text-white text-sm">ส่งคำขอ</p>
-            </button>
-          </div>
-        </form>
-
-        <div class="flex justify-center mt-10 md:text-sm text-xs">
-          <p class="inline-block text-primary underline pr-2">
-            <a href="/"> เข้าสู่ระบบ</a>
-          </p>
-        </div>
-        <div class="flex justify-center mt-10 md:text-sm text-xs">
-          <p class="inline-block text-gray100 pr-1">หากคุณเป็นสมาชิกใหม่</p>
-          <p class="inline-block text-primary underline pr-1">
-            <a href="/helioscore/signup">สร้างบัญชี</a>
-          </p>
-          <p class="inline-block text-gray100">ที่นี่</p>
-        </div>
-      </div> -->
     </div>
   </div>
 </template>
@@ -94,12 +56,14 @@ export default {
     return {
       url: "helio/mail/verify",
       email: null,
+      inputEmail: false,
     };
   },
   methods: {
     resend() {
       if (!this.email) {
-        alert("กรุณากรอก อีเมล สำหรับการ verify");
+        // alert("กรุณากรอก อีเมล สำหรับการ verify");
+        this.inputEmail = true;
       } else {
         axios
           .post(this.url, {

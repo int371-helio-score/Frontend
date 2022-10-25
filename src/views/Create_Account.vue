@@ -333,7 +333,7 @@ export default {
             this.confirmPassword = "";
             this.test = "";
             // localStorage.setItem("token", res.data.data.token);
-            this.$router.push("/helioscore/verifyEmail") && alert("สร้างบัญชีสำเร็จ กรุณายืนยันบัญชีของคุณ");
+            this.$router.push("/helioscore/resendemail") && alert("สร้างบัญชีสำเร็จ กรุณายืนยันบัญชีของคุณ");
           }
         })
         .catch((err) => {

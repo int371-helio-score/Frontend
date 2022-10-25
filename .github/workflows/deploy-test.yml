@@ -41,7 +41,7 @@ jobs:
             docker pull ghcr.io/int371-helio-score/helio-score-fe:test
             docker images
             docker rm frontend -f
-            docker run -p 80:80 -d --name frontend --network helio-network --ip 172.18.0.4 ghcr.io/int371-helio-score/helio-score-fe:test
+            docker run -d --name frontend --network helio-network --ip 172.18.0.4 ghcr.io/int371-helio-score/helio-score-fe:test
   test:
     needs: deploy-test
     runs-on: ubuntu-latest
