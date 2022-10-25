@@ -198,7 +198,7 @@
           :class="{ 'overflow-x-auto': scroll }"
         >
           <table class="h-fit rounded-md">
-            <tr class="bg-babyblue p-4">
+            <tr class="bg-babyblue p-4 cursor-default">
               <th class="px-2">เลขที่</th>
               <th>รหัส</th>
               <th>ชื่อ-นามสกุล</th>
@@ -211,7 +211,8 @@
             <tr
               v-for="list in stdScore"
               :key="list.no"
-              class="font-light bg-white hover:bg-light"
+              class="font-light bg-white hover:bg-light cursor-pointer"
+              @click="showEdit(firstName, lastName)"
             >
               <td>{{ list.no }}</td>
               <td>{{ list.studentId }}</td>
@@ -224,26 +225,32 @@
           </table>
 
           <!-- Manage Score -->
-          <div
-            class="lg:mt-10 flex justify-start sm:mx-10 mx-5 items-center self-center"
-          >
-            <span class="material-symbols-outlined"> settings </span>
-            <div v-show="showList">
-              <p class="text-sm ml-1 hover:text-primary cursor-pointer" @click="showDelete()">
-                ลบคะแนนชิ้นงาน
-              </p>
-            </div>
-          </div>
-
-          <div
-            class="lg:mt-10 flex justify-start sm:mx-10 mx-5 self-center items-center bottom-0 z-10"
-          >
-            <span class="material-symbols-outlined"> settings </span>
-            <a href="/helioscore"
-              ><p class="text-sm ml-1 hover:text-primary cursor-pointer">
+          <div class="flex mt-10 bottom-0">
+            <div
+              class="flex justify-start self-center items-center bottom-0 z-10"
+            >
+              <span class="material-symbols-outlined"> edit_note </span>
+              <p
+                class="text-sm ml-1 hover:text-primary cursor-pointer"
+                @click="showEdit()"
+              >
                 แก้ไขคะแนน
               </p>
-            </a>
+            </div>
+
+            <div
+              class="flex justify-start items-center self-center sm:mx-10 mx-5"
+            >
+              <span class="material-symbols-outlined"> delete </span>
+              <div v-show="showList">
+                <p
+                  class="text-sm ml-1 hover:text-primary cursor-pointer"
+                  @click="showDelete()"
+                >
+                  ลบคะแนน
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -262,18 +269,22 @@
             <div class="mx-20 mt-10">
               <p class="text-secondary font-bold my-2">ชิ้นงาน</p>
               <div>
-            <div v-for="tt in std" :key="tt._id" class="flex justify-between mt-3">
-              <div class="flex justify-start">
-                {{ tt.title }}
+                <div
+                  v-for="tt in std"
+                  :key="tt._id"
+                  class="flex justify-between mt-3"
+                >
+                  <div class="flex justify-start">
+                    {{ tt.title }}
+                  </div>
+                  <button
+                    class="flex justify-end text-gray-600 hover:text-red-500"
+                    @click="deleteAssignment(tt._id, tt.title)"
+                  >
+                    ลบ
+                  </button>
+                </div>
               </div>
-              <button
-                class="flex justify-end text-gray-600 hover:text-red-500"
-                @click="deleteAssignment(tt._id, tt.title)"
-              >
-                ลบ
-              </button>
-            </div>
-          </div>
             </div>
           </div>
 
@@ -282,12 +293,65 @@
           <div class="flex justify-center place-content-end mt-12">
             <div class="absolute bottom-8 grid grid-cols-2 gap-4">
               <button
-                class="bg-light text-secondary2 border border-secondary2 rounded-md px-6 py-1 ml-2 "
+                class="bg-light text-secondary2 border border-secondary2 rounded-md px-6 py-1 ml-2"
                 @click="deleteModal = false"
               >
                 ออก
               </button>
-              <button class="bg-secondary2 text-white rounded-md px-6 py-1 ml-2 ">
+              <button
+                class="bg-secondary2 text-white rounded-md px-6 py-1 ml-2"
+              >
+                บันทึก
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Score -->
+  <div name="modal" v-show="editModal == true">
+    <div class="modal-mask">
+      <div class="modal-wrapper">
+        <div class="modal-container relative">
+          <img src="../../src/assets/Background.png" class="w-full relative" />
+          <div>
+            <div class="mx-20 mt-10">
+              <p class="text-secondary font-bold my-2"> {{ firstName }}</p>
+              <form>
+                <tr v-for="stdlist in stdScore._id" :key="stdlist._id">
+                  <th class="px-2">เลขที่</th>
+                  <th>รหัส</th>
+                  <th>ชื่อ-นามสกุล</th>
+                  <th v-for="tt in std" :key="tt._id" class="px-2">
+                    {{ tt.title }}
+                    <span
+                      class="material-symbols-outlined cursor-pointer"
+                      @click="showEdit()"
+                    >
+                      edit_note
+                    </span>
+                    <p class="text-xs font-extralight">{{ tt.total }} คะแนน</p>
+                  </th>
+                </tr>
+              </form>
+            </div>
+          </div>
+
+          <!-- button -->
+
+          <div class="flex justify-center place-content-end mt-12">
+            <div class="absolute bottom-8 grid grid-cols-2 gap-4">
+              <button
+                class="bg-light text-secondary2 border border-secondary2 rounded-md px-6 py-1 ml-2"
+                @click="editModal = false"
+              >
+                ออก
+              </button>
+              <button
+                class="bg-secondary2 text-white rounded-md px-6 py-1 ml-2"
+              >
                 บันทึก
               </button>
             </div>
@@ -331,6 +395,7 @@ export default {
       uploadStd: false,
       showAssignList: false,
       deleteModal: false,
+      editModal: false,
     };
   },
 
@@ -339,9 +404,6 @@ export default {
     this.room = this.$route.query.room;
     this.class_id = this.$route.query.class_id;
     this.subject_id = this.$route.params.subId;
-
-    // console.log("subId: " + this.subject_id);
-    // console.log("classId: " + this.class_id);
 
     await this.getStudent(this.$route.query.class_id);
     await this.getAnnounce(this.$route.query.class_id);
@@ -527,6 +589,7 @@ export default {
                     .find((x) => x.no === each.no)
                     .score.push(each.score);
                 }
+                console.log(this.stdScore);
               });
             }
             if (this.std.length > 5) {
@@ -558,27 +621,67 @@ export default {
       }
     },
 
-    showDelete(){
+    showDelete() {
       this.deleteModal = true;
-      console.log(this.deleteModal)
+      // console.log(this.deleteModal);
     },
 
     async deleteAssignment(score_id, title) {
+      let text = "ต้องการลบชิ้นงาน " + title + " หรือไม่";
+      if (confirm(text) == true) {
+        axios
+          .delete(`helio/score/${score_id}`, {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          })
+          .then((res) => {
+            // console.log(res);
+            if (res.data.statusCode === 200) {
+              // return;
+              this.$router.go();
+            }
+          })
+          .catch((err) => {
+            alert(err.response.message);
+          });
+      } else {
+        return;
+      }
+    },
+
+    showEdit() {
+      this.editModal = true;
+    },
+
+    async submitEdit() {
+      var data = {
+        firstName: this.newFirstName,
+        lastName: this.newLastName,
+      };
+      // if(editImage){
+      //   data.image = this.inputFile;
+      // }
       axios
-        .delete(`helio/score/${score_id}`, {
+        .patch("helio/score", data, {
           headers: {
             Authorization: localStorage.getItem("token"),
           },
+
         })
         .then((res) => {
-          console.log(res);
+          console.log(this.newFirstName);
           if (res.data.statusCode === 200) {
-            alert("ยืนยันการลบชิ้นงาน" + title);
-            this.$router.go();
+            alert("Edit success");
+            this.showModal = false;
+            this.edit = false;
+            this.getAccount();
+            this.newFirstName = "";
+            this.newLastName = "";
           }
         })
         .catch((err) => {
-          alert(err.response.message);
+          alert(err.response.data.message);
         });
     },
   },
@@ -749,7 +852,6 @@ table::-webkit-scrollbar-thumb:window-inactive {
   background-color: rgba(0, 0, 0, 0.5);
   display: table;
   transition: opacity 0.3s ease;
-  
 }
 
 .modal-wrapper {
