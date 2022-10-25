@@ -211,7 +211,8 @@
             <tr
               v-for="list in stdScore"
               :key="list.no"
-              class="font-light bg-white hover:bg-light"
+              class="font-light bg-white hover:bg-light cursor-pointer"
+              @click="showEdit()"
             >
               <td>{{ list.no }}</td>
               <td>{{ list.studentId }}</td>
@@ -235,7 +236,7 @@
             </div>
           </div>
 
-          <div
+          <!-- <div
             class="lg:mt-10 flex justify-start sm:mx-10 mx-5 self-center items-center bottom-0 z-10"
           >
             <span class="material-symbols-outlined"> settings </span>
@@ -244,7 +245,7 @@
                 แก้ไขคะแนน
               </p>
             </a>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

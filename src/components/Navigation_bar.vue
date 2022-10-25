@@ -191,12 +191,6 @@
               >
                 ออก
               </button>
-              <!-- <button
-                class="bg-light text-primary rounded-md mr-2 px-2 py-1"
-                @click="editProfile()"
-              >
-                แก้ไขข้อมูล
-              </button> -->
             </div>
 
             <div class="grid grid-cols-2" v-else>

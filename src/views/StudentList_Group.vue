@@ -14,17 +14,19 @@
         </div>
 
         <div class="mt-20">
-          <div class="text-xl px-40">
+          <div class="text-base lg:pl-0 lg:pr-16">
             <template v-for="stdList in stdList.members" :key="stdList.no">
               <div
-                class="h-14 flex flex-row justify-around bg-white my-4 rounded-2xl drop-shadow-sm"
+                class="h-14 flex flex-row justify-around bg-white my-4 rounded-md drop-shadow-sm"
               >
-                <p class="self-center">
-                  {{ stdList.title }} {{ stdList.firstName }} {{ stdList.lastName }}
-                </p>
-                <p class="self-center">{{ stdList.email }}</p>
-                <p class="self-center">เลขที่ {{ stdList.no }}</p>
                 <p class="self-center">รหัสนักเรียน {{ stdList.studentId }}</p>
+                <p class="self-center">เลขที่ {{ stdList.no }}</p>
+                <p class="self-center">
+                  {{ stdList.title }} {{ stdList.firstName }}
+                  {{ stdList.lastName }}
+                </p>
+
+                <p class="self-center">{{ stdList.email }}</p>
               </div>
             </template>
           </div>
@@ -61,7 +63,7 @@ export default {
   },
   async created() {
     this.stdListId = this.$route.query.group;
-    
+
     this.getStudentList();
   },
 };
@@ -77,5 +79,12 @@ export default {
   @apply text-sm font-bold mt-5 text-secondary
   lg:text-xl lg:font-semibold
   md:mt-10 md:text-lg md:font-bold;
+}
+.order {
+  @apply grid mx-10 gap-4 justify-center
+  xl:grid-cols-5 xl:gap-8
+  lg:grid-cols-4 lg:gap-10 lg:mb-20
+  md:grid-cols-3 md:gap-4
+  sm:grid-cols-1;
 }
 </style>

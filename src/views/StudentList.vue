@@ -7,11 +7,11 @@
 
       <div class="data h-screen">
         <div class="title flex space-x-2">
-          <div>รายชื่อ</div>
+          <div>ห้องเรียนทั้งหมด</div>
         </div>
 
         <div class="text-xl mt-20">
-          <div class="px-52">
+          <div class="order">
             <template v-for="stdlist in stdList" :key="stdlist._id">
               <router-link :to="{
                 name:'studentGroup',
@@ -23,13 +23,13 @@
                   },
               }">
                 <div
-                  class="h-14 flex flex-row justify-between pr-8 bg-white my-10 rounded-2xl drop-shadow-sm"
+                  class="subject bg-white text-center"
                 >
-                  <p class="self-center ml-10 flex justify-start">
-                    {{ stdlist.groupName }}
+                  <p class="self-center  ">
+                  ชั้นมัธยมศึกษาปีที่ {{ stdlist.groupName }}
                   </p>
-                  <p class="self-center mr-10 flex justify-end">
-                    {{ stdlist.total }} คน
+                  <p class="self-center text-gray100">
+                  จำนวน  {{ stdlist.total }} คน
                   </p>
                 </div>
               </router-link>
@@ -86,5 +86,19 @@ export default {
   @apply text-sm font-bold mt-5 text-secondary
   lg:text-xl lg:font-semibold
   md:mt-10 md:text-lg md:font-bold;
+}
+.order {
+  @apply grid mx-10 gap-4 justify-center
+  xl:grid-cols-5 xl:gap-8
+  lg:grid-cols-4 lg:gap-10 lg:mb-20
+  md:grid-cols-3 md:gap-4
+  sm:grid-cols-1;
+}
+.subject {
+  border: 3px solid #f7f7f7;
+  border-radius: 10px;
+  @apply justify-center text-xs
+  lg:text-sm py-8
+  md:px-5;
 }
 </style>

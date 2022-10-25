@@ -24,14 +24,14 @@
           </router-link>
         </div>
 
-        <!-- <div class="layout">
+        <div class="layout">
         <router-link to="/studentlist">
           <div class="object">
             <span class="material-symbols-outlined"> add </span>
-            <div class="text-secondary sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 hover-primary">เพิ่มวิชาที่สอน</div>
+            <div class="text-secondary sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 hover:text-primary">เพิ่มรายชื่อในห้องเรียน</div>
           </div>
         </router-link>
-      </div> -->
+      </div>
       </div>
 
       <div class="flex justify-end items-end">
