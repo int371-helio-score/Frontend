@@ -40,7 +40,7 @@
               <img
                 :src="getImage()"
                 class="pic rounded-full w-28 h-28 cursor-pointer"
-                
+                @click="showEdit()"
               />
               <!-- <input type="file" accept="image/*" @input="selectFile" /> -->
             </div>

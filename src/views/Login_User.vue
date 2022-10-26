@@ -121,11 +121,6 @@ export default {
       if (!this.user || !this.pass) {
         alert("กรุณากรอก อีเมล และ รหัสผ่าน");
       }
-      // else if (!this.user) {
-      //   alert("กรุณากรอก อีเมล");
-      // } else if (!this.pass) {
-      //   alert("กรุณากรอก รหัสผ่าน");
-      // }
       else {
         console.log("email =" + this.user + "pass =" + this.pass);
         await axios
@@ -134,8 +129,6 @@ export default {
             password: this.pass,
           })
           .then((res) => {
-            console.log("Hi");
-            console.log(res);
             if (res.data.statusCode === 200) {
               localStorage.setItem("token", res.data.data.token);
               return this.$router.push("/helioscore");

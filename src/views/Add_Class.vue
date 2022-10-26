@@ -92,7 +92,6 @@ export default {
     },
 
     addClassroom() {
-      // console.log(this.inputRoom);
       let data = {
         class: this.tags,
         subjectId: this.subject,
@@ -107,7 +106,6 @@ export default {
           if (res.data.statusCode === 200) {
             this.tags = "";
             alert("เพิ่มห้องเรียนสำเร็จ");
-            // this.$router.go(1);
           }
         })
         .catch((err) => {

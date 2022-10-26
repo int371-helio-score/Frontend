@@ -7,7 +7,7 @@
       <div class="data h-screen">
         <div class="title flex space-x-2">
           <div>
-            <router-link to="/helioscore/studentList">รายชื่อ</router-link>
+            <router-link to="/helioscore/studentList">ห้องเรียนทั้งหมด</router-link>
           </div>
           <div>></div>
           <div>ม. {{ stdList.groupName }}</div>
@@ -19,8 +19,8 @@
               <div
                 class="h-14 flex flex-row justify-around bg-white my-4 rounded-md drop-shadow-sm"
               >
-                <p class="self-center">รหัสนักเรียน {{ stdList.studentId }}</p>
                 <p class="self-center">เลขที่ {{ stdList.no }}</p>
+                <p class="self-center">รหัสนักเรียน {{ stdList.studentId }}</p>
                 <p class="self-center">
                   {{ stdList.title }} {{ stdList.firstName }}
                   {{ stdList.lastName }}

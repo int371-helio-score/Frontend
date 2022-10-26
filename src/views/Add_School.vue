@@ -174,8 +174,6 @@ export default {
   async created() {
     await this.getAccount();
     await this.getSchool();
-
-    // console.log(this.schools)
   },
 
   computed: {

@@ -205,14 +205,19 @@
               <th v-for="tt in std" :key="tt._id" class="px-2">
                 {{ tt.title }}
                 <p class="text-xs font-extralight">{{ tt.total }} คะแนน</p>
+                <span
+                  class="material-symbols-outlined cursor-pointer"
+                  @click="showEdit(tt)"
+                >
+                  edit_note
+                </span>
               </th>
             </tr>
 
             <tr
               v-for="list in stdScore"
               :key="list.no"
-              class="font-light bg-white hover:bg-light cursor-pointer"
-              @click="showEdit()"
+              class="font-light bg-white hover:bg-light"
             >
               <td>{{ list.no }}</td>
               <td>{{ list.studentId }}</td>
@@ -230,22 +235,14 @@
           >
             <span class="material-symbols-outlined"> settings </span>
             <div v-show="showList">
-              <p class="text-sm ml-1 hover:text-primary cursor-pointer" @click="showDelete()">
+              <p
+                class="text-sm ml-1 hover:text-primary cursor-pointer"
+                @click="showDelete()"
+              >
                 ลบคะแนนชิ้นงาน
               </p>
             </div>
           </div>
-
-          <!-- <div
-            class="lg:mt-10 flex justify-start sm:mx-10 mx-5 self-center items-center bottom-0 z-10"
-          >
-            <span class="material-symbols-outlined"> settings </span>
-            <a href="/helioscore"
-              ><p class="text-sm ml-1 hover:text-primary cursor-pointer">
-                แก้ไขคะแนน
-              </p>
-            </a>
-          </div> -->
         </div>
       </div>
     </div>
@@ -253,7 +250,7 @@
 
   <!-- Delete Score -->
 
-  <div name="modal" v-show="deleteModal == true">
+  <div name="modal" v-show="deleteModal == true" v-if="editModal == false">
     <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container relative">
@@ -305,55 +302,15 @@
   </div>
 
   <!-- Edit Score -->
-  <div name="modal" v-show="editModal == true">
-    <div class="modal-mask">
-      <div class="modal-wrapper">
-        <div class="modal-container relative">
-          <img src="../../src/assets/Background.png" class="w-full relative" />
-          <div>
-            <div class="mx-20 mt-10">
-              <p class="text-secondary font-bold my-2"> {{ firstName }}</p>
-              <form>
-                <tr v-for="stdlist in stdScore._id" :key="stdlist._id">
-                  <th class="px-2">เลขที่</th>
-                  <th>รหัส</th>
-                  <th>ชื่อ-นามสกุล</th>
-                  <th v-for="tt in std" :key="tt._id" class="px-2">
-                    {{ tt.title }}
-                    <span
-                      class="material-symbols-outlined cursor-pointer"
-                      @click="showEdit()"
-                    >
-                      edit_note
-                    </span>
-                    <p class="text-xs font-extralight">{{ tt.total }} คะแนน</p>
-                  </th>
-                </tr>
-              </form>
-            </div>
-          </div>
 
-          <!-- button -->
-
-          <div class="flex justify-center place-content-end mt-12">
-            <div class="absolute bottom-8 grid grid-cols-2 gap-4">
-              <button
-                class="bg-light text-secondary2 border border-secondary2 rounded-md px-6 py-1 ml-2"
-                @click="editModal = false"
-              >
-                ออก
-              </button>
-              <button
-                class="bg-secondary2 text-white rounded-md px-6 py-1 ml-2"
-              >
-                บันทึก
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <editScore
+    v-if="editModal"
+    :scoreComp="editScore"
+    @showEdit="showEdit"
+    class="absolute"
+  >
+    <div>Hi</div>
+  </editScore>
 </template>
 
 <script>
@@ -390,17 +347,8 @@ export default {
       showAssignList: false,
       deleteModal: false,
       editModal: false,
+      editScore: null,
     };
-  },
-
-  async created() {
-    this.grade = this.$route.params.grade;
-    this.room = this.$route.query.room;
-    this.class_id = this.$route.query.class_id;
-    this.subject_id = this.$route.params.subId;
-
-    await this.getStudent(this.$route.query.class_id);
-    await this.getAnnounce(this.$route.query.class_id);
   },
 
   methods: {
@@ -472,9 +420,7 @@ export default {
         })
         .then((res) => {
           if (res.data.statusCode === 200) {
-            // this.getStudent().$router.go();
             (this.fileStd = ""), alert("อัปโหลดราชื่อ สำเร็จ");
-            // this.getAnnounce(this.$route.query.class_id);
             this.$router.go();
           }
         })
@@ -553,6 +499,7 @@ export default {
 
     async getStudent(classId) {
       try {
+        this.stdScore = []
         axios
           .get(`${this.url}/${classId}`, {
             headers: {
@@ -583,13 +530,11 @@ export default {
                     .find((x) => x.no === each.no)
                     .score.push(each.score);
                 }
-                console.log(this.stdScore);
               });
             }
             if (this.std.length > 5) {
               this.scroll = true;
             }
-            console.log(this.std);
             return response.data.data.results;
           });
       } catch (error) {
@@ -607,7 +552,6 @@ export default {
           })
           .then((response) => {
             this.toAnnounce = response.data.data.results;
-            // console.log(this.toAnnounce);
             return response.data.data.results;
           });
       } catch (error) {
@@ -617,7 +561,6 @@ export default {
 
     showDelete() {
       this.deleteModal = true;
-      // console.log(this.deleteModal);
     },
 
     async deleteAssignment(score_id, title) {
@@ -630,9 +573,7 @@ export default {
             },
           })
           .then((res) => {
-            // console.log(res);
             if (res.data.statusCode === 200) {
-              // return;
               this.$router.go();
             }
           })
@@ -644,8 +585,12 @@ export default {
       }
     },
 
-    showEdit() {
-      this.editModal = true;
+    async showEdit(scoreList) {
+      this.editScore = scoreList;
+      this.editModal = !this.editModal;
+      if(this.editModal == false){
+        await this.getStudent(this.$route.query.class_id);
+      }
     },
 
     async submitEdit() {
@@ -661,10 +606,8 @@ export default {
           headers: {
             Authorization: localStorage.getItem("token"),
           },
-
         })
         .then((res) => {
-          console.log(this.newFirstName);
           if (res.data.statusCode === 200) {
             alert("Edit success");
             this.showModal = false;
@@ -678,6 +621,16 @@ export default {
           alert(err.response.data.message);
         });
     },
+  },
+
+  async created() {
+    this.grade = this.$route.params.grade;
+    this.room = this.$route.query.room;
+    this.class_id = this.$route.query.class_id;
+    this.subject_id = this.$route.params.subId;
+
+    await this.getStudent(this.$route.query.class_id);
+    await this.getAnnounce(this.$route.query.class_id);
   },
 };
 </script>

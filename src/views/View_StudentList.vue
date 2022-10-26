@@ -62,16 +62,13 @@ export default {
         })
         .then((res) => {
           if (res.data.statusCode === 200) {
-            console.log(res.data);
             this.stdList = res.data.data.results;
-            console.log(this.stdList);
           }
         });
     },
   },
   async created() {
     this.getAllStudentList();
-    console.log(this.stdList);
   },
 };
 </script>

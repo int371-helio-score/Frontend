@@ -93,14 +93,12 @@ import axios from "axios";
 export default {
   data() {
     return {
-      //   urlGrade: "/helio/class/$subject_id",
       classroom: [],
     };
   },
 
   async created() {
     await this.getClass();
-    console.log(this.classroom);
   },
 
   methods: {
@@ -112,7 +110,6 @@ export default {
           },
         });
         this.classroom = response.data.data.results;
-        // this.selected = this.academics[0];
       } catch (error) {
         console.log(`Could not get! ${error}`);
       }
