@@ -24,7 +24,7 @@
           </router-link>
         </div>
 
-        <div class="layout">
+        <!-- <div class="layout">
           <router-link to="/helioscore/importstudentlist">
             <div class="object">
               <span class="material-symbols-outlined"> add </span>
@@ -35,7 +35,7 @@
               </div>
             </div>
           </router-link>
-        </div>
+        </div> -->
       </div>
 
       <div class="flex justify-end items-end">

@@ -9,7 +9,6 @@
         <div class="sm:mx-10 mx-5 divide-y divide-gray10">
           <div class="title flex space-x-2">
             <div><router-link to="/">หน้าหลัก </router-link></div>
-            <div>></div>
             <div class="">
               {{ subjectName }}
               ชั้นมัธยมศึกษาปีที่ {{ classId }}

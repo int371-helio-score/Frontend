@@ -127,9 +127,9 @@
               </div>
             </div>
 
-            <div class="flex ml-4">
+            <div class="flex ">
               <div class="box" v-if="!showEditPass">
-                <div class="flex justify-end" @click="deleteAccount()">
+                <div class="flex justify-start text-sm text-gray100 cursor-pointer" @click="deleteAccount()">
                   ลบบัญชี
                 </div>
               </div>

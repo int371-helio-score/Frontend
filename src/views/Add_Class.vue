@@ -83,8 +83,6 @@ export default {
 
     checkInput() {
       this.inputRoom = this.tags === 0 ? true : false;
-      console.log(this.inputRoom);
-      console.log(this.tags);
       if (this.inputRoom) {
         return;
       }

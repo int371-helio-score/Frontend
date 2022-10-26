@@ -6,34 +6,50 @@
       <sidebar-teacher />
 
       <div class="data h-screen">
-        <div class="title flex space-x-2">
-          <div>ห้องเรียนทั้งหมด</div>
-        </div>
+        <div div class="sm:mx-10 mx-5 divide-y divide-gray10">
+          <div class="title flex space-x-2">
+            <div>ห้องเรียนทั้งหมด</div>
+          </div>
 
-        <div class="text-xl mt-20">
-          <div class="order">
-            <template v-for="stdlist in stdList" :key="stdlist._id">
-              <router-link :to="{
-                name:'studentGroup',
-                params: {
-                    group: stdlist._id,
-                  },
-                  query: {
-                    group: stdlist._id,
-                  },
-              }">
-                <div
-                  class="subject bg-white text-center"
+          <div class="my-5 pt-10 py-5 grid grid-cols-2">
+            <div class="flex justify-start">ห้องเรียนทั้งหมด</div>
+            <div class="flex justify-end">
+              <router-link to="/helioscore/importstudentlist">
+                <button
+                  class="add flex justify-center self-center items-center"
                 >
-                  <p class="self-center  ">
-                  ชั้นมัธยมศึกษาปีที่ {{ stdlist.groupName }}
-                  </p>
-                  <p class="self-center text-gray100">
-                  จำนวน  {{ stdlist.total }} คน
-                  </p>
-                </div>
+                  <span class="material-symbols-outlined mr-2"> add </span>
+                  <p>เพิ่มห้องเรียน</p>
+                </button>
               </router-link>
-            </template>
+            </div>
+          </div>
+
+          <div class="text-xl mt-20">
+            <div class="order">
+              <template v-for="stdlist in stdList" :key="stdlist._id">
+                <router-link
+                  :to="{
+                    name: 'studentGroup',
+                    params: {
+                      group: stdlist._id,
+                    },
+                    query: {
+                      group: stdlist._id,
+                    },
+                  }"
+                >
+                  <div class="subject bg-white text-center">
+                    <p class="self-center">
+                      ชั้นมัธยมศึกษาปีที่ {{ stdlist.groupName }}
+                    </p>
+                    <p class="self-center text-gray100">
+                      จำนวน {{ stdlist.total }} คน
+                    </p>
+                  </div>
+                </router-link>
+              </template>
+            </div>
           </div>
         </div>
       </div>
@@ -97,5 +113,11 @@ export default {
   @apply justify-center text-xs
   lg:text-sm py-8
   md:px-5;
+}
+.add {
+  background: white;
+  box-shadow: 0px 1px 5px rgba(214, 214, 214, 0.5);
+  border-radius: 22px;
+  @apply px-8 py-1;
 }
 </style>
