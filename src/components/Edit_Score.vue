@@ -5,15 +5,23 @@
         <div class="modal-container relative">
           <img src="../../src/assets/Background.png" class="w-full relative" />
           <div>
-            <div class="mx-20 mt-10">
+            <div class="mx-20 mt-5 flex justify-center">
               <p class="text-secondary font-bold my-2">
-                แก้ไข {{ scores.title }}
+                แก้ไขคะแนน {{ scores.title }}
               </p>
             </div>
 
-            <div v-for="student in scores.scores" :key="student.no">
-              {{ student.firstName }}
-              <input v-model="student.score" class="border px-2 py-1" />
+            <div
+              v-for="student in scores.scores"
+              :key="student.no"
+              class="lg:mx-32 my-4 flex justify-between items-center"
+            >
+              <div class="">เลขที่   {{ student.no }}</div>
+              {{ student.firstName }} {{ student.lastName }}
+              <input
+                v-model="student.score"
+                class="border px-2 py-1"
+              />
             </div>
           </div>
 
@@ -65,12 +73,12 @@ export default {
     },
 
     submitForm() {
-      let student = []
-      for(const each of this.scores.scores){
+      let student = [];
+      for (const each of this.scores.scores) {
         let obj = {
-            studentId: each.studentId,
-            score: each.score
-        }
+          studentId: each.studentId,
+          score: each.score,
+        };
         student.push(obj);
       }
       var data = {
@@ -86,7 +94,7 @@ export default {
         .then((res) => {
           if (res.data.statusCode === 200) {
             alert("แก้ไขคะแนนสำเร็จ");
-             this.$emit("showEdit");
+            this.$emit("showEdit");
           }
         })
         .catch((err) => {

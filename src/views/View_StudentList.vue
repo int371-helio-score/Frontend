@@ -1,56 +1,51 @@
 <template>
-  <div class="bg-light h-full">
+  <div class="bg-light h-screen">
     <navTeacher />
 
     <div class="inline-flex">
       <sidebar-teacher />
 
-      <div class="data h-screen">
-        <div div class="sm:mx-10 mx-5 divide-y divide-gray10">
-          <div class="title flex space-x-2">
-            <div>ห้องเรียนทั้งหมด</div>
-          </div>
+      <div class="data">
+        <div div class="sm:mx-10 md:mx-0 divide-y divide-gray10">
+          <div class="title">ห้องเรียน</div>
 
-          <div class="my-5 pt-10 py-5 grid grid-cols-2">
+          <div class="my-5 pt-10 lg:py-5 grid grid-cols-2">
             <div class="flex justify-start">ห้องเรียนทั้งหมด</div>
-            <div class="flex justify-end">
+
+            <div class="semes flex justify-end">
               <router-link to="/helioscore/importstudentlist">
-                <button
-                  class="add flex justify-center self-center items-center"
-                >
+                <button class="add flex justify-center">
                   <span class="material-symbols-outlined mr-2"> add </span>
                   <p>เพิ่มห้องเรียน</p>
                 </button>
               </router-link>
             </div>
           </div>
+        </div>
 
-          <div class="text-xl mt-20">
-            <div class="order">
-              <template v-for="stdlist in stdList" :key="stdlist._id">
-                <router-link
-                  :to="{
-                    name: 'studentGroup',
-                    params: {
-                      group: stdlist._id,
-                    },
-                    query: {
-                      group: stdlist._id,
-                    },
-                  }"
-                >
-                  <div class="subject bg-white text-center">
-                    <p class="self-center">
-                      ชั้นมัธยมศึกษาปีที่ {{ stdlist.groupName }}
-                    </p>
-                    <p class="self-center text-gray100">
-                      จำนวน {{ stdlist.total }} คน
-                    </p>
-                  </div>
-                </router-link>
-              </template>
-            </div>
-          </div>
+        <div class="order">
+          <template v-for="stdlist in stdList" :key="stdlist._id">
+            <router-link
+              :to="{
+                name: 'studentGroup',
+                params: {
+                  group: stdlist._id,
+                },
+                query: {
+                  group: stdlist._id,
+                },
+              }"
+            >
+              <div class="subject bg-white text-center">
+                <p class="self-center">
+                  ชั้นมัธยมศึกษาปีที่ {{ stdlist.groupName }}
+                </p>
+                <p class="self-center text-gray100">
+                  จำนวน {{ stdlist.total }} คน
+                </p>
+              </div>
+            </router-link>
+          </template>
         </div>
       </div>
     </div>
@@ -91,7 +86,7 @@ export default {
 
 <style scoped>
 .data {
-  @apply pl-36 sm:pl-36 w-screen
+  @apply pl-36 pr-10 sm:pl-36 w-screen
   md:pl-44 mt-20
   lg:pl-60 lg:mt-24;
 }
@@ -119,5 +114,9 @@ export default {
   box-shadow: 0px 1px 5px rgba(214, 214, 214, 0.5);
   border-radius: 22px;
   @apply px-8 py-1;
+}
+.semes {
+  @apply text-secondary text-xs
+md:text-base;
 }
 </style>

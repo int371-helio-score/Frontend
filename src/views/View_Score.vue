@@ -16,14 +16,12 @@
             <div>ห้อง {{ room }}</div>
           </div>
 
-          <div class="my-5 pb-5 pt-15 flex">
-            <div
-              class="text-secondary text-sm md:text-base xl:text-lg pt-3 hidden xl:block"
-            >
+          <div class="my-5 pb-5 pt-15 grid-cols-6 grid">
+            <p class="pt-3 hidden xl:block">
               รายชื่อทั้งหมด
-            </div>
+            </p>
 
-            <div class="xl:ml-28 lg:ml-5">
+            <div class="col-span-4 col-end-7">
               <div class="grid grid-cols-3 gap-4 xl:gap-4 md:gap-2 pt-3">
                 <button class="add" @click="clickUploadStd()">
                   <div
@@ -49,7 +47,7 @@
                   >
                     <span class="material-symbols-outlined">
                       pending_actions </span
-                    >รายชื่อ และ คะแนนที่รอประกาศ
+                    >คะแนนที่รอประกาศ
                   </div>
                 </button>
               </div>
