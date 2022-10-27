@@ -113,7 +113,7 @@
               </div>
             </div>
 
-            <div class="flex ml-4">
+            <div class="flex ml-4" v-show="!account.google">
               <div class="box" v-if="!showEditPass">
                 <p class="title">รหัสผ่าน</p>
                 <div class="flex justify-end">
@@ -427,22 +427,27 @@ export default {
     },
 
     deleteAccount() {
-      axios
-        .delete(`helio/account/delete`, {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        })
-        .then((res) => {
-          if (res.data.statusCode === 200) {
-            alert("ลบสำเร็จ");
-            localStorage.removeItem("token");
-            this.$router.push("/");
-          }
-        })
-        .catch((err) => {
-          alert(err.response.message);
-        });
+      let text = "คุณต้องการลบบัญชีหรือไม่ ?";
+      if (confirm(text) == true) {
+        axios
+          .delete(`helio/account/delete`, {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          })
+          .then((res) => {
+            if (res.data.statusCode === 200) {
+              alert("ลบสำเร็จ");
+              localStorage.removeItem("token");
+              this.$router.push("/");
+            }
+          })
+          .catch((err) => {
+            alert(err.response.message);
+          });
+      } else{
+        return;
+      }
     },
   },
 
