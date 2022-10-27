@@ -8,8 +8,8 @@
         <div class="sm:mx-10 md:mx-0 divide-y divide-gray10">
           <div class="title">หน้าหลัก</div>
 
-          <div class="my-5 pt-10 lg:py-5 grid grid-cols-2">
-            <div class="flex justify-start">
+          <div class="my-5 pt-5 md:pt-10 lg:py-5 grid grid-cols-2">
+            <div class="flex justify-start semes">
               <p>วิชาทั้งหมด</p>
             </div>
 
@@ -163,6 +163,7 @@ export default {
         });
         this.academics = response.data.data.results;
         this.selected = this.academics[0];
+
       } catch (error) {
         console.log(`Could not get! ${error}`);
       }
@@ -182,22 +183,19 @@ export default {
           })
           .then((res) => {
             this.subjects = res.data.data.results;
-           
             this.totalRoom = res.data.data.total;
-        
             this.owner = res.data.data.results[0].owner;
-        
           });
       } catch (error) {
         console.log(`Could not get! ${error}`);
       }
     },
 
-    // checkOwner() {
-    //   if (this.subjects.owner == true) {
-    //     return (this.owner = true);
-    //   }
-    // },
+    checkOwner() {
+      if (this.subjects.owner == true) {
+        return (this.owner = true);
+      }
+    },
 
     getPicture() {
       return "https://test-helioscore.sytes.net/backend/public/images/pic1.png";
@@ -236,20 +234,20 @@ select {
   xl:grid-cols-5 xl:gap-8
   lg:grid-cols-4 lg:gap-10 lg:mb-20
   md:grid-cols-3 md:gap-4
-  sm:grid-cols-1;
+  sm:grid-cols-2;
 }
 .title {
-  @apply text-sm font-bold mt-5 text-secondary
+  @apply text-base font-bold mt-5 text-secondary
   lg:text-xl lg:font-semibold
   md:mt-10 md:text-lg md:font-bold;
 }
 .semes {
   @apply text-secondary text-xs
-md:text-base;
+md:text-base sm:text-sm;
 }
 .data {
-  @apply pl-36 pr-10 sm:pl-36 w-screen
-  md:pl-44 mt-20
+  @apply pl-36 pr-10 sm:pl-36 w-screen pt-8 md:pt-0
+  md:pl-60 mt-20
   lg:pl-60 lg:mt-24;
 }
 .object {

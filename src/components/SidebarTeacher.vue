@@ -14,6 +14,17 @@
         </div>
 
         <div class="layout">
+          <router-link to="/helioscore/newsubject">
+            <div class="object">
+              <span class="material-symbols-outlined mr-2"> add </span>
+              <div class="sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 text-primary">
+                เพิ่มวิชาที่สอน
+              </div>
+            </div>
+          </router-link>
+        </div>
+
+        <!-- <div class="layout">
           <router-link to="/helioscore/studentlist">
             <div class="object">
               <span class="material-symbols-outlined mr-2"> group </span>
@@ -22,7 +33,7 @@
               </div>
             </div>
           </router-link>
-        </div>
+        </div> -->
 
         <!-- <div class="layout">
           <router-link to="/helioscore/importstudentlist">
@@ -37,20 +48,20 @@
           </router-link>
         </div> -->
       </div>
-
+<!-- 
       <div class="flex justify-end items-end">
         <button
-          class="flex justify-center mx-5 self-center items-center"
+          class="flex justify-center md:mx-5 self-center items-center"
           @click="() => $router.push('/helioscore/newsubject')"
         >
           <span class="material-symbols-outlined text-primary mr-2"> add </span>
           <div
-            class="text-secondary sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 md:text-xs"
+            class="text-secondary sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 text-xs lg:text-sm"
           >
             เพิ่มวิชาที่สอน
           </div>
         </button>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -76,7 +87,7 @@ export default {
   @apply py-10 flex justify-start;
 }
 .object {
-  @apply flex text-primary sm:text-sm;
+  @apply flex text-primary sm:text-sm items-center;
 }
 button {
   position: absolute;
