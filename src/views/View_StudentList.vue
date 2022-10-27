@@ -7,16 +7,16 @@
 
       <div class="data">
         <div div class="sm:mx-10 md:mx-0 divide-y divide-gray10">
-          <div class="title">ห้องเรียน</div>
+          <div class="title">รายชื่อ</div>
 
           <div class="my-5 pt-10 lg:py-5 grid grid-cols-2">
-            <div class="flex justify-start">ห้องเรียนทั้งหมด</div>
+            <div class="flex justify-start">รายการทั้งหมด</div>
 
             <div class="semes flex justify-end">
               <router-link to="/helioscore/importstudentlist">
                 <button class="add flex justify-center">
                   <span class="material-symbols-outlined mr-2"> add </span>
-                  <p>เพิ่มห้องเรียน</p>
+                  <p>เพิ่มรายชื่อ</p>
                 </button>
               </router-link>
             </div>

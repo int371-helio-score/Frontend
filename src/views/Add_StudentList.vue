@@ -13,8 +13,11 @@
               <p class="header">
                 ขั้นตอนที่ 1 ระบุชั้นเรียน และห้องที่ต้องการเพิ่มรายชื่อ
               </p>
+              <p class="description">เลือกวิชา</p>
+              <v-select type="text" name="academic" v-model="subjects"/>
+
               <p class="description">เลือกชั้นเรียน</p>
-              <v-select type="text" name="academic" v-model="classroom" />
+              <v-select type="text" name="academic" v-model="classroom"/>
               <!-- <sup
               v-show="inputClass"
               class="text-red-500 flex justify-center mt-4"
@@ -112,8 +115,10 @@ export default {
   data() {
     return {
       importStd: "helio/studentList",
+      url: "helio/subject",
       classroom: [],
       room: [],
+      subjects: [],
       inputRoom: "",
       inputClass: "",
       filestd: "",
@@ -170,9 +175,34 @@ export default {
       }
     },
 
+    getSubjects() {
+      try {
+        axios
+          .get(this.url, {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+            params: {
+              // semester: _.get(this.selected, "semester"),
+              // academicYear: _.get(this.selected, "academicYear"),
+            },
+          })
+          .then((res) => {
+            this.subjects = res.data.data.results;
+            console.log(this.subjects);
+            this.totalRoom = res.data.data.total;
+            // console.log(this.totalRoom);
+            this.owner = res.data.data.results;
+            console.log(this.owner);
+          });
+      } catch (error) {
+        console.log(`Could not get! ${error}`);
+      }
+    },
+
     async getRoom() {
       try {
-        const response = await axios.get("/api/helio/class", {
+        const response = await axios.get("/helio/class", {
           headers: {
             Authorization: localStorage.getItem("token"),
           },

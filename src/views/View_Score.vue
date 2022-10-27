@@ -137,9 +137,9 @@
             <div class="container flex flex-col mt-10">
               <div class="self-center">
                 <div>
-                  <p>ชื่อ ชั้นเรียน</p>
+                  <p>ชื่อกลุ่มนักเรียน</p>
                   <input
-                    placeholder="ระบุชื่อไฟล์ชั้นเรียน"
+                    placeholder="ระบุชื่อกลุ่มหรือชั้นเรียน"
                     class="w-full py-1 px-2 mb-5"
                     v-model="groupName"
                   />
