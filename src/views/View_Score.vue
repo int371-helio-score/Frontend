@@ -197,7 +197,7 @@
           class="mx-10"
           :class="{ 'overflow-x-auto': scroll }"
         >
-          <table class="h-fit rounded-md">
+          <table class="h-auto rounded-md">
             <tr class="bg-babyblue p-4 cursor-default">
               <th class="px-2">เลขที่</th>
               <th>รหัส</th>
@@ -219,11 +219,19 @@
               :key="list.no"
               class="font-light bg-white hover:bg-light"
             >
-              <td>{{ list.no }}</td>
-              <td>{{ list.studentId }}</td>
               <td>
-                {{ list.firstName }} &nbsp;&nbsp;
-                {{ list.lastName }}
+                <div class="flex justify-center">{{ list.no }}</div>
+              </td>
+              <td>
+                <div class="flex justify-center">
+                  {{ list.studentId }}
+                </div>
+              </td>
+              <td>
+                <div class="flex justify-center">
+                  {{ list.firstName }} &nbsp;&nbsp;
+                  {{ list.lastName }}
+                </div>
               </td>
               <th v-for="(s, index) in list.score" :key="index">{{ s }}</th>
             </tr>
@@ -231,12 +239,12 @@
 
           <!-- Manage Score -->
           <div
-            class="lg:mt-10 flex justify-start sm:mx-10 mx-5 items-center self-center"
+            class="lg:mt-10 flex justify-end sm:mx-0 mx-5 items-center self-center"
           >
-            <span class="material-symbols-outlined"> settings </span>
+            <span class="material-symbols-outlined"> delete </span>
             <div v-show="showList">
               <p
-                class="text-sm ml-1 hover:text-primary cursor-pointer"
+                class="text-sm hover:text-primary cursor-pointer"
                 @click="showDelete()"
               >
                 ลบคะแนนชิ้นงาน
@@ -499,7 +507,7 @@ export default {
 
     async getStudent(classId) {
       try {
-        this.stdScore = []
+        this.stdScore = [];
         axios
           .get(`${this.url}/${classId}`, {
             headers: {
@@ -588,7 +596,7 @@ export default {
     async showEdit(scoreList) {
       this.editScore = scoreList;
       this.editModal = !this.editModal;
-      if(this.editModal == false){
+      if (this.editModal == false) {
         await this.getStudent(this.$route.query.class_id);
       }
     },
@@ -767,12 +775,11 @@ th {
 
 table {
   border-collapse: collapse;
+
+  @apply min-w-full;
   /* border-radius: 100px; */
 }
-table tr td,
-th {
-  border: 1px solid #ccc;
-}
+
 table td {
   @apply py-2 px-2;
 }

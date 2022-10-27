@@ -59,7 +59,7 @@
             </router-link>
             <div v-show="deletebtn == true">
               <button
-                class="text-white delete bg-alert cursor-pointer"
+                class="text-gray100 delete bg-gray50 cursor-pointer"
                 @click="deleteSubject(subject._id, subject.subjectName)"
               >
                 ลบ
