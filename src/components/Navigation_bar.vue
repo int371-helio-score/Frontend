@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-white grid grid-cols-2 sm:py-5 sm:px-10 px-1 py-4 fixed xl:w-full md:w-screen"
+    class="bg-white grid grid-cols-2 sm:py-5 sm:px-10 px-1 py-4 fixed xl:w-full w-screen"
   >
     <div class="flex self-center items-center">
       <router-link to="/">
