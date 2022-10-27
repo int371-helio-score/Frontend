@@ -193,11 +193,11 @@ export default {
       }
     },
 
-    checkOwner() {
-      if (this.subjects.owner == true) {
-        return (this.owner = true);
-      }
-    },
+    // checkOwner() {
+    //   if (this.subjects.owner == true) {
+    //     return (this.owner = true);
+    //   }
+    // },
 
     getPicture() {
       return "http://localhost:3000/public/images/pic1.png";

@@ -63,7 +63,7 @@
                 <div>{{ room.totalStudent }} คน</div>
               </div>
             </router-link>
-            <div v-show="deletebtn == true">
+            <div v-show="deletebtn == true && room.owner">
               <button
                 class="text-gray100 delete bg-gray50 cursor-pointer"
                 @click="deleteclass(room._id, room.room)"
