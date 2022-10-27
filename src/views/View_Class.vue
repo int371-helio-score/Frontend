@@ -22,10 +22,11 @@
               <router-link
                 :to="{
                   name: 'addclass',
-                  params: {
+                  query: {
                     subject: this.$route.query.subjectId,
                     grade: this.$route.query.classId,
                   },
+                  
                 }"
               >
                 <button

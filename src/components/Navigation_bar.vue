@@ -34,7 +34,7 @@
     <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
-          <img src="../../src/assets/Background.png" class="w-full relative" />
+          <img src="../../src/assets/Background.png" class="w-full relative "  />
           <div class="borderPic">
             <div>
               <img
@@ -47,7 +47,7 @@
           </div>
 
           <div class="" v-if="edit == false">
-            <div class="font-extrabold text-md mx-20 mt-14">
+            <div class="font-extrabold text-md mx-20 ">
               {{ this.account.firstName }} {{ this.account.lastName }}
               <span
                 class="material-symbols-outlined ml-2 flex items-end cursor-pointer hover:text-primary"
@@ -71,7 +71,7 @@
           <!-- edit profile -->
 
           <div v-else-if="edit">
-            <div class="grid grid-cols-2 lg:mx-20 mt-12 md:mx-10 mx-5">
+            <div class="grid grid-cols-2 lg:mx-20 md:mx-10 mx-5">
               <div class="box" v-if="!showEditPass">
                 <p class="title">ชื่อ</p>
                 <input
@@ -190,7 +190,7 @@
 
           <!-- button -->
 
-          <div class="flex justify-center mt-12">
+          <div class="flex justify-center mt-12 md:mb-5">
             <div class="" v-if="edit == false">
               <button
                 class="bg-secondary2 text-white rounded-md px-6 py-1 ml-2"
@@ -394,7 +394,7 @@ export default {
         })
         .then((res) => {
           if (res.data.statusCode === 200) {
-            alert("Edit success");
+            alert("บันทึกสำเร็จ");
             this.showModal = false;
             this.edit = false;
             this.getAccount();
@@ -525,7 +525,8 @@ span {
 
 .modal-container {
   width: 721px;
-  height: 531px;
+  height: auto;
+  overflow-y: auto;
   margin: 0px auto;
   background-color: #fff;
   border-radius: 2px;
@@ -558,7 +559,7 @@ span {
 }
 .pic {
   margin-top: -68px;
-  position: absolute;
+  position: relative;
   border: 4px solid #fff;
   @apply ml-20;
 }

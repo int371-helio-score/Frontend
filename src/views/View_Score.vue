@@ -835,7 +835,8 @@ table::-webkit-scrollbar-thumb:window-inactive {
 
 .modal-container {
   width: 721px;
-  height: 531px;
+  height: auto;
+  overflow-y: auto;
   margin: 0px auto;
   background-color: #fff;
   border-radius: 2px;
