@@ -193,11 +193,11 @@ export default {
       }
     },
 
-    checkOwner() {
-      if (this.subjects.owner == true) {
-        return (this.owner = true);
-      }
-    },
+    // checkOwner() {
+    //   if (this.subjects.owner == true) {
+    //     return (this.owner = true);
+    //   }
+    // },
 
     getPicture() {
       return "https://test-helioscore.sytes.net/backend/public/images/pic1.png";

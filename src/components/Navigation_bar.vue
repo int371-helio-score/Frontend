@@ -127,9 +127,12 @@
               </div>
             </div>
 
-            <div class="flex ">
+            <div class="flex">
               <div class="box" v-if="!showEditPass">
-                <div class="flex justify-start text-sm text-gray100 cursor-pointer" @click="deleteAccount()">
+                <div
+                  class="flex justify-start text-sm text-gray100 cursor-pointer"
+                  @click="deleteAccount()"
+                >
                   ลบบัญชี
                 </div>
               </div>
@@ -137,50 +140,52 @@
 
             <!-- edit password -->
 
-            <div class="box ml-4" v-if="showEditPass">
-              <p class="title">รหัสผ่านใหม่</p>
-              <input
-                class="bg-gray10 py-1 rounded-md lg:w-56 w-full"
-                v-model="password"
-                type="password"
-              />
-              <sup
-                v-show="inputPassword"
-                class="text-red-500 justify-end mt-4 flex"
-              >
-                กรุณาตั้งรหัสผ่าน</sup
-              >
-            </div>
+            <div class="box grid col-span-2" v-if="showEditPass">
+              <div class="lg:py-1">
+                <p class="title">กรุณากรอกรหัสผ่านเดิม</p>
+                <input
+                  class="bg-gray10 py-1 rounded-md w-full"
+                  placeholder="รหัสผ่านเดิม"
+                  v-model="currentPass"
+                  type="password"
+                />
+                <sup
+                  v-show="inputCurrent"
+                  class="text-red-500 justify-end mt-4 flex"
+                >
+                  กรุณากรอกหรัสผ่านเดิม</sup
+                >
+              </div>
 
-            <div class="box" v-if="showEditPass">
-              <p class="title">ยืนยันรหัสผ่านเดิม</p>
-              <input
-                class="bg-gray10 py-1 rounded-md lg:w-auto w-full"
-                placeholder="รหัสผ่านเดิม"
-                v-model="currentPass"
-                type="password"
-              />
-              <sup
-                v-show="inputCurrent"
-                class="text-red-500 justify-end mt-4 flex"
-              >
-                กรุณากรอกหรัสผ่านเดิม</sup
-              >
-            </div>
+              <div class="lg:py-1">
+                <p class="title">รหัสผ่านใหม่</p>
+                <input
+                  class="bg-gray10 py-1 rounded-md w-full"
+                  v-model="password"
+                  type="password"
+                />
+                <sup
+                  v-show="inputPassword"
+                  class="text-red-500 justify-end mt-4 flex"
+                >
+                  กรุณาตั้งรหัสผ่าน</sup
+                >
+              </div>
 
-            <div class="box ml-4" v-if="showEditPass">
-              <p class="title">ยืนยันรหัสผ่านใหม่</p>
-              <input
-                class="bg-gray10 py-1 rounded-md lg:w-56 w-full"
-                v-model="confirmPassword"
-                type="password"
-              />
-              <sup
-                v-show="inputConfirm"
-                class="text-red-500 justify-end mt-4 flex"
-              >
-                กรุณายืนยันรหัสผ่าน</sup
-              >
+              <div class="lg:py-1">
+                <p class="title">ยืนยันรหัสผ่านใหม่</p>
+                <input
+                  class="bg-gray10 py-1 rounded-md w-full"
+                  v-model="confirmPassword"
+                  type="password"
+                />
+                <sup
+                  v-show="inputConfirm"
+                  class="text-red-500 justify-end mt-4 flex"
+                >
+                  กรุณายืนยันรหัสผ่าน</sup
+                >
+              </div>
             </div>
           </div>
 
