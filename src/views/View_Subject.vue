@@ -49,7 +49,7 @@
               <div class="subject bg-white text-center px-10 py-2">
                 <img :src="getPicture()" class="flex justify-center" /><br />
                 <div>
-                  {{ subject.subjectCode }} {{ subject.subjectName }} <br />
+                  {{ subject.subjectCode }} {{ subject.subjectName }} {{ subject.owner }}<br />
                 </div>
                 <div class="classroom">
                   <div>ชั้นมัธยมศึกษาปีที่ {{ subject.grade }}</div>
@@ -57,7 +57,7 @@
                 </div>
               </div>
             </router-link>
-            <div v-show="deletebtn == true && Boolean(subject.owner)">
+            <div v-show="deletebtn == true && subject.owner">
               <button
                 class="text-gray100 delete bg-gray50 cursor-pointer"
                 @click="deleteSubject(subject._id, subject.subjectName)"
@@ -182,11 +182,11 @@ export default {
           })
           .then((res) => {
             this.subjects = res.data.data.results;
-            console.log(this.subjects);
+           
             this.totalRoom = res.data.data.total;
-            // console.log(this.totalRoom);
+        
             this.owner = res.data.data.results[0].owner;
-            console.log(this.owner);
+        
           });
       } catch (error) {
         console.log(`Could not get! ${error}`);

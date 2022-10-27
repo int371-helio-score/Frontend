@@ -276,7 +276,6 @@ export default {
           })
           .then((res) => {
             this.account = res.data.data;
-            // console.log(this.account);
           });
       } catch (error) {
         console.log(`Could not get! ${error}`);
@@ -341,7 +340,6 @@ export default {
     },
 
     submitPassword() {
-      console.log(this.password, this.currentPass);
       var data = {
         newPassword: this.password,
         currentPassword: this.currentPass,
@@ -391,7 +389,6 @@ export default {
           },
         })
         .then((res) => {
-          console.log(this.newFirstName);
           if (res.data.statusCode === 200) {
             alert("Edit success");
             this.showModal = false;
@@ -432,7 +429,6 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res);
           if (res.data.statusCode === 200) {
             alert("ลบสำเร็จ");
             localStorage.removeItem("token");

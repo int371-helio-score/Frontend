@@ -118,7 +118,6 @@ export default {
           },
         })
         .then((response) => {
-          console.log(response.data.data.results)
           this.schools = response.data.data.results;
         });
     },
