@@ -60,7 +60,7 @@ export default {
     VueMultiselect,
   },
   name: "ClassInSubject",
-  props: ["subjectName", "subject", "grade"],
+  props: ["subjectName", "subject", "grade", "classId"],
 
   data() {
     return {
@@ -70,16 +70,13 @@ export default {
       urlClass: "helio/class",
       subjectId: null,
       classroom: [],
-      classId: null,
+      // classId: null,
       room: null,
       subId: null,
     };
   },
 
-  created() {
-    this.room = this.$route.params.grade;
-    this.subId = this.$route.params.subject;
-  },
+
 
   methods: {
     addTag(newTag) {
@@ -115,6 +112,11 @@ export default {
           alert(err.res.data.message);
         });
     },
+  },
+
+    created() {
+    this.room = this.$route.query.grade;
+    this.subId = this.$route.query.subject;
   },
 };
 </script>

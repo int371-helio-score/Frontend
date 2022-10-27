@@ -1,17 +1,17 @@
 <template>
-  <div class="bg-light h-screen">
+  <div class="bg-light bg-contain">
     <navTeacher />
     <div class="inline-flex">
       <sidebarTeacher />
 
       <div class="data">
         <div class="sm:mx-10 mx-5 divide-y divide-gray10">
-          <div class="title" >เพิ่มวิชาที่สอน</div>
+          <div class="title">เพิ่มวิชาที่สอน</div>
 
           <div class="my-5 pt-10 py-5">
             <form
               @submit.prevent="submitForm"
-              class="bg-white rounded-lg lg:py-5 lg:px-48 px-20"
+              class="bg-white rounded-lg lg:py-5 xl:px-48 md:px-5 py-5 md:text-sm"
             >
               <div class="flex justify-start text-primary font-bold">
                 รายระเอียดวิชา
@@ -19,7 +19,7 @@
 
               <div class="grid grid-cols-2 mt-5">
                 <div class="inputForm">
-                  <p>ปีการศึกษา</p>
+                  <label>ปีการศึกษา</label>
                   <input
                     class=""
                     type="text"
@@ -35,7 +35,7 @@
                 </div>
 
                 <div class="inputForm">
-                  <p>ภาคการศึกษา</p>
+                  <label>ภาคการศึกษา</label>
                   <input
                     type="text"
                     name="academic"
@@ -48,31 +48,33 @@
                     >กรอกภาคการศึกษา</sup
                   >
                 </div>
+                
 
                 <div class="inputForm">
-                  <p>รหัสวิชา</p>
+                  <label>รหัสวิชา</label>
                   <input
                     type="text"
                     name="academic"
                     placeholder="กรุณาระบุรหัสวิชา"
                     v-model="subjectId"
                   />
-                   <sup
+                  <sup
                     v-show="inputSubjectId"
                     class="text-red-500 flex justify-center mt-4"
                     >กรอกรหัสวิชา</sup
                   >
                 </div>
+                
 
                 <div class="inputForm">
-                  <p>ชื่อวิชา</p>
+                  <label>ชื่อวิชา</label>
                   <input
                     type="text"
                     name="academic"
                     placeholder="กรุณาระบุปีการศึกษา"
                     v-model="subject"
                   />
-                   <sup
+                  <sup
                     v-show="inputSubjectName"
                     class="text-red-500 flex justify-center mt-4"
                     >กรอกชื่อวิชา</sup
@@ -80,14 +82,14 @@
                 </div>
 
                 <div class="inputForm">
-                  <p>ชั้นปีที่</p>
+                  <label>ชั้นปีที่</label>
                   <input
                     type="text"
                     name="academic"
                     placeholder="กรุณาระบุชั้นปีที่สอน"
                     v-model="grade"
                   />
-                   <sup
+                  <sup
                     v-show="inputClass"
                     class="text-red-500 flex justify-center mt-4"
                     >กรอกชั้นปี</sup
@@ -100,7 +102,7 @@
               </h3>
 
               <div class="my-2">ห้องเรียน</div>
-              <div class="absolute w-1/3">
+              <div class="w-full">
                 <VueMultiselect
                   placeholder="กรุณากรอกห้องเรียนที่สอน (กรอกได้หลายห้อง)"
                   v-model="tags"
@@ -110,6 +112,7 @@
                   @tag="addTag"
                 />
               </div>
+
               <div class="flex justify-center">
                 <button
                   class="px-16 py-2 mt-16 bg-primary rounded-md text-white"
@@ -201,18 +204,18 @@ export default {
         .then((res) => {
           if (res.data.statusCode === 200) {
             this.subject = "";
-            this.subjectId = "",
-            this.academic = "",
-            this.semester = "",
-            this.grade = "",
-            this.tags = "",
-            alert("เพิ่มวิชาสำเร็จ");
+            (this.subjectId = ""),
+              (this.academic = ""),
+              (this.semester = ""),
+              (this.grade = ""),
+              (this.tags = ""),
+              alert("เพิ่มวิชาสำเร็จ");
             return this.$router.push("/helioscore");
           }
         })
         .catch((err) => {
           alert(err.res.data.message);
-        })
+        });
     },
   },
 };
@@ -239,16 +242,19 @@ select {
 md:text-base;
 }
 .data {
-  @apply md:pl-40 mt-24 w-screen lg:pl-60;
+  @apply md:pl-44 mt-24 w-screen lg:pl-60;
 }
 input {
-  @apply border border-gray50 rounded-md px-2 py-1 pt-1;
+  @apply border border-gray50 rounded-md px-2 ;
 }
 .inputForm {
-  @apply my-1;
+  @apply my-1 grid grid-rows-2 mx-2;
 }
-sup{
+sup {
   @apply xl:mr-5;
+}
+label{
+  @apply md:text-sm text-xs lg:text-base;
 }
 </style>
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>
