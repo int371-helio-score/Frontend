@@ -98,6 +98,7 @@ export default {
     this.subjectId = this.$route.query.subjectId;
     this.classId = this.$route.query.classId;
     await this.getClassroom();
+    await this.owner(this.$route.query.class_id);
   },
 
   async mounted() {
@@ -120,9 +121,26 @@ export default {
       subjectId: null,
       classId: null,
       deletebtn: false,
+      checkOwner: "helio/class/owner",
+      list: false,
     };
   },
   methods: {
+    owner(classId) {
+      axios
+        .get(`${this.checkOwner}/${classId}`, {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        })
+        .then((response) => {
+          console.log(response.data.data)
+          this.list = response.data.data.results.owner;
+          
+          return;
+        });
+    },
+
     async getClassroom() {
       try {
         axios
@@ -171,6 +189,7 @@ export default {
       }
     },
   },
+  
 };
 </script>
 

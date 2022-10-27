@@ -121,14 +121,14 @@ export default {
 
   methods: {
     async login() {
-      if (!this.user || !this.pass) {
+      if (!user.value || !pass.value) {
         alert("กรุณากรอก อีเมล และ รหัสผ่าน");
       }
       else {
         await axios
           .post(this.url, {
-            email: this.user,
-            password: this.pass,
+            email: user.value,
+            password: pass.value,
           })
           .then((res) => {
             if (res.data.statusCode === 200) {
@@ -141,7 +141,7 @@ export default {
               return this.$router.push("/helioscore/resendemail");
             } else if (err.response.data.message == "Unauthorized") {
               alert("อีเมล หรือ รหัสผ่าน ไม่ถูกต้อง");
-              this.pass = "";
+              pass.value = "";
             }
           });
       }
