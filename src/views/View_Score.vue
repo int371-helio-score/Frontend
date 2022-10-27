@@ -237,6 +237,7 @@
           <!-- Manage Score -->
           <div
             class="lg:mt-10 flex justify-end sm:mx-0 mx-5 items-center self-center"
+            v-show="list"
           >
             <span class="material-symbols-outlined"> delete </span>
             <div v-show="showList">

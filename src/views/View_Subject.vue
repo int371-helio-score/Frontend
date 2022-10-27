@@ -49,7 +49,7 @@
               <div class="subject bg-white text-center px-10 py-2">
                 <img :src="getPicture()" class="flex justify-center" /><br />
                 <div>
-                  {{ subject.subjectCode }} {{ subject.subjectName }} {{ subject.owner }}<br />
+                  {{ subject.subjectCode }} {{ subject.subjectName }}<br />
                 </div>
                 <div class="classroom">
                   <div>ชั้นมัธยมศึกษาปีที่ {{ subject.grade }}</div>
