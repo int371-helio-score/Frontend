@@ -169,7 +169,6 @@ export default {
           },
         });
         this.classroom = response.data.data.results;
-        console.log(this.classroom);
       } catch (error) {
         console.log(`Could not get! ${error}`);
       }
@@ -189,11 +188,7 @@ export default {
           })
           .then((res) => {
             this.subjects = res.data.data.results;
-            console.log(this.subjects);
             this.totalRoom = res.data.data.total;
-            // console.log(this.totalRoom);
-            this.owner = res.data.data.results;
-            console.log(this.owner);
           });
       } catch (error) {
         console.log(`Could not get! ${error}`);
@@ -208,7 +203,6 @@ export default {
           },
         });
         this.room = response.data.data.results;
-        console.log(this.room);
       } catch (error) {
         console.log(`Could not get! ${error}`);
       }

@@ -97,9 +97,6 @@ export default {
   async created() {
     this.subjectId = this.$route.query.subjectId;
     this.classId = this.$route.query.classId;
-    // console.log(this.subjectName)
-    // console.log(this.subjectId)
-    // console.log(this.classId)
     await this.getClassroom();
   },
 
@@ -136,7 +133,6 @@ export default {
           })
           .then((res) => {
             this.classroom = res.data.data.results;
-            // console.log(res.data.data);
             return res.data.data.results;
           });
       } catch (error) {
