@@ -13,7 +13,7 @@ import EditImage from "@/components/Edit_Image.vue";
 import EditScore from "@/components/Edit_Score.vue";
 import axios from "axios";
 
-axios.defaults.baseURL = 'http://localhost:3000/api/';
+axios.defaults.baseURL = 'https://test-helioscore.sytes.net/backend/api/';
 
 const gauthOption = {
   clientId: "217234620645-cporrkom4579lu5sdprtth63ph3g21l8.apps.googleusercontent.com",
