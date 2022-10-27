@@ -91,7 +91,7 @@
                 />
                 <div class="md:grid md:grid-cols-2">
                   <div class="md:text-xs text-gray-400 mt-2">
-                    * อัปโหลดได้เฉพาะไฟล์ CSV เท่านั้น
+                    * อัปโหลดได้เฉพาะไฟล์ .xlsx หรือ .csv-UTF8 เท่านั้น
                   </div>
                   <button
                     class="relative md:mb-4 md:text-base flex justify-end"
@@ -150,7 +150,7 @@
                 />
                 <div class="md:grid md:grid-cols-2">
                   <div class="md:text-xs text-gray-400 mt-2">
-                    * อัปโหลดได้เฉพาะไฟล์ CSV เท่านั้น
+                    * อัปโหลดได้เฉพาะไฟล์ .xlsx หรือ .csv-UTF8 เท่านั้น
                   </div>
                   <button
                     class="relative md:mb-4 md:text-base flex justify-end"
@@ -494,10 +494,11 @@ export default {
           const downloadURL = window.URL.createObjectURL(csvFile);
           const downloadLink = document.createElement("a");
           downloadLink.href = downloadURL;
-          const fileName = response.headers["content-disposition"].substring(
-            22,
-            52
-          );
+          const fileName = response.headers["content-disposition"]
+            .split(";")[1]
+            .split("=")[1]
+            .replace('"', "")
+            .replace('"', "");
           downloadLink.setAttribute("download", fileName);
           document.body.appendChild(downloadLink);
           downloadLink.click();
