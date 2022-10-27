@@ -152,40 +152,6 @@ export default {
 };
 </script>
 
-<script setup>
-import { decodeCredential } from "vue3-google-login";
-import router from "@/router";
-
-const callback = (response) => {
-  // This callback will be triggered when the user selects or login to
-  // his Google account from the popup
-  const userData = decodeCredential(response.credential);
-  const url = "helio/account/google/redirect";
-  axios
-    .post(url, {
-      firstName: userData.given_name,
-      lastName: userData.family_name,
-      email: userData.email,
-      googleId: userData.sub,
-      image: userData.picture,
-    })
-    .then((response) => {
-      if (response.data.statusCode === 200) {
-        if (response.data.data.school == 0) {
-          localStorage.setItem("token", response.data.data.token);
-          localStorage.setItem("school", true);
-          return router.push({ path: "/helioscore/school" });
-        } else {
-          localStorage.setItem("token", response.data.data.token);
-          return router.push({ path: "/helioscore" });
-        }
-      }
-    })
-    .catch((err) => {
-      alert(err.response.data);
-    });
-};
-</script>
 
 <style scoped>
 ::placeholder {
