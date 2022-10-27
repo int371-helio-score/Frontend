@@ -122,7 +122,7 @@ export default {
         alert("กรุณากรอก อีเมล และ รหัสผ่าน");
       }
       else {
-        console.log("email =" + this.user + "pass =" + this.pass);
+        // console.log("email =" + this.user + "pass =" + this.pass);
         await axios
           .post(this.url, {
             email: this.user,
