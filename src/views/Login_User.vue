@@ -1,6 +1,6 @@
 <template>
   <div class="background sm:bg-light bg-white">
-    <div class="md:grid md:grid-cols-2 h-screen">
+    <div class="md:grid md:grid-cols-2">
       <!-- image -->
       <div>
         <img
