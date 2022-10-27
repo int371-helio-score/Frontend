@@ -72,10 +72,6 @@
 <script setup>
 import { decodeCredential } from "vue3-google-login";
 import router from "@/router";
-import { ref } from 'vue'
-
-const user = ref()
-const pass = ref()
 
 const callback = (response) => {
   // This callback will be triggered when the user selects or login to
@@ -110,13 +106,15 @@ const callback = (response) => {
 
 <script>
 import axios from "axios";
+import { ref } from 'vue'
+
+const user = ref()
+const pass = ref()
 
 export default {
   data() {
     return {
       url: "helio/account/login",
-      user: "",
-      pass: "",
       email: "",
     };
   },

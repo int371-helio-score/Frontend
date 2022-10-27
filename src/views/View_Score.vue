@@ -17,11 +17,9 @@
           </div>
 
           <div class="my-5 pb-5 pt-15 grid-cols-6 grid">
-            <p class="pt-3 hidden xl:block">
-              รายชื่อทั้งหมด
-            </p>
+            <p class="pt-3 hidden xl:block">รายชื่อทั้งหมด</p>
 
-            <div class="col-span-4 col-end-7">
+            <div class="col-span-4 col-end-7" v-show="list">
               <div class="grid grid-cols-3 gap-4 xl:gap-4 md:gap-2 pt-3">
                 <button class="add" @click="clickUploadStd()">
                   <div
@@ -206,6 +204,7 @@
                 <span
                   class="material-symbols-outlined cursor-pointer"
                   @click="showEdit(tt)"
+                  v-show="tt.owner"
                 >
                   edit_note
                 </span>
@@ -245,7 +244,7 @@
                 class="text-sm hover:text-primary cursor-pointer"
                 @click="showDelete()"
               >
-                ลบคะแนนชิ้นงาน
+                ลบคะแนน
               </p>
             </div>
           </div>
@@ -315,7 +314,6 @@
     @showEdit="showEdit"
     class="absolute"
   >
-    <div>Hi</div>
   </editScore>
 </template>
 
@@ -335,6 +333,7 @@ export default {
       announceUrl: "helio/score/toAnnounce",
       importStd: "helio/studentList",
       sent: "helio/mail",
+      checkOwner: "helio/class/owner",
       toAnnounce: [],
       std: [],
       grade: null,
@@ -354,6 +353,7 @@ export default {
       deleteModal: false,
       editModal: false,
       editScore: null,
+      list: false,
     };
   },
 
@@ -514,6 +514,9 @@ export default {
           })
           .then((response) => {
             this.std = response.data.data.results;
+            if (this.std[0].owner) {
+              this.list = true;
+            }
             for (const s of this.std) {
               s.scores.forEach((each) => {
                 let dup = this.stdScore.filter((el) => {
@@ -546,6 +549,21 @@ export default {
       } catch (error) {
         console.log(`Could not get! ${error}`);
       }
+    },
+
+    owner(classId) {
+      axios
+        .get(`${this.checkOwner}/${classId}`, {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        })
+        .then((response) => {
+          console.log(response.data.data)
+          this.list = response.data.data.results.owner;
+          
+          return;
+        });
     },
 
     async getAnnounce(classId) {
@@ -637,6 +655,8 @@ export default {
 
     await this.getStudent(this.$route.query.class_id);
     await this.getAnnounce(this.$route.query.class_id);
+    await this.owner(this.$route.query.class_id);
+    
   },
 };
 </script>
