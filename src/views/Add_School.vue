@@ -1,15 +1,15 @@
 <template>
   <div class="bg-light h-screen">
     <div
-      class="bg-white grid grid-cols-2 sm:py-5 sm:px-10 px-1 py-4 fixed w-full"
+      class="bg-white grid grid-cols-2 sm:py-5 sm:px-10 px-1 py-4 fixed lg:w-full w-screen"
     >
       <div class="flex self-center items-center">
-        <div class="text-xl font-bold ml-5 text-secondary">HELIOSCORE</div>
+        <div class="md:text-xl font-bold ml-5 text-secondary">HELIOSCORE</div>
       </div>
 
       <div class="flex justify-end">
         <div class="grid grid-flow-col gap-x-5">
-          <div class="dropbtn flex items-center border border-light">
+          <div class="dropbtn sm:flex items-center border border-light hidden">
             <img :src="getImage()" class="profile rounded-full" />
             <div class="ml-4 account text-secondary">
               {{ this.account.firstName }} {{ this.account.lastName }}
@@ -18,7 +18,7 @@
           <div
             class="dropbtn rounded-sm flex items-center border broder-light cursor-pointer"
           >
-            <a href="#" @click="logout()">ออกจากระบบ</a>
+            <a href="#" @click="logout()" class="px-2 lg:text-base md:text-sm text-xs">ออกจากระบบ</a>
           </div>
         </div>
       </div>
@@ -26,16 +26,17 @@
 
     <div class="inline-flex">
       <div class="data">
-        <div class="sm:mx-10 mx-5 divide-y divide-gray10">
-          <div class="title">กรุณาเลือกโรงเรียน</div>
-          <div class="my-5 pt-10 py-5">
-            <div class="bg-white rounded-lg py-5 px-52">
+        <div class="sm:mx-10 mx-5">
+          <div class="title flex justify-center">กรุณาเลือกโรงเรียน</div>
+
+          <div class="md:my-5 py-5">
+            <div class="sm:bg-white rounded-lg py-5 sm:pb-14 lg:px-10">
               <div class="flex justify-center mt-10">
-                <span class="material-symbols-outlined self-center">
+                <span class="material-symbols-outlined self-center text-primary mr-2 ">
                   school
                 </span>
                 <v-select
-                  class="select lg:w-56 placeholder-opacity-60 placeholder-gray-400"
+                  class="select bg-white md:w-3/5 w-4/5 placeholder-opacity-60 placeholder-gray-400 md:text-sm text-sm lg:text-base"
                   placeholder="กรุณาเลือกโรงเรียน"
                   label="schoolName"
                   v-model="test"
@@ -62,9 +63,7 @@
               <div class="flex justify-center">
                 <button
                   @click="addSchool"
-                  class="md:px-10
-                  lg:px-16 lg:py-2 lg:mt-8 
-                  bg-primary rounded-md text-white"
+                  class="md:px-10 px-12 lg:px-16 lg:mt-8 md:py-2 py-1 mt-4 bg-primary rounded-md text-white lg:text-base md:text-sm text-xs "
                 >
                   ต่อไป
                 </button>
@@ -205,7 +204,7 @@ select {
   @apply md:text-base;
 }
 .title {
-  @apply text-sm font-bold mt-5 text-secondary
+  @apply text-base font-bold mt-20 text-secondary
   lg:text-xl lg:font-semibold
   md:mt-10 md:text-lg md:font-bold;
 }
@@ -214,7 +213,7 @@ select {
 md:text-base;
 }
 .data {
-  @apply px-60 mt-24 w-screen;
+  @apply lg:px-40 xl:px-56 md:px-32 mt-24 w-screen;
 }
 input {
   @apply border border-gray50 rounded-md px-2 py-1 pt-1;

@@ -15,9 +15,10 @@
             </div>
           </div>
 
-          <div class="my-5 pt-10 py-5 grid grid-cols-2">
+          <div class="my-5 pt-10 py-5 grid grid-cols-2" >
             <div class="flex justify-start">วิชาทั้งหมด</div>
-            <div class="flex justify-end">
+
+            <div class="flex justify-end" v-show="list">
               <router-link
                 :to="{
                   name: 'addclass',
@@ -98,7 +99,9 @@ export default {
     this.subjectId = this.$route.query.subjectId;
     this.classId = this.$route.query.classId;
     await this.getClassroom();
-    await this.owner(this.$route.query.class_id);
+    await this.owner(this.$route.query.subjectId);
+
+    // console.log(this.classId)
   },
 
   async mounted() {
@@ -121,22 +124,20 @@ export default {
       subjectId: null,
       classId: null,
       deletebtn: false,
-      checkOwner: "helio/class/owner",
+      checkOwner: "helio/subject",
       list: false,
     };
   },
   methods: {
-    owner(classId) {
+    owner(subId) {
       axios
-        .get(`${this.checkOwner}/${classId}`, {
+        .get(`${this.checkOwner}/${subId}`, {
           headers: {
             Authorization: localStorage.getItem("token"),
           },
         })
         .then((response) => {
-          console.log(response.data.data)
           this.list = response.data.data.results.owner;
-          
           return;
         });
     },

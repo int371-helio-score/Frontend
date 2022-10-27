@@ -62,7 +62,6 @@ export default {
   methods: {
     resend() {
       if (!this.email) {
-        // alert("กรุณากรอก อีเมล สำหรับการ verify");
         this.inputEmail = true;
       } else {
         axios
