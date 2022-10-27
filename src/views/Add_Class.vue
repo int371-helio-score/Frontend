@@ -7,7 +7,7 @@
       <div class="data">
         <div class="sm:mx-10 mx-5 divide-y divide-gray10">
           <div class="title">
-            เพิ่มห้องเรียน ชั้นมัธยมศึกษาปีที่ {{ grade }}
+            เพิ่มห้องเรียน ชั้นมัธยมศึกษาปีที่ {{ room }}
           </div>
 
           <div class="my-5 pt-10 py-5">
@@ -71,10 +71,15 @@ export default {
       subjectId: null,
       classroom: [],
       classId: null,
+      room: null,
+      subId: null,
     };
   },
 
-  created() {},
+  created() {
+    this.room = this.$route.params.grade;
+    this.subId = this.$route.params.subject;
+  },
 
   methods: {
     addTag(newTag) {
@@ -92,7 +97,7 @@ export default {
     addClassroom() {
       let data = {
         class: this.tags,
-        subjectId: this.subject,
+        subjectId: this.subId,
       };
       axios
         .post(this.urlClass, data, {
