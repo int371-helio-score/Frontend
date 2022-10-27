@@ -57,7 +57,7 @@
                 </div>
               </div>
             </router-link>
-            <div v-show="deletebtn == true">
+            <div v-show="deletebtn == true && Boolean(subject.owner)">
               <button
                 class="text-gray100 delete bg-gray50 cursor-pointer"
                 @click="deleteSubject(subject._id, subject.subjectName)"
@@ -71,7 +71,7 @@
         <div
           class="object"
           @click="clickDelete()"
-          v-show="deletebtn == false && owner"
+          v-show="deletebtn == false"
         >
           <span class="material-symbols-outlined mr-2"> edit </span>
           <p>จัดการรายวิชา</p>
@@ -185,7 +185,7 @@ export default {
             console.log(this.subjects);
             this.totalRoom = res.data.data.total;
             // console.log(this.totalRoom);
-            this.owner = res.data.data.results;
+            this.owner = res.data.data.results[0].owner;
             console.log(this.owner);
           });
       } catch (error) {

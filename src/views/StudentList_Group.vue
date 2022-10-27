@@ -7,7 +7,7 @@
       <div class="data h-screen">
         <div class="title flex space-x-2">
           <div>
-            <router-link to="/helioscore/studentList">ห้องเรียนทั้งหมด</router-link>
+            <router-link to="/helioscore/studentList">รายชื่อ</router-link>
           </div>
           <div>></div>
           <div>ม. {{ stdList.groupName }}</div>
