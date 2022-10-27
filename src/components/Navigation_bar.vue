@@ -70,64 +70,63 @@
 
           <!-- edit profile -->
 
-          <div
-            v-else-if="edit"
-            class="grid grid-cols-2 lg:mx-20 mt-12 md:mx-10 mx-5"
-          >
-            <div class="box" v-if="!showEditPass">
-              <p class="title">ชื่อ</p>
-              <input
-                class="border border-gray50 w-full"
-                v-model="newFirstName"
-              />
-              <sup
-                v-show="inputFirstname"
-                class="text-red-500 flex justify-end mt-4"
-              >
-                Please enter firstname!</sup
-              >
-            </div>
-
-            <div class="flex ml-4" v-if="!showEditPass">
-              <div class="box">
-                <p class="title">นามสกุล</p>
-                <div class="flex justify-end">
-                  <input
-                    class="border border-gray50 w-full"
-                    v-model="newLastName"
-                  />
-                </div>
-                <sup
-                  v-show="inputLastname"
-                  class="text-red-500 justify-end mt-4 flex"
-                >
-                  Please enter lastname!</sup
-                >
-              </div>
-            </div>
-
-            <div class="box" v-if="!showEditPass">
-              <p class="title">อีเมล</p>
-              <div class="bg-gray10 text-gray50 py-1 px-2 rounded-md w-auto">
-                {{ this.account.email }}
-              </div>
-            </div>
-
-            <div class="flex ml-4" v-show="!account.google">
+          <div v-else-if="edit">
+            <div class="grid grid-cols-2 lg:mx-20 mt-12 md:mx-10 mx-5">
               <div class="box" v-if="!showEditPass">
-                <p class="title">รหัสผ่าน</p>
-                <div class="flex justify-end">
-                  <button
-                    class="border border-gray50 py-1 rounded-md w-full text-xs lg:text-sm"
-                    @click="changePass()"
+                <p class="title">ชื่อ</p>
+                <input
+                  class="border border-gray50 w-full"
+                  v-model="newFirstName"
+                />
+                <sup
+                  v-show="inputFirstname"
+                  class="text-red-500 flex justify-end mt-4"
+                >
+                  Please enter firstname!</sup
+                >
+              </div>
+
+              <div class="flex ml-4" v-if="!showEditPass">
+                <div class="box">
+                  <p class="title">นามสกุล</p>
+                  <div class="flex justify-end">
+                    <input
+                      class="border border-gray50 w-full"
+                      v-model="newLastName"
+                    />
+                  </div>
+                  <sup
+                    v-show="inputLastname"
+                    class="text-red-500 justify-end mt-4 flex"
                   >
-                    เปลี่ยนรหัสผ่าน
-                  </button>
+                    Please enter lastname!</sup
+                  >
+                </div>
+              </div>
+
+              <div class="box" v-if="!showEditPass">
+                <p class="title">อีเมล</p>
+                <div class="bg-gray10 text-gray50 py-1 px-2 rounded-md w-auto">
+                  {{ this.account.email }}
+                </div>
+              </div>
+
+              <div class="flex ml-4" v-show="!account.google">
+                <div class="box" v-if="!showEditPass">
+                  <p class="title">รหัสผ่าน</p>
+                  <div class="flex justify-end">
+                    <button
+                      class="border border-gray50 py-1 rounded-md w-full text-xs lg:text-sm"
+                      @click="changePass()"
+                    >
+                      เปลี่ยนรหัสผ่าน
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div class="flex">
+            <div class="flex lg:mx-20  md:mx-10 mx-5 ">
               <div class="box" v-if="!showEditPass">
                 <div
                   class="flex justify-start text-sm text-gray100 cursor-pointer"
@@ -140,7 +139,7 @@
 
             <!-- edit password -->
 
-            <div class="box grid col-span-2" v-if="showEditPass">
+            <div class="lg:mx-40 md:mx-10 mx-5 mt-5 md:mt-5 grid col-span-2" v-if="showEditPass">
               <div class="lg:py-1">
                 <p class="title">กรุณากรอกรหัสผ่านเดิม</p>
                 <input
@@ -445,7 +444,7 @@ export default {
           .catch((err) => {
             alert(err.response.message);
           });
-      } else{
+      } else {
         return;
       }
     },
