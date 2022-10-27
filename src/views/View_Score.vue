@@ -214,7 +214,7 @@
             <tr
               v-for="list in stdScore"
               :key="list.no"
-              class="font-light bg-white hover:bg-light"
+              class="font-light bg-white hover:bg-gray-50"
             >
               <td>
                 <div class="flex justify-center">{{ list.no }}</div>
