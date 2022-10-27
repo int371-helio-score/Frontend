@@ -8,12 +8,11 @@ import AddSubject from "../views/Add_Subject.vue";
 import AddSchool from "../views/Add_School.vue";
 import AddClass from "../views/Add_Class.vue";
 import ImportStudent from "../views/Add_StudentList.vue";
-// import DeleteScore from "../views/Delete_Score.vue";
 import ForgotPassword from "../views/Forgot_Password.vue";
 import ResetPassword from "../views/Reset_Password.vue";
 import GoToVerify from "../views/Resend_VerifyEmail.vue";
 import Verify from "../views/VerifyEmail.vue";
-import StudentList from "../views/StudentList.vue";
+import StudentList from "../views/View_StudentList.vue";
 import StudentGroup from "../views/StudentList_Group.vue"
 
 const routes = [
@@ -131,16 +130,10 @@ const routes = [
   },
   {
     path: "/helioscore/importstudentlist",
-    name: "new student list",
+    name: "newstudentlist",
     component: ImportStudent,
-    props: true,
+    // props: true,
   },
-  // {
-  //   path: "/helioscore/deletescore",
-  //   name: "deletescore",
-  //   component: DeleteScore,
-  //   props: true,
-  // },
   {
     path: "/helioscore/forgotpassword",
     component: ForgotPassword,

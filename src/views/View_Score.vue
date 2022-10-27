@@ -16,14 +16,12 @@
             <div>ห้อง {{ room }}</div>
           </div>
 
-          <div class="my-5 pb-5 pt-15 flex">
-            <div
-              class="text-secondary text-sm md:text-base xl:text-lg pt-3 hidden xl:block"
-            >
+          <div class="my-5 pb-5 pt-15 grid-cols-6 grid">
+            <p class="pt-3 hidden xl:block">
               รายชื่อทั้งหมด
-            </div>
+            </p>
 
-            <div class="xl:ml-28 lg:ml-5">
+            <div class="col-span-4 col-end-7">
               <div class="grid grid-cols-3 gap-4 xl:gap-4 md:gap-2 pt-3">
                 <button class="add" @click="clickUploadStd()">
                   <div
@@ -49,7 +47,7 @@
                   >
                     <span class="material-symbols-outlined">
                       pending_actions </span
-                    >รายชื่อ และ คะแนนที่รอประกาศ
+                    >คะแนนที่รอประกาศ
                   </div>
                 </button>
               </div>
@@ -197,7 +195,7 @@
           class="mx-10"
           :class="{ 'overflow-x-auto': scroll }"
         >
-          <table class="h-fit rounded-md">
+          <table class="h-auto rounded-md">
             <tr class="bg-babyblue p-4 cursor-default">
               <th class="px-2">เลขที่</th>
               <th>รหัส</th>
@@ -205,51 +203,50 @@
               <th v-for="tt in std" :key="tt._id" class="px-2">
                 {{ tt.title }}
                 <p class="text-xs font-extralight">{{ tt.total }} คะแนน</p>
+                <span
+                  class="material-symbols-outlined cursor-pointer"
+                  @click="showEdit(tt)"
+                >
+                  edit_note
+                </span>
               </th>
             </tr>
 
             <tr
               v-for="list in stdScore"
               :key="list.no"
-              class="font-light bg-white hover:bg-light cursor-pointer"
-              @click="showEdit(firstName, lastName)"
+              class="font-light bg-white hover:bg-light"
             >
-              <td>{{ list.no }}</td>
-              <td>{{ list.studentId }}</td>
               <td>
-                {{ list.firstName }} &nbsp;&nbsp;
-                {{ list.lastName }}
+                <div class="flex justify-center">{{ list.no }}</div>
+              </td>
+              <td>
+                <div class="flex justify-center">
+                  {{ list.studentId }}
+                </div>
+              </td>
+              <td>
+                <div class="flex justify-center">
+                  {{ list.firstName }} &nbsp;&nbsp;
+                  {{ list.lastName }}
+                </div>
               </td>
               <th v-for="(s, index) in list.score" :key="index">{{ s }}</th>
             </tr>
           </table>
 
           <!-- Manage Score -->
-          <div class="flex mt-10 bottom-0">
-            <div
-              class="flex justify-start self-center items-center bottom-0 z-10"
-            >
-              <span class="material-symbols-outlined"> edit_note </span>
+          <div
+            class="lg:mt-10 flex justify-end sm:mx-0 mx-5 items-center self-center"
+          >
+            <span class="material-symbols-outlined"> delete </span>
+            <div v-show="showList">
               <p
-                class="text-sm ml-1 hover:text-primary cursor-pointer"
-                @click="showEdit()"
+                class="text-sm hover:text-primary cursor-pointer"
+                @click="showDelete()"
               >
-                แก้ไขคะแนน
+                ลบคะแนนชิ้นงาน
               </p>
-            </div>
-
-            <div
-              class="flex justify-start items-center self-center sm:mx-10 mx-5"
-            >
-              <span class="material-symbols-outlined"> delete </span>
-              <div v-show="showList">
-                <p
-                  class="text-sm ml-1 hover:text-primary cursor-pointer"
-                  @click="showDelete()"
-                >
-                  ลบคะแนน
-                </p>
-              </div>
             </div>
           </div>
         </div>
@@ -259,7 +256,7 @@
 
   <!-- Delete Score -->
 
-  <div name="modal" v-show="deleteModal == true">
+  <div name="modal" v-show="deleteModal == true" v-if="editModal == false">
     <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container relative">
@@ -311,55 +308,15 @@
   </div>
 
   <!-- Edit Score -->
-  <div name="modal" v-show="editModal == true">
-    <div class="modal-mask">
-      <div class="modal-wrapper">
-        <div class="modal-container relative">
-          <img src="../../src/assets/Background.png" class="w-full relative" />
-          <div>
-            <div class="mx-20 mt-10">
-              <p class="text-secondary font-bold my-2"> {{ firstName }}</p>
-              <form>
-                <tr v-for="stdlist in stdScore._id" :key="stdlist._id">
-                  <th class="px-2">เลขที่</th>
-                  <th>รหัส</th>
-                  <th>ชื่อ-นามสกุล</th>
-                  <th v-for="tt in std" :key="tt._id" class="px-2">
-                    {{ tt.title }}
-                    <span
-                      class="material-symbols-outlined cursor-pointer"
-                      @click="showEdit()"
-                    >
-                      edit_note
-                    </span>
-                    <p class="text-xs font-extralight">{{ tt.total }} คะแนน</p>
-                  </th>
-                </tr>
-              </form>
-            </div>
-          </div>
 
-          <!-- button -->
-
-          <div class="flex justify-center place-content-end mt-12">
-            <div class="absolute bottom-8 grid grid-cols-2 gap-4">
-              <button
-                class="bg-light text-secondary2 border border-secondary2 rounded-md px-6 py-1 ml-2"
-                @click="editModal = false"
-              >
-                ออก
-              </button>
-              <button
-                class="bg-secondary2 text-white rounded-md px-6 py-1 ml-2"
-              >
-                บันทึก
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <editScore
+    v-if="editModal"
+    :scoreComp="editScore"
+    @showEdit="showEdit"
+    class="absolute"
+  >
+    <div>Hi</div>
+  </editScore>
 </template>
 
 <script>
@@ -396,17 +353,8 @@ export default {
       showAssignList: false,
       deleteModal: false,
       editModal: false,
+      editScore: null,
     };
-  },
-
-  async created() {
-    this.grade = this.$route.params.grade;
-    this.room = this.$route.query.room;
-    this.class_id = this.$route.query.class_id;
-    this.subject_id = this.$route.params.subId;
-
-    await this.getStudent(this.$route.query.class_id);
-    await this.getAnnounce(this.$route.query.class_id);
   },
 
   methods: {
@@ -478,9 +426,7 @@ export default {
         })
         .then((res) => {
           if (res.data.statusCode === 200) {
-            // this.getStudent().$router.go();
             (this.fileStd = ""), alert("อัปโหลดราชื่อ สำเร็จ");
-            // this.getAnnounce(this.$route.query.class_id);
             this.$router.go();
           }
         })
@@ -559,6 +505,7 @@ export default {
 
     async getStudent(classId) {
       try {
+        this.stdScore = [];
         axios
           .get(`${this.url}/${classId}`, {
             headers: {
@@ -589,13 +536,11 @@ export default {
                     .find((x) => x.no === each.no)
                     .score.push(each.score);
                 }
-                console.log(this.stdScore);
               });
             }
             if (this.std.length > 5) {
               this.scroll = true;
             }
-            console.log(this.std);
             return response.data.data.results;
           });
       } catch (error) {
@@ -613,7 +558,6 @@ export default {
           })
           .then((response) => {
             this.toAnnounce = response.data.data.results;
-            // console.log(this.toAnnounce);
             return response.data.data.results;
           });
       } catch (error) {
@@ -623,7 +567,6 @@ export default {
 
     showDelete() {
       this.deleteModal = true;
-      // console.log(this.deleteModal);
     },
 
     async deleteAssignment(score_id, title) {
@@ -636,9 +579,7 @@ export default {
             },
           })
           .then((res) => {
-            // console.log(res);
             if (res.data.statusCode === 200) {
-              // return;
               this.$router.go();
             }
           })
@@ -650,8 +591,12 @@ export default {
       }
     },
 
-    showEdit() {
-      this.editModal = true;
+    async showEdit(scoreList) {
+      this.editScore = scoreList;
+      this.editModal = !this.editModal;
+      if (this.editModal == false) {
+        await this.getStudent(this.$route.query.class_id);
+      }
     },
 
     async submitEdit() {
@@ -667,10 +612,8 @@ export default {
           headers: {
             Authorization: localStorage.getItem("token"),
           },
-
         })
         .then((res) => {
-          console.log(this.newFirstName);
           if (res.data.statusCode === 200) {
             alert("Edit success");
             this.showModal = false;
@@ -684,6 +627,16 @@ export default {
           alert(err.response.data.message);
         });
     },
+  },
+
+  async created() {
+    this.grade = this.$route.params.grade;
+    this.room = this.$route.query.room;
+    this.class_id = this.$route.query.class_id;
+    this.subject_id = this.$route.params.subId;
+
+    await this.getStudent(this.$route.query.class_id);
+    await this.getAnnounce(this.$route.query.class_id);
   },
 };
 </script>
@@ -820,12 +773,11 @@ th {
 
 table {
   border-collapse: collapse;
+
+  @apply min-w-full;
   /* border-radius: 100px; */
 }
-table tr td,
-th {
-  border: 1px solid #ccc;
-}
+
 table td {
   @apply py-2 px-2;
 }

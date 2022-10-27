@@ -9,7 +9,8 @@ import SidebarTeacher from "@/components/SidebarTeacher.vue";
 import vue3GoogleLogin from 'vue3-google-login'
 import vSelect from 'vue-select';
 import Vue3EasyDataTable from 'vue3-easy-data-table';
-import EditImage from "@/components/Edit_Image.vue"
+import EditImage from "@/components/Edit_Image.vue";
+import EditScore from "@/components/Edit_Score.vue";
 import axios from "axios";
 
 axios.defaults.baseURL = 'http://localhost:3000/api/';
@@ -30,4 +31,5 @@ app.component("sidebarTeacher", SidebarTeacher);
 app.component('v-select', vSelect);
 app.component('EasyDataTable', Vue3EasyDataTable);
 app.component("editImage", EditImage);
+app.component("editScore", EditScore);
 app.mount("#app");

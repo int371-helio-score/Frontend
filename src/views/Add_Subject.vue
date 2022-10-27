@@ -209,7 +209,6 @@ export default {
             alert("เพิ่มวิชาสำเร็จ");
             return this.$router.push("/helioscore");
           }
-          // alert("Error");
         })
         .catch((err) => {
           alert(err.res.data.message);

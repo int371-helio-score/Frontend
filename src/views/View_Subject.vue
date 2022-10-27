@@ -59,7 +59,7 @@
             </router-link>
             <div v-show="deletebtn == true">
               <button
-                class="text-white delete bg-alert cursor-pointer"
+                class="text-gray100 delete bg-gray50 cursor-pointer"
                 @click="deleteSubject(subject._id, subject.subjectName)"
               >
                 ลบ
@@ -68,7 +68,11 @@
           </div>
         </div>
 
-        <div class="object" @click="clickDelete()" v-show="deletebtn == false">
+        <div
+          class="object"
+          @click="clickDelete()"
+          v-show="deletebtn == false && owner"
+        >
           <span class="material-symbols-outlined mr-2"> edit </span>
           <p>จัดการรายวิชา</p>
         </div>
@@ -97,6 +101,8 @@ export default {
       academics: [],
       picture: "",
       selected: "",
+      owner: null,
+
       term: [
         {
           name: "Please Select an Option",
@@ -176,10 +182,20 @@ export default {
           })
           .then((res) => {
             this.subjects = res.data.data.results;
+            console.log(this.subjects);
             this.totalRoom = res.data.data.total;
+            // console.log(this.totalRoom);
+            this.owner = res.data.data.results;
+            console.log(this.owner);
           });
       } catch (error) {
         console.log(`Could not get! ${error}`);
+      }
+    },
+
+    checkOwner() {
+      if (this.subjects.owner == true) {
+        return (this.owner = true);
       }
     },
 

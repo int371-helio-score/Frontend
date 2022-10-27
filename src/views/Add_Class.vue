@@ -83,8 +83,6 @@ export default {
 
     checkInput() {
       this.inputRoom = this.tags === 0 ? true : false;
-      console.log(this.inputRoom);
-      console.log(this.tags);
       if (this.inputRoom) {
         return;
       }
@@ -92,7 +90,6 @@ export default {
     },
 
     addClassroom() {
-      // console.log(this.inputRoom);
       let data = {
         class: this.tags,
         subjectId: this.subject,
@@ -107,7 +104,6 @@ export default {
           if (res.data.statusCode === 200) {
             this.tags = "";
             alert("เพิ่มห้องเรียนสำเร็จ");
-            // this.$router.go(1);
           }
         })
         .catch((err) => {

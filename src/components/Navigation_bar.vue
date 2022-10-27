@@ -40,7 +40,7 @@
               <img
                 :src="getImage()"
                 class="pic rounded-full w-28 h-28 cursor-pointer"
-                
+                @click="showEdit()"
               />
               <!-- <input type="file" accept="image/*" @input="selectFile" /> -->
             </div>
@@ -127,9 +127,9 @@
               </div>
             </div>
 
-            <div class="flex ml-4">
+            <div class="flex ">
               <div class="box" v-if="!showEditPass">
-                <div class="flex justify-end" @click="deleteAccount()">
+                <div class="flex justify-start text-sm text-gray100 cursor-pointer" @click="deleteAccount()">
                   ลบบัญชี
                 </div>
               </div>
@@ -194,12 +194,6 @@
               >
                 ออก
               </button>
-              <!-- <button
-                class="bg-light text-primary rounded-md mr-2 px-2 py-1"
-                @click="editProfile()"
-              >
-                แก้ไขข้อมูล
-              </button> -->
             </div>
 
             <div class="grid grid-cols-2" v-else>

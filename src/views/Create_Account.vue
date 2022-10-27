@@ -332,7 +332,6 @@ export default {
             this.password = "";
             this.confirmPassword = "";
             this.test = "";
-            // localStorage.setItem("token", res.data.data.token);
             this.$router.push("/helioscore/resendemail") && alert("สร้างบัญชีสำเร็จ กรุณายืนยันบัญชีของคุณ");
           }
         })

@@ -28,7 +28,6 @@ export default {
 
   methods: {
     verified() {
-      console.log("Hi")
       const token = this.$route.query.token;
       axios
         .get(this.url, {
@@ -49,9 +48,7 @@ export default {
   },
 
   created() {
-    console.log("hi")
     this.verified();
-    console.log("eiei")
   },
 };
 </script>

@@ -10,15 +10,9 @@
 
           <div>
             <div class="step">
-              <p class="header">ขั้นตอนที่ 1 ดาวน์โหลดไฟล์เทมเพลต</p>
-              <div class="inline description">
-                <p @click="downloadTempStd(this.class_id)">คลิกที่นี่</p>
-                <p>เพื่อดาวน์โหลด</p>
-              </div>
-            </div>
-
-            <div class="step">
-              <p class="header">ขั้นตอนที่ 2 ระบุชั้นเรียน และห้องที่ต้องการเพิ่มรายชื่อ</p>
+              <p class="header">
+                ขั้นตอนที่ 1 ระบุชั้นเรียน และห้องที่ต้องการเพิ่มรายชื่อ
+              </p>
               <p class="description">เลือกชั้นเรียน</p>
               <v-select type="text" name="academic" v-model="classroom" />
               <!-- <sup
@@ -28,11 +22,36 @@
             > -->
 
               <p class="description">เลือกห้องเรียน</p>
-              <v-select></v-select>
+              <div class="">
+                <v-select type="text" name="academic" v-model="room" />
+                <!-- <sup
+                  v-show="inputRoom"
+                  class="text-red-500 flex justify-center mt-4"
+                >
+                  กรุณาระบุห้องเรียนที่ต้องการเพิ่ม
+                </sup> -->
+              </div>
             </div>
 
             <div class="step">
-              <p class="header">ขั้นตอนที่ 3 นำเข้าไฟล์ข้อมูล</p>
+              <p class="header">ขั้นตอนที่ 2 นำเข้าไฟล์ข้อมูล</p>
+              <div class="ml-2">
+                <p
+                  class="description text-gray100 hover:text-primary cursor-pointer"
+                  @click="downloadTempStd(this.class_id)"
+                >
+                  <span
+                    class="material-symbols-outlined text-secondary hover:text-primary"
+                  >
+                    sim_card_download
+                  </span>
+                  ดาวน์โหลดไฟล์เทมเพลต เพื่ออัปโหลดคะแนน
+                </p>
+                <p class="description text-gray100 ml-6">
+                  หากไฟล์ของคุณมี format ที่ไม่ถูกต้องจะไม่สามารถอัปโหลดคะแนนได้
+                </p>
+              </div>
+
               <div class="flex justify-center">
                 <div class="container flex flex-col mt-10">
                   <div class="self-center">
@@ -49,7 +68,6 @@
                       <button
                         class="relative md:mb-4 md:text-base flex justify-end"
                         style="color: #42a5f5"
-                        
                       >
                         ดาวน์โหลดไฟล์เทมเพลตรายชื่อ
                       </button>
@@ -93,17 +111,51 @@ import axios from "axios";
 export default {
   data() {
     return {
-      //   urlGrade: "/helio/class/$subject_id",
+      importStd: "helio/studentList",
       classroom: [],
+      room: [],
+      inputRoom: "",
+      inputClass: "",
+      filestd: "",
     };
   },
 
-  async created() {
-    await this.getClass();
-    console.log(this.classroom);
-  },
-
   methods: {
+    handleFileStd() {
+      this.fileStd = this.$refs.file.files[0];
+    },
+
+    checkInput() {
+      this.inputRoom = this.tags === 0 ? true : false;
+      if (this.inputRoom) {
+        return;
+      }
+      this.submitForm();
+    },
+
+    submitForm() {
+      let formData = new FormData();
+      formData.append("file", this.fileStd);
+      formData.append("classId", this.inputClass);
+      // formData.append("groupName", this.inputRoom);
+      axios
+        .post(`${this.importStd}`, formData, {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          if (res.data.statusCode === 200) {
+            (this.fileStd = ""), alert("อัปโหลดราชื่อ สำเร็จ");
+            this.$router.go();
+          }
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+    },
+
     async getClass() {
       try {
         const response = await axios.get("/helio/class", {
@@ -112,7 +164,21 @@ export default {
           },
         });
         this.classroom = response.data.data.results;
-        // this.selected = this.academics[0];
+        console.log(this.classroom);
+      } catch (error) {
+        console.log(`Could not get! ${error}`);
+      }
+    },
+
+    async getRoom() {
+      try {
+        const response = await axios.get("/api/helio/class", {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        });
+        this.room = response.data.data.results;
+        console.log(this.room);
       } catch (error) {
         console.log(`Could not get! ${error}`);
       }
@@ -135,6 +201,11 @@ export default {
           downloadLink.click();
         });
     },
+  },
+
+  async created() {
+    await this.getClass();
+    await this.getRoom();
   },
 };
 </script>
@@ -209,14 +280,14 @@ export default {
 input {
   @apply border border-gray50 rounded-md px-2 py-1 pt-1;
 }
-.step{
-    @apply mt-10;
+.step {
+  @apply mt-10;
 }
-.header{
-    color: #42A5F5;
-    @apply lg:text-base lg:font-medium ;
+.header {
+  color: #42a5f5;
+  @apply lg:text-base lg:font-medium;
 }
-.description{
-    @apply lg:text-sm lg:pt-2;
+.description {
+  @apply lg:text-sm lg:pt-2;
 }
 </style>
