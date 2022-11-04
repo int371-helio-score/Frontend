@@ -33,49 +33,67 @@
 
         <div class="order">
           <div v-for="subject in subjects" :key="subject.subject_id">
-            <router-link
-              :to="{
-                name: 'class',
-                params: {
-                  subjectName: subject.subjectName,
-                  classId: subject.grade,
-                },
-                query: {
-                  subjectId: subject._id,
-                  classId: subject.grade,
-                },
-              }"
-            >
-              <div class="subject bg-white text-center px-10 py-2">
-                <img :src="getPicture()" class="flex justify-center" /><br />
-                <div>
-                  {{ subject.subjectCode }} {{ subject.subjectName }}<br />
-                </div>
-                <div class="classroom">
-                  <div>ชั้นมัธยมศึกษาปีที่ {{ subject.grade }}</div>
-                  <div class="mt-4">{{ subject.totalClass }} ห้องเรียน</div>
+            <div class="bg-white text-center box">
+              <div class="flex justify-end pt-1 pr-1">
+                <div class="dropdown">
+                  <span
+                    class="material-symbols-outlined text-secondary cursor-pointer dropbtn"
+                    @click="clickSeeMore()"
+                  >
+                    more_vert
+                  </span>
+                  <div id="myDropdown" class="rounded-sm dropdown-content">
+                    <a href="#" @click="editSubject(subject)">แก้ไข</a>
+                    <a
+                      href="#"
+                      @click="deleteSubject(subject._id, subject.subjectName)"
+                      >ลบ</a
+                    >
+                  </div>
                 </div>
               </div>
-            </router-link>
-            <div v-show="deletebtn == true && subject.owner">
+
+              <div class="subject px-10 py-2">
+                <router-link
+                  :to="{
+                    name: 'class',
+                    params: {
+                      subjectName: subject.subjectName,
+                      classId: subject.grade,
+                    },
+                    query: {
+                      subjectId: subject._id,
+                      classId: subject.grade,
+                    },
+                  }"
+                >
+                  <img :src="getPicture()" class="flex justify-center" /><br />
+                  <div>
+                    {{ subject.subjectCode }} {{ subject.subjectName }}<br />
+                  </div>
+                  <div class="classroom">
+                    <div>ชั้นมัธยมศึกษาปีที่ {{ subject.grade }}</div>
+                    <div class="mt-4">{{ subject.totalClass }} ห้องเรียน</div>
+                  </div>
+                </router-link>
+              </div>
+            </div>
+
+            <!-- <div v-show="deletebtn == true && subject.owner">
               <button
                 class="text-gray100 delete bg-gray50 cursor-pointer"
                 @click="deleteSubject(subject._id, subject.subjectName)"
               >
                 ลบ
               </button>
-            </div>
+            </div> -->
           </div>
         </div>
 
-        <div
-          class="object"
-          @click="clickDelete()"
-          v-show="deletebtn == false"
-        >
+        <!-- <div class="object" @click="clickDelete()" v-show="deletebtn == false">
           <span class="material-symbols-outlined mr-2"> edit </span>
           <p>จัดการรายวิชา</p>
-        </div>
+        </div> -->
         <div class="object" v-if="deletebtn" @click="cancleDelete()">
           <span class="material-symbols-outlined mr-2"> close </span>
           <p>ยกเลิก</p>
@@ -83,6 +101,8 @@
       </div>
     </div>
   </div>
+
+  <editSubject v-if="editModal" class="absolute"></editSubject>
 </template>
 
 <script>
@@ -102,7 +122,6 @@ export default {
       picture: "",
       selected: "",
       owner: null,
-
       term: [
         {
           name: "Please Select an Option",
@@ -110,6 +129,7 @@ export default {
         },
       ],
       deletebtn: false,
+      editModal: false,
     };
   },
 
@@ -123,6 +143,10 @@ export default {
     },
   },
   methods: {
+    clickSeeMore() {
+      document.getElementById("myDropdown").classList.toggle("show");
+    },
+
     clickDelete() {
       this.deletebtn = true;
     },
@@ -163,7 +187,6 @@ export default {
         });
         this.academics = response.data.data.results;
         this.selected = this.academics[0];
-
       } catch (error) {
         console.log(`Could not get! ${error}`);
       }
@@ -200,6 +223,10 @@ export default {
     getPicture() {
       return "http://localhost:3000/public/images/pic1.png";
     },
+
+    editSubject() {
+      this.editModal = !this.editModal;
+    },
   },
 };
 </script>
@@ -209,9 +236,11 @@ img {
   @apply h-28 lg:h-auto
   sm:pl-10 md:pl-0;
 }
-.subject {
+.box {
   border: 3px solid #f7f7f7;
   border-radius: 10px;
+}
+.subject {
   @apply justify-center text-xs
   lg:text-sm 
   md:px-5 md:py-2;
@@ -261,5 +290,45 @@ span {
   text-decoration: underline;
   @apply lg:text-sm lg:w-full lg:rounded-sm lg:mt-1 
   flex justify-center;
+}
+.dropbtn {
+  /* background-color: #3498db; */
+  /* color: white; */
+  /* padding: 16px; */
+  /* font-size: 16px; */
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  /* @apply flex justify-end; */
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  /* position: absolute; */
+}
+
+.dropdown a:hover {
+  background-color: #ddd;
+}
+
+.show {
+  display: block;
 }
 </style>

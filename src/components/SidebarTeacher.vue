@@ -6,7 +6,7 @@
           <router-link to="/helioscore">
             <div class="object">
               <span class="material-symbols-outlined home mr-2"> home </span>
-              <div class="sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 text-primary">
+              <div class="sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 text-secondary">
                 หน้าหลัก
               </div>
             </div>
@@ -17,7 +17,7 @@
           <router-link to="/helioscore/newsubject">
             <div class="object">
               <span class="material-symbols-outlined mr-2"> add </span>
-              <div class="sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 text-primary">
+              <div class="sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 text-secondary">
                 เพิ่มวิชาที่สอน
               </div>
             </div>
@@ -87,7 +87,10 @@ export default {
   @apply py-10 flex justify-start;
 }
 .object {
-  @apply flex text-primary sm:text-sm items-center;
+  @apply flex sm:text-sm items-center;
+}
+.object:focus{
+  color: aqua;
 }
 button {
   position: absolute;
@@ -96,5 +99,8 @@ button {
   background: #ffffff;
   box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.5);
   border-radius: 22px;
+}
+span{
+  @apply text-primary;
 }
 </style>
