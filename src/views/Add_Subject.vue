@@ -29,7 +29,7 @@
                   />
                   <sup
                     v-show="inputAcademicYear"
-                    class="text-red-500 flex justify-center mt-4"
+                    class="text-red-500 mt-4"
                     >กรอกปีการศึกษา</sup
                   >
                 </div>
@@ -44,11 +44,10 @@
                   />
                   <sup
                     v-show="inputSemester"
-                    class="text-red-500 flex justify-center mt-4"
+                    class="text-red-500 mt-4"
                     >กรอกภาคการศึกษา</sup
                   >
                 </div>
-                
 
                 <div class="inputForm">
                   <label>รหัสวิชา</label>
@@ -60,11 +59,10 @@
                   />
                   <sup
                     v-show="inputSubjectId"
-                    class="text-red-500 flex justify-center mt-4"
+                    class="text-red-500 mt-4"
                     >กรอกรหัสวิชา</sup
                   >
                 </div>
-                
 
                 <div class="inputForm">
                   <label>ชื่อวิชา</label>
@@ -76,7 +74,7 @@
                   />
                   <sup
                     v-show="inputSubjectName"
-                    class="text-red-500 flex justify-center mt-4"
+                    class="text-red-500 mt-4"
                     >กรอกชื่อวิชา</sup
                   >
                 </div>
@@ -91,7 +89,7 @@
                   />
                   <sup
                     v-show="inputClass"
-                    class="text-red-500 flex justify-center mt-4"
+                    class="text-red-500 mt-4"
                     >กรอกชั้นปี</sup
                   >
                 </div>
@@ -111,6 +109,11 @@
                   :taggable="true"
                   @tag="addTag"
                 />
+                <sup
+                    v-show="inputRoom"
+                    class="text-red-500 mt-4"
+                    >กรุณากรอกห้องเรียน</sup
+                  >
               </div>
 
               <div class="flex justify-center">
@@ -124,9 +127,29 @@
             </form>
           </div>
 
-          <div class="bg-white"></div>
+          <!-- <div class="bg-white"></div> -->
         </div>
       </div>
+
+      <!-- <div id="app"> -->
+    <!-- <button 
+        @click="$refs.alert
+        .showAlert(
+            'success', // There are 4 types of alert: success, info, warning, error
+            35, // Size of the icon (px)
+            'solid', // Icon styles: now only 2 styles 'solid' and 'regular'
+            'Success 200', // Header of the alert
+            'This is the information of something you may know Success.' // Message of the alert
+        )"
+    >
+        Click to Success alert
+    </button>
+
+    <vue-basic-alert 
+       :duration="300" 
+       :closeIn="300" 
+       ref="alert" />
+  </div> -->
     </div>
   </div>
 </template>
@@ -166,7 +189,8 @@ export default {
       this.inputSubjectId = this.subjectId === "" ? true : false;
       this.inputSubjectName = this.subject === "" ? true : false;
       this.inputClass = this.grade === "" ? true : false;
-      this.inputRoom = this.tags === "" ? true : false;
+      this.inputRoom = this.tags.length == 0 ? true : false;
+      console.log(this.inputRoom)
       if (
         this.inputSemester ||
         this.inputAcademicYear ||
@@ -175,7 +199,7 @@ export default {
         this.inputClass ||
         this.inputRoom
       ) {
-        return;
+        return ;
       }
       this.addSubject();
     },
@@ -245,15 +269,16 @@ md:text-base;
   @apply md:pl-44 mt-24 w-screen lg:pl-60;
 }
 input {
-  @apply border border-gray50 rounded-md px-2 ;
+  @apply border border-gray50 rounded-md px-2;
 }
 .inputForm {
   @apply my-1 grid grid-rows-2 mx-2;
 }
 sup {
-  @apply xl:mr-5;
+  @apply 
+  flex justify-end;
 }
-label{
+label {
   @apply md:text-sm text-xs lg:text-base;
 }
 </style>

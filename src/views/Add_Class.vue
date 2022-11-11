@@ -6,9 +6,7 @@
 
       <div class="data">
         <div class="sm:mx-10 mx-5 divide-y divide-gray10">
-          <div class="title">
-            เพิ่มห้องเรียน ชั้นมัธยมศึกษาปีที่ {{ room }}
-          </div>
+          <div class="title">เพิ่มห้องเรียน ชั้นมัธยมศึกษาปีที่ {{ room }}</div>
 
           <div class="my-5 pt-10 py-5">
             <div class="bg-white rounded-lg py-5 xl:px-52 md:px-20 h-96">
@@ -76,8 +74,6 @@ export default {
     };
   },
 
-
-
   methods: {
     addTag(newTag) {
       this.tags.push(newTag);
@@ -114,7 +110,7 @@ export default {
     },
   },
 
-    created() {
+  created() {
     this.room = this.$route.query.grade;
     this.subId = this.$route.query.subject;
   },

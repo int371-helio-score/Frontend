@@ -15,7 +15,7 @@
             </div>
           </div>
 
-          <div class="my-5 pt-10 py-5 grid grid-cols-2" >
+          <div class="my-5 pt-10 py-5 grid grid-cols-2">
             <div class="flex justify-start">วิชาทั้งหมด</div>
 
             <div class="flex justify-end" v-show="list">
@@ -26,7 +26,6 @@
                     subject: this.$route.query.subjectId,
                     grade: this.$route.query.classId,
                   },
-                  
                 }"
               >
                 <button
@@ -41,7 +40,32 @@
         </div>
 
         <div class="order">
-          <div v-for="room in classroom" :key="room.room">
+          <div
+            v-for="room in classroom"
+            :key="room.room"
+            class="box bg-white text-secondary"
+          >
+            <div class="text-center">
+              <div class="flex justify-end pt-1 pr-1">
+                <div class="dropdown">
+                  <span
+                    class="material-symbols-outlined cursor-pointer dropbtn"
+                    @click="clickSeeMore()"
+                  >
+                    more_vert
+                  </span>
+                  <div id="myDropdown" class="rounded-sm dropdown-content">
+                    <a href="#" @click="editClass(selectClass)">แก้ไข</a>
+                    <a
+                      href="#"
+                      @click="deleteSubject(subject._id, subject.subjectName)"
+                      >ลบ</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <router-link
               :to="{
                 path: `/helioscore/${this.subjectName}/${this.classId}?room=${room.room}&class_id=${room._id}`,
@@ -60,33 +84,53 @@
                 },
               }"
             >
-              <div class="class bg-white px-10 pt-10 pb-2 text-sm text-center">
-                <div class="mb-5">ม.{{ classId }} ห้อง {{ room.room }}</div>
-                <div>{{ room.totalStudent }} คน</div>
+              <div class="text-center mt-2">
+                <div class="text-sm font-bold">
+                  ชั้นปีที่ {{ classId }} ห้อง {{ room.room }}
+                </div>
+                <div class="text-sm font-bold my-8" v-show="room.owner">คะแนนรวม {{}} คะแนน</div>
+                <div class="text-sm font-bold my-8" v-show="room.owner == false">คะแนนรวม {{}} / {{}}</div>
+
+                <div class="text-xs" v-show="room.owner">
+                  นักเรียนทั้งหมด {{ room.totalStudent }} คน
+                </div>
+
+                <div class="text-xs" v-show="room.owner == false">
+                  <p>คุณครูประจำวิชา: {{}}</p>
+                  <p>ติดต่อ: {{}}</p>
+                </div>
               </div>
             </router-link>
-            <div v-show="deletebtn == true && room.owner">
+            <!-- <div v-show="deletebtn == true && room.owner">
               <button
                 class="text-gray100 delete bg-gray50 cursor-pointer"
                 @click="deleteclass(room._id, room.room)"
               >
                 ลบ
               </button>
-            </div>
+            </div> -->
           </div>
         </div>
 
-        <div class="object" @click="clickDelete()" v-show="deletebtn == false">
+        <!-- <div class="object" @click="clickDelete()" v-show="deletebtn == false">
           <span class="material-symbols-outlined mr-2"> edit </span>
           <p>จัดการรายวิชา</p>
         </div>
         <div class="object" v-if="deletebtn" @click="cancleDelete()">
           <span class="material-symbols-outlined mr-2"> close </span>
           <p>ยกเลิก</p>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
+
+  <editClass
+    v-if="editModal"
+    :editClassComp="edit"
+    @showEditModal="editClass"
+    class="absolute"
+  >
+  </editClass>
 </template>
 
 <script>
@@ -101,8 +145,6 @@ export default {
     this.classId = this.$route.query.classId;
     await this.getClassroom();
     await this.owner(this.$route.query.subjectId);
-
-    // console.log(this.classId)
   },
 
   async mounted() {
@@ -127,6 +169,8 @@ export default {
       deletebtn: false,
       checkOwner: "helio/subject",
       list: false,
+      edit: null,
+      editModal: false,
     };
   },
   methods: {
@@ -142,6 +186,12 @@ export default {
           return;
         });
     },
+
+    // checkOwner() {
+    //   if (this.subjects.owner == true) {
+    //     return (this.owner = true);
+    //   }
+    // },
 
     async getClassroom() {
       try {
@@ -190,16 +240,28 @@ export default {
         return;
       }
     },
+
+    clickSeeMore() {
+      document.getElementById("myDropdown").classList.toggle("show");
+    },
+
+    async editClass(selectClass) {
+      this.editModal = !this.editModal;
+      // console.log(this.editModal)
+      this.edit = selectClass;
+      // if(this.editModal == false){
+      //   await this.getSubjects(this.$route.query.);
+      // }
+    },
   },
-  
 };
 </script>
 
 <style scoped>
-.class {
+.box {
   border: 3px solid #f7f7f7;
   border-radius: 10px;
-  @apply xl:justify-center;
+  @apply pb-2;
 }
 .title {
   @apply text-sm font-bold mt-5 text-secondary
@@ -235,5 +297,41 @@ span {
   text-decoration: underline;
   @apply lg:text-sm lg:w-full lg:rounded-sm lg:mt-1 
   flex justify-center;
+}
+.dropbtn {
+  /* background-color: #3498db; */
+  /* color: white; */
+  /* padding: 16px; */
+  /* font-size: 16px; */
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  /* @apply flex justify-end; */
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  /* position: absolute; */
+}
+.dropdown a:hover {
+  background-color: #ddd;
+}
+.show {
+  display: block;
 }
 </style>

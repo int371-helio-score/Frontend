@@ -5,7 +5,7 @@
       <sidebarTeacher />
 
       <div class="data">
-        <div class="sm:mx-10 md:mx-0 divide-y divide-gray10">
+        <div class="sm:mx-0 md:mx-0 divide-y divide-gray10">
           <div class="title">หน้าหลัก</div>
 
           <div class="my-5 pt-5 md:pt-10 lg:py-5 grid grid-cols-2">
@@ -32,50 +32,69 @@
         </div>
 
         <div class="order">
-          <div v-for="subject in subjects" :key="subject.subject_id">
-            <router-link
-              :to="{
-                name: 'class',
-                params: {
-                  subjectName: subject.subjectName,
-                  classId: subject.grade,
-                },
-                query: {
-                  subjectId: subject._id,
-                  classId: subject.grade,
-                },
-              }"
-            >
-              <div class="subject bg-white text-center px-10 py-2">
-                <img :src="getPicture()" class="flex justify-center" /><br />
-                <div>
-                  {{ subject.subjectCode }} {{ subject.subjectName }}<br />
-                </div>
-                <div class="classroom">
-                  <div>ชั้นมัธยมศึกษาปีที่ {{ subject.grade }}</div>
-                  <div class="mt-4">{{ subject.totalClass }} ห้องเรียน</div>
+          <div v-for="subject in subjects" :key="subject._id">
+            <div class="bg-white text-center box">
+
+              <div class="subject px-10 py-2">
+                <div class="flex justify-end pt-1 pr-1">
+                <div class="dropdown">
+                  <span
+                    class="material-symbols-outlined text-secondary cursor-pointer dropbtn"
+                    @click="clickSeeMore(subject._id)"
+                  >
+                    more_vert
+                  </span>
+                  <div class="rounded-sm dropdown-content" :id="subject._id">
+                    <a href="#" @click="editSubject(subject)">แก้ไข</a>
+                    <a
+                      href="#"
+                      @click="deleteSubject(subject._id, subject.subjectName)"
+                      >ลบ</a
+                    >
+                  </div>
                 </div>
               </div>
-            </router-link>
-            <div v-show="deletebtn == true && subject.owner">
+
+                <router-link
+                  :to="{
+                    name: 'class',
+                    params: {
+                      subjectName: subject.subjectName,
+                      classId: subject.grade,
+                    },
+                    query: {
+                      subjectId: subject._id,
+                      classId: subject.grade,
+                    },
+                  }"
+                >
+                  <img :src="getPicture()" class="flex justify-center" /><br />
+                  <div>
+                    {{ subject.subjectCode }} {{ subject.subjectName }}<br />
+                  </div>
+                  <div class="classroom">
+                    <div>ชั้นมัธยมศึกษาปีที่ {{ subject.grade }}</div>
+                    <div class="mt-4">{{ subject.totalClass }} ห้องเรียน</div>
+                  </div>
+                </router-link>
+              </div>
+            </div>
+
+            <!-- <div v-show="deletebtn == true && subject.owner">
               <button
                 class="text-gray100 delete bg-gray50 cursor-pointer"
                 @click="deleteSubject(subject._id, subject.subjectName)"
               >
                 ลบ
               </button>
-            </div>
+            </div> -->
           </div>
         </div>
 
-        <div
-          class="object"
-          @click="clickDelete()"
-          v-show="deletebtn == false"
-        >
+        <!-- <div class="object" @click="clickDelete()" v-show="deletebtn == false">
           <span class="material-symbols-outlined mr-2"> edit </span>
           <p>จัดการรายวิชา</p>
-        </div>
+        </div> -->
         <div class="object" v-if="deletebtn" @click="cancleDelete()">
           <span class="material-symbols-outlined mr-2"> close </span>
           <p>ยกเลิก</p>
@@ -83,6 +102,13 @@
       </div>
     </div>
   </div>
+
+  <editSubject
+    v-if="editModal"
+    :editComp="editSub"
+    @showEditModal="editSubject"
+    class="absolute"
+  ></editSubject>
 </template>
 
 <script>
@@ -102,7 +128,6 @@ export default {
       picture: "",
       selected: "",
       owner: null,
-
       term: [
         {
           name: "Please Select an Option",
@@ -110,6 +135,9 @@ export default {
         },
       ],
       deletebtn: false,
+      editModal: false,
+      editSub: null,
+      show: false,
     };
   },
 
@@ -123,6 +151,14 @@ export default {
     },
   },
   methods: {
+    clickSeeMore(e) {
+      // console.log(e.target);
+      document.getElementById(e).classList.toggle("show");
+      
+      // this.show = !this.show;
+      // $(e.target)
+    },
+
     clickDelete() {
       this.deletebtn = true;
     },
@@ -163,7 +199,6 @@ export default {
         });
         this.academics = response.data.data.results;
         this.selected = this.academics[0];
-
       } catch (error) {
         console.log(`Could not get! ${error}`);
       }
@@ -200,6 +235,14 @@ export default {
     getPicture() {
       return "https://test-helioscore.sytes.net/backend/public/images/pic1.png";
     },
+
+    async editSubject(subject) {
+      this.editModal = !this.editModal;
+      this.editSub = subject;
+      // if(this.editModal == false){
+      //   await this.getSubjects(this.$route.query.);
+      // }
+    },
   },
 };
 </script>
@@ -209,9 +252,11 @@ img {
   @apply h-28 lg:h-auto
   sm:pl-10 md:pl-0;
 }
-.subject {
+.box {
   border: 3px solid #f7f7f7;
   border-radius: 10px;
+}
+.subject {
   @apply justify-center text-xs
   lg:text-sm 
   md:px-5 md:py-2;
@@ -230,11 +275,11 @@ select {
   @apply md:text-base;
 }
 .order {
-  @apply grid mx-10 gap-4 justify-center
+  @apply grid mx-10 gap-4 justify-center 
   xl:grid-cols-5 xl:gap-8
   lg:grid-cols-4 lg:gap-10 lg:mb-20
   md:grid-cols-3 md:gap-4
-  sm:grid-cols-2;
+  sm:grid-cols-2 sm:mx-0;
 }
 .title {
   @apply text-base font-bold mt-5 text-secondary
@@ -246,8 +291,8 @@ select {
 md:text-base sm:text-sm;
 }
 .data {
-  @apply pl-36 pr-10 sm:pl-36 w-screen pt-8 md:pt-0
-  md:pl-60 mt-20
+  @apply pl-10 pr-10 w-screen pt-8 md:pt-0
+  md:pl-10 mt-20
   lg:pl-60 lg:mt-24;
 }
 .object {
@@ -261,5 +306,40 @@ span {
   text-decoration: underline;
   @apply lg:text-sm lg:w-full lg:rounded-sm lg:mt-1 
   flex justify-center;
+}
+.dropbtn {
+  /* background-color: #3498db; */
+  /* color: white; */
+  /* padding: 16px; */
+  /* font-size: 16px; */
+  border: none;
+  cursor: pointer;
+}
+.dropdown {
+  /* position: relative; */
+  display: inline-block;
+  /* @apply flex justify-end; */
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  /* position: absolute; */
+}
+.dropdown a:hover {
+  background-color: #ddd;
+}
+.show {
+  display: block;
 }
 </style>
