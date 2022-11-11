@@ -16,12 +16,12 @@
             <div>ห้อง {{ room }}</div>
           </div>
 
-          <div class="my-5 pb-5 pt-15 grid-cols-6 grid">
+          <div class="my-5 pt-15 grid-cols-6 grid">
             <p class="pt-3 hidden xl:block">รายชื่อทั้งหมด</p>
 
             <div class="col-span-4 col-end-7" v-show="list">
               <div class="grid grid-cols-3 gap-4 xl:gap-4 md:gap-2 pt-3">
-                <button class="add" @click="clickUploadStd()">
+                <button class="add focus:bg-babyblue" @click="clickUploadStd()">
                   <div
                     class="flex justify-center items-center self-center md:text-xs lg:text-sm"
                   >
@@ -30,7 +30,10 @@
                   </div>
                 </button>
 
-                <button class="add md:block hidden" @click="clickUpload()">
+                <button
+                  class="add md:block hidden focus:bg-babyblue"
+                  @click="clickUpload()"
+                >
                   <div
                     class="flex justify-center items-center self-center md:text-xs lg:text-sm"
                   >
@@ -39,7 +42,7 @@
                   </div>
                 </button>
 
-                <button class="add" @click="clickAnnounce()">
+                <button class="add focus:bg-babyblue" @click="clickAnnounce()">
                   <div
                     class="flex justify-center items-center self-center md:text-xs lg:text-sm"
                   >
@@ -51,10 +54,33 @@
               </div>
             </div>
           </div>
+
+          <div class="border grid grid-cols-4 bg-white rounded-md boardcash">
+            <div class="box">
+              <p>คะแนนรวม</p>
+              <p class="number">30</p>
+            </div>
+
+            <div class="box">
+              <p>คะแนนสูงสุด</p>
+              <p class="number">{{}}</p>
+            </div>
+
+            <div class="box">
+              <p>คะแนนต่ำสุด</p>
+              <p class="number">{{}}</p>
+            </div>
+
+            <div class="box">
+              <p>คะแนนเฉลี่ย</p>
+              <p class="number">{{}}</p>
+            </div>
+          </div>
         </div>
 
         <!-- รอประกาศคะแนน -->
         <div v-if="announce">
+          5666
           <div class="grid lg:grid-cols-4 md:grid-cols-2 mx-10 gap-4">
             <div
               class="content border-2 rounded-lg md:w-auto md:h-auto bg-white px-10 pt-10 pb-2 text-sm text-center"
@@ -200,15 +226,18 @@
               <th>ชื่อ-นามสกุล</th>
               <th v-for="tt in std" :key="tt._id" class="px-2">
                 {{ tt.title }}
-                <p class="text-xs font-extralight">{{ tt.total }} คะแนน</p>
-                <span
-                  class="material-symbols-outlined cursor-pointer"
-                  @click="showEdit(tt)"
-                  v-show="tt.owner"
-                >
-                  edit_note
-                </span>
+                <div class="flex justify-center self-center items-center">
+                  <p class="text-xs font-extralight">{{ tt.total }} คะแนน</p>
+                  <span
+                    class="material-symbols-outlined cursor-pointer ml-2"
+                    @click="showEdit(tt)"
+                    v-show="tt.owner && list"
+                  >
+                    edit_note
+                  </span>
+                </div>
               </th>
+              <th>คะแนนรวม</th>
             </tr>
 
             <tr
@@ -230,7 +259,18 @@
                   {{ list.lastName }}
                 </div>
               </td>
-              <th v-for="(s, index) in list.score" :key="index">{{ s }}</th>
+              <th
+                v-for="(s, index) in list.score"
+                :key="index"
+                class="font-light"
+              >
+                {{ s }}
+              </th>
+              <th>
+                <div class="flex justify-center text-secondary">
+                  {{ list.total }}
+                </div>
+              </th>
             </tr>
           </table>
 
@@ -533,6 +573,7 @@ export default {
                     firstName: each.firstName,
                     lastName: each.lastName,
                     score: [],
+                    total: 0,
                   };
                   obj.score.push(each.score);
                   this.stdScore.push(obj);
@@ -542,6 +583,13 @@ export default {
                     .score.push(each.score);
                 }
               });
+            }
+            for (const each of this.stdScore) {
+              for (const s of each.score) {
+                if (!isNaN(Number(s))) {
+                  each.total += Number(s);
+                }
+              }
             }
             if (this.std.length > 5) {
               this.scroll = true;
@@ -561,9 +609,9 @@ export default {
           },
         })
         .then((response) => {
-          console.log(response.data.data)
+          // console.log(response.data.data)
           this.list = response.data.data.results.owner;
-          
+
           return;
         });
     },
@@ -658,7 +706,6 @@ export default {
     await this.getStudent(this.$route.query.class_id);
     await this.getAnnounce(this.$route.query.class_id);
     await this.owner(this.$route.query.class_id);
-    
   },
 };
 </script>
@@ -858,14 +905,22 @@ table::-webkit-scrollbar-thumb:window-inactive {
 .modal-enter {
   opacity: 0;
 }
-
 .modal-leave-active {
   opacity: 0;
 }
-
 .modal-enter .modal-container,
 .modal-leave-active .modal-container {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
+}
+.boardcash {
+  @apply md:mb-5 lg:py-5;
+}
+.box {
+  @apply justify-center
+  md:text-sm text-xs;
+}
+.number {
+  @apply text-lg font-bold flex justify-center;
 }
 </style>

@@ -19,7 +19,7 @@
 
               <div class="box">
                 <p>ชั้นมัธยมศึกษาปีที่</p>
-                <input v-model="subjects.grade" />
+                <input v-model="subjects.grade"/>
               </div>
 
               <div class="box">
@@ -27,10 +27,10 @@
                 <input v-model="subjects.semester" type="number" />
               </div>
 
-              <div class="box">
+              <!-- <div class="box">
                 <p>ปีการศึกษา</p>
-                <input v-model="subjects.academicYear" />
-              </div>
+                <input v-model="subjects.academicYear"/>
+              </div> -->
             </div>
           </div>
 
@@ -81,14 +81,16 @@ export default {
       this.$emit("showEditModal");
     },
 
-    submitForm() {
+    
 
+    submitForm() {
       var data = {
+        subjectId: this.subjects._id,
         subjectCode: this.newSubjectCode,
         subjectName: this.newSubjectName,
         grade: this.newGrade,
-        academicYear: this.newAcademic,
-        semester: this.newSemester,
+        // academicYear: this.newAcademic,
+        // semester: this.newSemester,
       };
       axios
         .patch(this.url, data, {

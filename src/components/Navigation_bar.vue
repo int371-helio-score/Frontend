@@ -1,29 +1,66 @@
 <template>
-  <div
-    class="bg-white grid grid-cols-2 sm:py-5 sm:px-10 px-1 py-4 fixed xl:w-full w-screen"
-  >
-    <div class="flex self-center items-center">
-      <router-link to="/">
-        <div class="text-xl font-bold ml-5 text-secondary">
-          HELIOSCORE
-        </div></router-link
-      >
-    </div>
+  <div class="">
+    <div class="bg-white drop-shadow-sm sm:py-5 sm:px-10 px-5 py-4 fixed xl:w-full w-screen">
+      <div class="grid grid-cols-2">
+        <div class="flex self-center items-center">
+          <div class="hidden md:block ">
+            <router-link to="/">
+              <div class="text-xl font-bold text-secondary">
+                HELIOSCORE
+              </div></router-link
+            >
+          </div>
 
-    <div class="flex justify-end">
-      <div class="dropdown">
-        <div
-          class="dropbtn flex items-center border border-light cursor-pointer"
-        >
-          <img :src="getImage()" class="profile rounded-full" />
-          <div class="ml-4 account text-secondary">
-            {{ this.account.firstName }} {{ this.account.lastName }}
+          <div class="flex justify-start self-center md:hidden" @click="openHamburger()">
+          <span class="material-symbols-outlined hamburger"> menu </span>
+        </div>
+        </div>
+
+        
+
+        <div class="flex justify-end">
+          <div class="dropdown">
+            <div
+              class="dropbtn flex items-center border border-light cursor-pointer"
+            >
+              <img :src="getImage()" class="profile rounded-full" />
+              <div class="ml-4 account text-secondary">
+                {{ this.account.firstName }} {{ this.account.lastName }}
+              </div>
+            </div>
+            <div class="rounded-sm dropdown-content">
+              <a href="#" @click="clickInfo()">ข้อมูลบัญชี</a>
+              <a href="#" @click="logout()">ออกจากระบบ</a>
+            </div>
           </div>
         </div>
-        <div class="rounded-sm dropdown-content">
-          <a href="#" @click="clickInfo()">ข้อมูลบัญชี</a>
-          <a href="#" @click="logout()">ออกจากระบบ</a>
+      </div>
+
+      <div class="flex justify-center md:hidden" v-if="open">
+        <div class="grid grid-rows-2">
+          <div class="layout">
+          <router-link to="/helioscore">
+            <div class="object">
+              <span class="material-symbols-outlined home mr-2"> home </span>
+              <div class="sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 text-secondary">
+                หน้าหลัก
+              </div>
+            </div>
+          </router-link>
         </div>
+
+        <div class="layout">
+          <router-link to="/helioscore/newsubject">
+            <div class="object">
+              <span class="material-symbols-outlined mr-2"> add </span>
+              <div class="sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 text-secondary">
+                เพิ่มวิชาที่สอน
+              </div>
+            </div>
+          </router-link>
+        </div>
+        </div>
+        
       </div>
     </div>
   </div>
@@ -34,7 +71,7 @@
     <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
-          <img src="../../src/assets/Background.png" class="w-full relative "  />
+          <img src="../../src/assets/Background.png" class="w-full relative" />
           <div class="borderPic">
             <div>
               <img
@@ -47,7 +84,7 @@
           </div>
 
           <div class="" v-if="edit == false">
-            <div class="font-extrabold text-md mx-20 ">
+            <div class="font-extrabold text-md mx-20">
               {{ this.account.firstName }} {{ this.account.lastName }}
               <span
                 class="material-symbols-outlined ml-2 flex items-end cursor-pointer hover:text-primary"
@@ -126,7 +163,7 @@
               </div>
             </div>
 
-            <div class="flex lg:mx-20  md:mx-10 mx-5 ">
+            <div class="flex lg:mx-20 md:mx-10 mx-5">
               <div class="box" v-if="!showEditPass">
                 <div
                   class="flex justify-start text-sm text-gray100 cursor-pointer"
@@ -139,7 +176,10 @@
 
             <!-- edit password -->
 
-            <div class="lg:mx-40 md:mx-10 mx-5 mt-5 md:mt-5 grid col-span-2" v-if="showEditPass">
+            <div
+              class="lg:mx-40 md:mx-10 mx-5 mt-5 md:mt-5 grid col-span-2"
+              v-if="showEditPass"
+            >
               <div class="lg:py-1">
                 <p class="title">กรุณากรอกรหัสผ่านเดิม</p>
                 <input
@@ -246,7 +286,6 @@
 import axios from "axios";
 
 export default {
-  // props: [''],
   data() {
     return {
       account: [],
@@ -266,6 +305,7 @@ export default {
       currentPass: "",
       confirmPassword: "",
       showEditImage: false,
+      open: false,
     };
   },
 
@@ -448,6 +488,12 @@ export default {
         return;
       }
     },
+
+    openHamburger(){
+      this.open = !this.open;
+    },
+
+
   },
 
   async created() {
@@ -576,5 +622,16 @@ input {
 }
 .title {
   @apply text-secondary;
+}
+.hamburger {
+  color: #42a5f5;
+  @apply cursor-pointer
+  text-xl sm:text-2xl md:text-3xl;
+}
+.layout {
+  @apply py-10 flex justify-start;
+}
+.object {
+  @apply flex sm:text-sm items-center;
 }
 </style>

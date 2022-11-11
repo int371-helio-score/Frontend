@@ -5,7 +5,7 @@
       <sidebarTeacher />
 
       <div class="data">
-        <div class="sm:mx-10 md:mx-0 divide-y divide-gray10">
+        <div class="sm:mx-0 md:mx-0 divide-y divide-gray10">
           <div class="title">หน้าหลัก</div>
 
           <div class="my-5 pt-5 md:pt-10 lg:py-5 grid grid-cols-2">
@@ -32,17 +32,19 @@
         </div>
 
         <div class="order">
-          <div v-for="subject in subjects" :key="subject.subject_id">
+          <div v-for="subject in subjects" :key="subject._id">
             <div class="bg-white text-center box">
-              <div class="flex justify-end pt-1 pr-1">
+
+              <div class="subject px-10 py-2">
+                <div class="flex justify-end pt-1 pr-1">
                 <div class="dropdown">
                   <span
                     class="material-symbols-outlined text-secondary cursor-pointer dropbtn"
-                    @click="clickSeeMore()"
+                    @click="clickSeeMore(subject._id)"
                   >
                     more_vert
                   </span>
-                  <div id="myDropdown" class="rounded-sm dropdown-content">
+                  <div class="rounded-sm dropdown-content" :id="subject._id">
                     <a href="#" @click="editSubject(subject)">แก้ไข</a>
                     <a
                       href="#"
@@ -53,7 +55,6 @@
                 </div>
               </div>
 
-              <div class="subject px-10 py-2">
                 <router-link
                   :to="{
                     name: 'class',
@@ -136,6 +137,7 @@ export default {
       deletebtn: false,
       editModal: false,
       editSub: null,
+      show: false,
     };
   },
 
@@ -149,8 +151,12 @@ export default {
     },
   },
   methods: {
-    clickSeeMore() {
-      document.getElementById("myDropdown").classList.toggle("show");
+    clickSeeMore(e) {
+      // console.log(e.target);
+      document.getElementById(e).classList.toggle("show");
+      
+      // this.show = !this.show;
+      // $(e.target)
     },
 
     clickDelete() {
@@ -285,8 +291,8 @@ select {
 md:text-base sm:text-sm;
 }
 .data {
-  @apply pl-36 pr-10 sm:pl-36 w-screen pt-8 md:pt-0
-  md:pl-60 mt-20
+  @apply pl-10 pr-10 w-screen pt-8 md:pt-0
+  md:pl-10 mt-20
   lg:pl-60 lg:mt-24;
 }
 .object {
@@ -309,13 +315,11 @@ span {
   border: none;
   cursor: pointer;
 }
-
 .dropdown {
-  position: relative;
+  /* position: relative; */
   display: inline-block;
   /* @apply flex justify-end; */
 }
-
 .dropdown-content {
   display: none;
   position: absolute;
@@ -325,7 +329,6 @@ span {
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
 }
-
 .dropdown-content a {
   color: black;
   padding: 12px 16px;
@@ -333,7 +336,6 @@ span {
   display: block;
   /* position: absolute; */
 }
-
 .dropdown a:hover {
   background-color: #ddd;
 }

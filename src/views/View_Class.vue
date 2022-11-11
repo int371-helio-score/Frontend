@@ -85,12 +85,19 @@
               }"
             >
               <div class="text-center mt-2">
-                <div class=" text-sm font-bold">
+                <div class="text-sm font-bold">
                   ชั้นปีที่ {{ classId }} ห้อง {{ room.room }}
                 </div>
-                <div class="text-sm font-bold my-8">คะแนนรวม {{}} คะแนน</div>
-                <div class="text-xs">
+                <div class="text-sm font-bold my-8" v-show="room.owner">คะแนนรวม {{}} คะแนน</div>
+                <div class="text-sm font-bold my-8" v-show="room.owner == false">คะแนนรวม {{}} / {{}}</div>
+
+                <div class="text-xs" v-show="room.owner">
                   นักเรียนทั้งหมด {{ room.totalStudent }} คน
+                </div>
+
+                <div class="text-xs" v-show="room.owner == false">
+                  <p>คุณครูประจำวิชา: {{}}</p>
+                  <p>ติดต่อ: {{}}</p>
                 </div>
               </div>
             </router-link>
@@ -117,10 +124,12 @@
     </div>
   </div>
 
-  <editClass v-if="editModal"
+  <editClass
+    v-if="editModal"
     :editClassComp="edit"
     @showEditModal="editClass"
-    class="absolute">
+    class="absolute"
+  >
   </editClass>
 </template>
 
@@ -177,6 +186,12 @@ export default {
           return;
         });
     },
+
+    // checkOwner() {
+    //   if (this.subjects.owner == true) {
+    //     return (this.owner = true);
+    //   }
+    // },
 
     async getClassroom() {
       try {
