@@ -6,7 +6,6 @@ import 'vue-select/dist/vue-select.css';
 import 'vue3-easy-data-table/dist/style.css';
 import vSelect from 'vue-select';
 import axios from "axios";
-// import VueBasicAlert from 'vue-basic-alert'
 import NavTeacher from "@/components/Navigation_bar.vue";
 import SidebarTeacher from "@/components/SidebarTeacher.vue";
 import vue3GoogleLogin from 'vue3-google-login'
@@ -14,6 +13,7 @@ import Vue3EasyDataTable from 'vue3-easy-data-table';
 import EditImage from "@/components/Edit_Image.vue";
 import EditScore from "@/components/Edit_Score.vue";
 import EditSubject from "@/components/Edit_Subject.vue"
+import EditClass from "@/components/Edit_Class.vue"
 
 axios.defaults.baseURL = 'http://localhost:3000/api/';
 
@@ -35,5 +35,5 @@ app.component('EasyDataTable', Vue3EasyDataTable);
 app.component("editImage", EditImage);
 app.component("editScore", EditScore);
 app.component("editSubject", EditSubject);
-// app.component("vue-basic-alert", VueBasicAlert)
+app.component("editClass", EditClass);
 app.mount("#app");

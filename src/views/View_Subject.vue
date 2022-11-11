@@ -102,7 +102,12 @@
     </div>
   </div>
 
-  <editSubject v-if="editModal" class="absolute"></editSubject>
+  <editSubject
+    v-if="editModal"
+    :editComp="editSub"
+    @showEditModal="editSubject"
+    class="absolute"
+  ></editSubject>
 </template>
 
 <script>
@@ -130,6 +135,7 @@ export default {
       ],
       deletebtn: false,
       editModal: false,
+      editSub: null,
     };
   },
 
@@ -224,8 +230,12 @@ export default {
       return "http://localhost:3000/public/images/pic1.png";
     },
 
-    editSubject() {
+    async editSubject(subject) {
       this.editModal = !this.editModal;
+      this.editSub = subject;
+      // if(this.editModal == false){
+      //   await this.getSubjects(this.$route.query.);
+      // }
     },
   },
 };
@@ -259,11 +269,11 @@ select {
   @apply md:text-base;
 }
 .order {
-  @apply grid mx-10 gap-4 justify-center
+  @apply grid mx-10 gap-4 justify-center 
   xl:grid-cols-5 xl:gap-8
   lg:grid-cols-4 lg:gap-10 lg:mb-20
   md:grid-cols-3 md:gap-4
-  sm:grid-cols-2;
+  sm:grid-cols-2 sm:mx-0;
 }
 .title {
   @apply text-base font-bold mt-5 text-secondary
@@ -327,7 +337,6 @@ span {
 .dropdown a:hover {
   background-color: #ddd;
 }
-
 .show {
   display: block;
 }
