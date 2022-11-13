@@ -114,6 +114,7 @@
                 <input
                   class="border border-gray50 w-full"
                   v-model="newFirstName"
+                  maxlength="20"
                 />
                 <sup
                   v-show="inputFirstname"
@@ -130,6 +131,7 @@
                     <input
                       class="border border-gray50 w-full"
                       v-model="newLastName"
+                      maxlength="20"
                     />
                   </div>
                   <sup
@@ -143,9 +145,9 @@
 
               <div class="box" v-if="!showEditPass">
                 <p class="title">อีเมล</p>
-                <div class="bg-gray10 text-gray50 py-1 px-2 rounded-md w-auto">
+                <button class="bg-gray10 text-gray50 py-1 px-2 rounded-md w-auto cursor-default">
                   {{ this.account.email }}
-                </div>
+                </button>
               </div>
 
               <div class="flex ml-4" v-show="!account.google">
@@ -165,12 +167,13 @@
 
             <div class="flex lg:mx-20 md:mx-10 mx-5">
               <div class="box" v-if="!showEditPass">
-                <div
-                  class="flex justify-start text-sm text-gray100 cursor-pointer"
+                <button
+                  class="flex justify-start text-sm text-gray100 cursor-pointer hover:text-red-500"
                   @click="deleteAccount()"
                 >
                   ลบบัญชี
-                </div>
+                </button>
+                <p class="text-xs text-gray100">(หากทำการลบบัญชี ข้อมูลที่คุณสร้างไว้จะถูกลบทั้งหมด แต่ไม่มีผลกับข้อมูลที่ผู้ใช้อื่นสร้างและเพิ่มคุณในห้องเรียน)</p>
               </div>
             </div>
 
@@ -181,7 +184,7 @@
               v-if="showEditPass"
             >
               <div class="lg:py-1">
-                <p class="title">กรุณากรอกรหัสผ่านเดิม</p>
+                <p class="title">รหัสผ่านเดิม</p>
                 <input
                   class="bg-gray10 py-1 rounded-md w-full"
                   placeholder="รหัสผ่านเดิม"

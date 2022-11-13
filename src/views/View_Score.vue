@@ -57,22 +57,22 @@
 
           <div class="border grid grid-cols-4 bg-white rounded-md boardcash">
             <div class="box">
-              <p>คะแนนรวม</p>
-              <p class="number">30</p>
+              <p class="head">คะแนนรวม</p>
+              <p class="number text-alert">30</p>
             </div>
 
             <div class="box">
-              <p>คะแนนสูงสุด</p>
+              <p class="head">คะแนนสูงสุด</p>
               <p class="number">{{}}</p>
             </div>
 
             <div class="box">
-              <p>คะแนนต่ำสุด</p>
+              <p class="head">คะแนนต่ำสุด</p>
               <p class="number">{{}}</p>
             </div>
 
             <div class="box">
-              <p>คะแนนเฉลี่ย</p>
+              <p class="head">คะแนนเฉลี่ย</p>
               <p class="number">{{}}</p>
             </div>
           </div>
@@ -375,6 +375,8 @@ export default {
       importStd: "helio/studentList",
       sent: "helio/mail",
       checkOwner: "helio/class/owner",
+      urlStat: "helio/class",
+      stat: "",
       toAnnounce: [],
       std: [],
       grade: null,
@@ -601,6 +603,21 @@ export default {
       }
     },
 
+    getStat(classId){
+      console.log("Hi")
+      axios.get(`${this.urlStat}/${classId}`,{
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        }
+      })
+      .then((res) => {
+        this.stat = res.data.data.results;
+        console.log("Hi")
+        console.log(this.stat);
+        return;
+      })
+    },
+
     owner(classId) {
       axios
         .get(`${this.checkOwner}/${classId}`, {
@@ -702,10 +719,12 @@ export default {
     this.room = this.$route.query.room;
     this.class_id = this.$route.query.class_id;
     this.subject_id = this.$route.params.subId;
+    console.log(this.class_id)
 
     await this.getStudent(this.$route.query.class_id);
     await this.getAnnounce(this.$route.query.class_id);
     await this.owner(this.$route.query.class_id);
+    await this.getStat(this.class_id);
   },
 };
 </script>
@@ -921,6 +940,10 @@ table::-webkit-scrollbar-thumb:window-inactive {
   md:text-sm text-xs;
 }
 .number {
-  @apply text-lg font-bold flex justify-center;
+  @apply font-bold flex justify-center
+  lg:text-xl;
+}
+.head{
+  @apply flex justify-center text-xs text-secondary;
 }
 </style>

@@ -4,7 +4,9 @@
       <div class="modal-wrapper">
         <div class="modal-container relative">
           <img src="../../src/assets/Background.png" class="w-full relative" />
-          <p class="flex justify-center font-bold text-secondary">แก้ไขรายละเอียดวิชา</p>
+          <p class="flex justify-center font-bold text-secondary">
+            แก้ไขรายละเอียดวิชา
+          </p>
           <div class="flex justify-center my-5 text-secondary">
             <div class="grid grid-cols-2 lg:gap-y-4">
               <div class="box">
@@ -19,18 +21,19 @@
 
               <div class="box">
                 <p>ชั้นมัธยมศึกษาปีที่</p>
-                <input v-model="subjects.grade"/>
+                <input v-model="subjects.grade" />
               </div>
 
               <div class="box">
                 <p>ภาคการศึกษา</p>
-                <input v-model="subjects.semester" type="number" />
+                <!-- {{this.term.semester}} -->
+                <input v-model="this.term" type="text" />
               </div>
 
-              <!-- <div class="box">
+              <div class="box">
                 <p>ปีการศึกษา</p>
-                <input v-model="subjects.academicYear"/>
-              </div> -->
+                <input v-model="this.academic" type="number" />
+              </div>
             </div>
           </div>
 
@@ -67,12 +70,10 @@ export default {
   data() {
     return {
       url: "helio/subject",
+      urlSubject: "helio/academic",
       subjects: null,
-      newSubjectCode: "",
-      newSubjectName: "",
-      newGrade: "",
-      newAcademic: "",
-      newSemester: "",
+      term: null,
+      academic: null,
     };
   },
 
@@ -81,16 +82,35 @@ export default {
       this.$emit("showEditModal");
     },
 
-    
+    async getTerm() {
+      try {
+        const response = await axios.get(
+          `${this.urlSubject}/${this.subjects._id}`,
+          {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          }
+        );
+        this.term = response.data.data.results.semester;
+        this.academic = response.data.data.results.academicYear;
+      } catch (error) {
+        console.log(`Could not get! ${error}`);
+      }
+    },
+
+    info() {
+      this.newSubjectCode = this.subjects.subjectCode;
+    },
 
     submitForm() {
       var data = {
         subjectId: this.subjects._id,
-        subjectCode: this.newSubjectCode,
-        subjectName: this.newSubjectName,
-        grade: this.newGrade,
-        // academicYear: this.newAcademic,
-        // semester: this.newSemester,
+        subjectCode: this.subjects.subjectCode,
+        subjectName: this.subjects.subjectName,
+        grade: this.subjects.grade,
+        academicYear: this.term.academicYear,
+        semester: this.term.semester.toString(),
       };
       axios
         .patch(this.url, data, {
@@ -102,6 +122,7 @@ export default {
           if (res.data.statusCode === 200) {
             alert("แก้ไขคะแนนสำเร็จ");
             this.$emit("showEditModal");
+            this.$router.go();
           }
         })
         .catch((err) => {
@@ -110,8 +131,9 @@ export default {
     },
   },
 
-  created() {
+  async created() {
     this.subjects = this.editComp;
+    await this.getTerm();
   },
 };
 </script>

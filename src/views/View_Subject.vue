@@ -152,11 +152,9 @@ export default {
   },
   methods: {
     clickSeeMore(e) {
-      // console.log(e.target);
+      // console.log("hi")
       document.getElementById(e).classList.toggle("show");
-      
-      // this.show = !this.show;
-      // $(e.target)
+      // console.log("after")
     },
 
     clickDelete() {
