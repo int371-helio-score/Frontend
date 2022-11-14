@@ -5,7 +5,7 @@
       <sidebarTeacher />
 
       <div class="data">
-        <div class="sm:mx-10 mx-5 divide-y divide-gray10">
+        <div class="mr-10 divide-y divide-gray10">
           <div class="title flex">
             <div>
               <router-link to="/">หน้าหลัก</router-link>
@@ -16,8 +16,13 @@
             <div>ห้อง {{ room }}</div>
           </div>
 
-          <div class="my-5 pt-15 grid-cols-6 grid">
-            <p class="pt-3 hidden xl:block">รายชื่อทั้งหมด</p>
+          <div class="my-5 pt-15 grid-cols-6 grid text-secondary">
+            <p
+              class="pt-3 hidden xl:block cursor-pointer"
+              @click="clickStdList()"
+            >
+              รายชื่อทั้งหมด
+            </p>
 
             <div class="col-span-4 col-end-7" v-show="list">
               <div class="grid grid-cols-3 gap-4 xl:gap-4 md:gap-2 pt-3">
@@ -54,45 +59,41 @@
               </div>
             </div>
           </div>
-
-          <div class="border grid grid-cols-4 bg-white rounded-md boardcash">
-            <div class="box">
-              <p>คะแนนรวม</p>
-              <p class="number">30</p>
-            </div>
-
-            <div class="box">
-              <p>คะแนนสูงสุด</p>
-              <p class="number">{{}}</p>
-            </div>
-
-            <div class="box">
-              <p>คะแนนต่ำสุด</p>
-              <p class="number">{{}}</p>
-            </div>
-
-            <div class="box">
-              <p>คะแนนเฉลี่ย</p>
-              <p class="number">{{}}</p>
-            </div>
-          </div>
         </div>
 
         <!-- รอประกาศคะแนน -->
         <div v-if="announce">
-          5666
+          <div class="announce">รายการที่ยังไม่ได้ประกาศ</div>
           <div class="grid lg:grid-cols-4 md:grid-cols-2 mx-10 gap-4">
             <div
               class="content border-2 rounded-lg md:w-auto md:h-auto bg-white px-10 pt-10 pb-2 text-sm text-center"
-              v-for="assign in toAnnounce"
+              v-for="assign in toPublish"
               :key="assign.id"
             >
               <div class="stitle mb-5">ชื่องาน : {{ assign.title }}</div>
-
               <div class="flex justify-center">
                 <button
                   class="ojb bg-babyblue text-primary click"
-                  @click="sentEmail(assign.title)"
+                  @click="sentPublish(assign.id)"
+                >
+                  ประกาศ
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="announce mt-10">ยังไม่ได้แจ้งเตือนไปยัง email</div>
+          <div class="grid lg:grid-cols-4 md:grid-cols-2 mx-10 gap-4">
+            <div
+              class="content border-2 rounded-lg md:w-auto md:h-auto bg-white px-10 pt-10 pb-2 text-sm text-center"
+              v-for="list in toAnnounce"
+              :key="list.id"
+            >
+              <div class="stitle mb-5">ชื่องาน : {{ list.title }}</div>
+              <div class="flex justify-center">
+                <button
+                  class="ojb bg-babyblue text-primary click"
+                  @click="sentEmail(list.title)"
                 >
                   ประกาศ
                 </button>
@@ -212,13 +213,35 @@
         </div>
 
         <!-- Score List -->
+
         <div
           v-if="
             (uploadFile == false) & (announce == false) & (uploadStd == false)
           "
-          class="mx-10"
+          class="mr-10 text-secondary"
           :class="{ 'overflow-x-auto': scroll }"
         >
+        <div class="border grid grid-cols-4 bg-white rounded-md boardcash">
+            <div class="box">
+              <p class="head">คะแนนเต็ม</p>
+              <p class="total text-alert">{{ this.stat.totalScore }}</p>
+            </div>
+
+            <div class="box">
+              <p class="head">คะแนนสูงสุด</p>
+              <p class="number">{{ this.stat.max }}</p>
+            </div>
+
+            <div class="box">
+              <p class="head">คะแนนต่ำสุด</p>
+              <p class="number">{{ this.stat.min }}</p>
+            </div>
+
+            <div class="box">
+              <p class="head">คะแนนเฉลี่ย</p>
+              <p class="number">{{ this.stat.average }}</p>
+            </div>
+          </div>
           <table class="h-auto rounded-md">
             <tr class="bg-babyblue p-4 cursor-default">
               <th class="px-2">เลขที่</th>
@@ -237,13 +260,13 @@
                   </span>
                 </div>
               </th>
-              <th>คะแนนรวม</th>
+              <th>คะแนนสะสม</th>
             </tr>
 
             <tr
               v-for="list in stdScore"
               :key="list.no"
-              class="font-light bg-white hover:bg-gray-50"
+              class="font-light bg-white hover:bg-gray10"
             >
               <td>
                 <div class="flex justify-center">{{ list.no }}</div>
@@ -295,7 +318,6 @@
   </div>
 
   <!-- Delete Score -->
-
   <div name="modal" v-show="deleteModal == true" v-if="editModal == false">
     <div class="modal-mask">
       <div class="modal-wrapper">
@@ -326,9 +348,8 @@
           </div>
 
           <!-- button -->
-
-          <div class="flex justify-center place-content-end mt-12">
-            <div class="absolute bottom-8 grid grid-cols-2 gap-4">
+          <div class="flex justify-center my-5">
+            <div class="bottom-8 grid grid-cols-2 gap-4 place-content-end">
               <button
                 class="bg-light text-secondary2 border border-secondary2 rounded-md px-6 py-1 ml-2"
                 @click="deleteModal = false"
@@ -371,11 +392,15 @@ export default {
       url: "helio/score",
       template: "helio/score/template",
       templateStd: "helio/studentList/template",
-      announceUrl: "helio/score/toAnnounce",
+      announceUrl: "helio/score/toPublish",
+      sentEmailUrl: "api/helio/score/toAnnounce",
       importStd: "helio/studentList",
       sent: "helio/mail",
       checkOwner: "helio/class/owner",
+      urlStat: "helio/class/stat",
+      stat: "",
       toAnnounce: [],
+      toPublish: [],
       std: [],
       grade: null,
       room: null,
@@ -395,31 +420,13 @@ export default {
       editModal: false,
       editScore: null,
       list: false,
+      announceStatus: false,
     };
   },
 
   methods: {
     showList() {
       this.showAssignList = true;
-    },
-
-    sentEmail(score) {
-      axios
-        .post(
-          `${this.sent}`,
-          { class_id: this.class_id, scoreTitle: score },
-          {
-            headers: {
-              Authorization: localStorage.getItem("token"),
-            },
-          }
-        )
-        .then((res) => {
-          if (res.data.statusCode === 200) {
-            this.$router.go();
-            alert("ส่งอีเมลไปยังนักเรียนแล้ว");
-          }
-        });
     },
 
     handleFileUpload() {
@@ -446,7 +453,7 @@ export default {
           if (res.data.statusCode === 200 || res.status === 201) {
             this.getStudent(this.$route.query.class_id);
             alert("อัปโหลดไฟล์สมบูรณ์ กด ประกาศคะแนน เพื่อประกาศ");
-            this.getAnnounce(this.$route.query.class_id);
+            this.getPublish(this.$route.query.class_id);
             this.clickAnnounce().$router.go();
           }
         });
@@ -474,6 +481,12 @@ export default {
         .catch((err) => {
           console.log(err.message);
         });
+    },
+
+    clickStdList() {
+      this.uploadStd = false;
+      this.announce = false;
+      this.uploadFile = false;
     },
 
     clickUploadStd() {
@@ -601,6 +614,19 @@ export default {
       }
     },
 
+    getStat(classId) {
+      axios
+        .get(`${this.urlStat}/${classId}`, {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        })
+        .then((res) => {
+          this.stat = res.data.data.results;
+          return;
+        });
+    },
+
     owner(classId) {
       axios
         .get(`${this.checkOwner}/${classId}`, {
@@ -609,28 +635,109 @@ export default {
           },
         })
         .then((response) => {
-          // console.log(response.data.data)
           this.list = response.data.data.results.owner;
-
+          // console.log(classId)
           return;
         });
     },
 
-    async getAnnounce(classId) {
+    async getPublish(classId) {
       try {
         axios
-          .get(`${this.announceUrl}/${classId}`, {
+          .get(`helio/score/toPublish/${classId}`, {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          })
+          .then((response) => {
+            this.toPublish = response.data.data.results;
+            // console.log(this.toPublish);
+            return response.data.data.results;
+          });
+      } catch (error) {
+        console.log(`Could not get! ${error}`);
+      }
+    },
+
+    sentPublish(id) {
+      console.log(id)
+      console.log(this.announceStatus)
+
+      let text = "ต้องการส่งคะแนนไปยัง Email นักเรียนหรือไม่?";
+      if(confirm(text) == true){
+        axios
+        .patch(
+          `helio/score/publish`,
+          { score_id: id, announce: this.announceStatus = !this.announceStatus},
+          {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((res) => {
+          if (res.data.statusCode === 200) {
+            this.$router.go();
+          }
+        });
+      }
+      else if(confirm(text) == false){
+        axios
+        .patch(
+          `helio/score/publish`,
+          { score_id: id, announce: this.announceStatus},
+          {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((res) => {
+          if (res.data.statusCode === 200) {
+            this.$router.go();
+          }
+        });
+      }
+    },
+
+    async getSentToEmail(classId) {
+      try {
+        axios
+          .get(`helio/score/toAnnounce/${classId}`, {
             headers: {
               Authorization: localStorage.getItem("token"),
             },
           })
           .then((response) => {
             this.toAnnounce = response.data.data.results;
+            // console.log(response.data);
             return response.data.data.results;
           });
       } catch (error) {
         console.log(`Could not get! ${error}`);
       }
+    },
+
+    sentEmail(title) {
+      console.log(this.class_id)
+      console.log(title)
+      axios
+        .post(
+          `helio/mail`,
+          { class_id: this.class_id, scoreTitle: title },
+          {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((res) => {
+          console.log("hi")
+          if (res.data.statusCode === 200) {
+            alert("ส่งคะแนนไปยัง Email สำเร็จ");
+            this.$router.go();
+          }
+        });
     },
 
     showDelete() {
@@ -702,10 +809,13 @@ export default {
     this.room = this.$route.query.room;
     this.class_id = this.$route.query.class_id;
     this.subject_id = this.$route.params.subId;
+    // console.log(this.class_id);
 
     await this.getStudent(this.$route.query.class_id);
-    await this.getAnnounce(this.$route.query.class_id);
+    await this.getPublish(this.$route.query.class_id);
+    await this.getSentToEmail(this.$route.query.class_id);
     await this.owner(this.$route.query.class_id);
+    await this.getStat(this.class_id);
   },
 };
 </script>
@@ -882,15 +992,14 @@ table::-webkit-scrollbar-thumb:window-inactive {
 
 .modal-container {
   width: 721px;
-  height: auto;
-  overflow-y: auto;
+  height: 531px;
   margin: 0px auto;
   background-color: #fff;
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   border-radius: 25px;
   overflow-y: auto;
-  @apply w-3/4 md:w-96 lg:w-1/2;
+  @apply w-3/4 md:w-96 lg:w-1/2 ;
 }
 
 .modal-header h3 {
@@ -905,6 +1014,7 @@ table::-webkit-scrollbar-thumb:window-inactive {
 .modal-enter {
   opacity: 0;
 }
+
 .modal-leave-active {
   opacity: 0;
 }
@@ -921,6 +1031,17 @@ table::-webkit-scrollbar-thumb:window-inactive {
   md:text-sm text-xs;
 }
 .number {
-  @apply text-lg font-bold flex justify-center;
+  @apply font-bold flex justify-center text-secondary
+  lg:text-xl;
+}
+.total {
+  @apply font-bold flex justify-center text-alert
+  lg:text-xl;
+}
+.head {
+  @apply flex justify-center text-xs text-secondary;
+}
+.announce {
+  @apply mx-10 text-secondary text-sm pb-2;
 }
 </style>

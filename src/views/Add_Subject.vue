@@ -5,7 +5,7 @@
       <sidebarTeacher />
 
       <div class="data">
-        <div class="sm:mx-10 mx-5 divide-y divide-gray10">
+        <div class=" divide-y divide-gray10">
           <div class="title">เพิ่มวิชาที่สอน</div>
 
           <div class="my-5 pt-10 py-5">
@@ -22,10 +22,11 @@
                   <label>ปีการศึกษา</label>
                   <input
                     class=""
-                    type="text"
+                    type="number"
                     name="academic"
                     placeholder="กรุณาระบุปีการศึกษา"
                     v-model="academic"
+                    maxlength="4"
                   />
                   <sup
                     v-show="inputAcademicYear"

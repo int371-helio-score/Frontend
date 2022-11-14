@@ -35,7 +35,7 @@
           <div v-for="subject in subjects" :key="subject._id">
             <div class="bg-white text-center box">
 
-              <div class="subject px-10 py-2">
+              <div class="subject px-10 py-2" v-show="this.owner">
                 <div class="flex justify-end pt-1 pr-1">
                 <div class="dropdown">
                   <span
@@ -152,11 +152,9 @@ export default {
   },
   methods: {
     clickSeeMore(e) {
-      // console.log(e.target);
+      // console.log("hi")
       document.getElementById(e).classList.toggle("show");
-      
-      // this.show = !this.show;
-      // $(e.target)
+      // console.log("after")
     },
 
     clickDelete() {

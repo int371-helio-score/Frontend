@@ -8,7 +8,7 @@
               <div class="object">
                 <span class="material-symbols-outlined home mr-2"> home </span>
                 <div
-                  class="sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 text-secondary"
+                  class="menu"
                 >
                   หน้าหลัก
                 </div>
@@ -21,7 +21,7 @@
               <div class="object">
                 <span class="material-symbols-outlined mr-2"> add </span>
                 <div
-                  class="sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 text-secondary"
+                  class="menu"
                 >
                   เพิ่มวิชาที่สอน
                 </div>
@@ -29,16 +29,16 @@
             </router-link>
           </div>
 
-          <!-- <div class="layout">
+          <div class="layout">
           <router-link to="/helioscore/studentlist">
             <div class="object">
               <span class="material-symbols-outlined mr-2"> group </span>
-              <div class="sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 text-primary">
+              <div class="menu">
                 จัดการรายชื่อ
               </div>
             </div>
           </router-link>
-        </div> -->
+        </div>
 
           <!-- <div class="layout">
           <router-link to="/helioscore/importstudentlist">
@@ -108,5 +108,8 @@ button {
 }
 span {
   @apply text-primary;
+}
+.menu{
+  @apply sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 text-secondary hover:text-primary;
 }
 </style>
