@@ -13,7 +13,7 @@ import ResetPassword from "../views/Reset_Password.vue";
 import GoToVerify from "../views/Resend_VerifyEmail.vue";
 import Verify from "../views/VerifyEmail.vue";
 import StudentList from "../views/View_StudentList.vue";
-import StudentGroup from "../views/StudentList_Group.vue"
+import StudentGroup from "../views/View_StudentList_Group.vue"
 
 const routes = [
   {

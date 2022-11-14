@@ -33,6 +33,7 @@
                 type="password"
                 placeholder="รหัสผ่าน"
                 class="border-b border-gray50"
+                maxlength="25"
               />
             </div>
 
@@ -96,6 +97,9 @@ const callback = (response) => {
           localStorage.setItem("token", response.data.data.token);
           return router.push({ path: "/helioscore" });
         }
+      }
+      if(response.data.statusCode === 403){
+        alert("บัญชีนี้ถูกลงทะเบียนด้วยช่องทางอื่น")
       }
     })
     .catch((err) => {

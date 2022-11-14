@@ -6,7 +6,7 @@
       <sidebarTeacher />
 
       <div class="data">
-        <div class="sm:mx-10 mx-5 divide-y divide-gray10">
+        <div class="divide-y divide-gray10">
           <div class="title flex space-x-2">
             <div><router-link to="/">หน้าหลัก ></router-link></div>
             <div class="">
@@ -15,10 +15,10 @@
             </div>
           </div>
 
-          <div class="my-5 pt-10 py-5 grid grid-cols-2">
-            <div class="flex justify-start">วิชาทั้งหมด</div>
+          <div class="my-5 pt-5 md:pt-10 lg:py-5 grid grid-cols-2">
+            <div class="flex justify-start text-secondary">วิชาทั้งหมด</div>
 
-            <div class="flex justify-end" v-show="list">
+            <div class="flex justify-end lg:mr-10" v-show="list">
               <router-link
                 :to="{
                   name: 'addclass',
@@ -29,7 +29,7 @@
                 }"
               >
                 <button
-                  class="add flex justify-center self-center items-center"
+                  class="add flex justify-center self-center items-center text-secondary"
                 >
                   <span class="material-symbols-outlined mr-2"> add </span>
                   <p>เพิ่มห้องเรียน</p>
@@ -45,20 +45,19 @@
             :key="room.room"
             class="box bg-white text-secondary"
           >
+            <!-- {{room._id}} -->
             <div class="text-center">
               <div class="flex justify-end pt-1 pr-1">
                 <div class="dropdown">
                   <span
                     class="material-symbols-outlined cursor-pointer dropbtn"
-                    @click="clickSeeMore()"
+                    @click="clickSeeMore(room._id)"
                   >
                     more_vert
                   </span>
-                  <div id="myDropdown" class="rounded-sm dropdown-content">
-                    <a href="#" @click="editClass(selectClass)">แก้ไข</a>
-                    <a
-                      href="#"
-                      @click="deleteSubject(subject._id, subject.subjectName)"
+                  <div class="rounded-sm dropdown-content">
+                    <a href="#" @click="editClass(room)">แก้ไข</a>
+                    <a href="#" @click="deleteSubject(room._id, room.room)"
                       >ลบ</a
                     >
                   </div>
@@ -88,16 +87,24 @@
                 <div class="text-sm font-bold">
                   ชั้นปีที่ {{ classId }} ห้อง {{ room.room }}
                 </div>
-                <div class="text-sm font-bold my-8" v-show="room.owner">คะแนนรวม {{}} คะแนน</div>
-                <div class="text-sm font-bold my-8" v-show="room.owner == false">คะแนนรวม {{}} / {{}}</div>
+                <div class="text-sm font-bold my-8" v-show="room.owner">
+                  คะแนนรวม {{}} คะแนน
+                </div>
+                <div
+                  class="text-sm font-bold my-8"
+                  v-show="room.owner == false"
+                >
+                  คะแนนรวม {{}} / {{}}
+                </div>
 
                 <div class="text-xs" v-show="room.owner">
                   นักเรียนทั้งหมด {{ room.totalStudent }} คน
                 </div>
 
-                <div class="text-xs" v-show="room.owner == false">
-                  <p>คุณครูประจำวิชา: {{}}</p>
-                  <p>ติดต่อ: {{}}</p>
+                <div class="text-xs" v-show="room.owner === false">
+                  <p>คุณครู {{ ownerName }}</p>
+                  <p class="">ติดต่อ {{ ownerEmail }}</p>
+                  <p></p>
                 </div>
               </div>
             </router-link>
@@ -140,13 +147,6 @@ export default {
   name: "ClassInSubject",
   props: ["subjectName"],
 
-  async created() {
-    this.subjectId = this.$route.query.subjectId;
-    this.classId = this.$route.query.classId;
-    await this.getClassroom();
-    await this.owner(this.$route.query.subjectId);
-  },
-
   async mounted() {
     await axios
       .get(`${this.url}/${this.subjectId}`, {
@@ -166,11 +166,16 @@ export default {
       subject: "",
       subjectId: null,
       classId: null,
-      deletebtn: false,
       checkOwner: "helio/subject",
+      subOwner: "helio/subject/info",
+      ownerName: null,
+      ownerEmail: null,
       list: false,
       edit: null,
+      deletebtn: false,
       editModal: false,
+      editSub: null,
+      show: false,
     };
   },
   methods: {
@@ -187,11 +192,20 @@ export default {
         });
     },
 
-    // checkOwner() {
-    //   if (this.subjects.owner == true) {
-    //     return (this.owner = true);
-    //   }
-    // },
+    getSubjectOwner(subId) {
+      axios
+        .get(`${this.subOwner}/${subId}`, {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        })
+        .then((res) => {
+          this.ownerName = res.data.data.results.ownerName;
+          this.ownerEmail = res.data.data.results.ownerEmail;
+          // console.log(this.theacher);
+          return res.data.data.results;
+        });
+    },
 
     async getClassroom() {
       try {
@@ -203,6 +217,8 @@ export default {
           })
           .then((res) => {
             this.classroom = res.data.data.results;
+
+            console.log(this.classroom);
             return res.data.data.results;
           });
       } catch (error) {
@@ -241,18 +257,22 @@ export default {
       }
     },
 
-    clickSeeMore() {
-      document.getElementById("myDropdown").classList.toggle("show");
+    clickSeeMore(id) {
+      document.getElementById(id).classList.toggle("show");
     },
 
     async editClass(selectClass) {
       this.editModal = !this.editModal;
-      // console.log(this.editModal)
       this.edit = selectClass;
-      // if(this.editModal == false){
-      //   await this.getSubjects(this.$route.query.);
-      // }
     },
+  },
+
+  async created() {
+    this.subjectId = this.$route.query.subjectId;
+    this.classId = this.$route.query.classId;
+    await this.getClassroom();
+    await this.owner(this.$route.query.subjectId);
+    await this.getSubjectOwner(this.$route.query.subjectId);
   },
 };
 </script>
@@ -261,7 +281,7 @@ export default {
 .box {
   border: 3px solid #f7f7f7;
   border-radius: 10px;
-  @apply pb-2;
+  @apply pb-2 lg:pb-3;
 }
 .title {
   @apply text-sm font-bold mt-5 text-secondary
@@ -269,9 +289,9 @@ export default {
   md:mt-10 md:text-lg md:font-bold;
 }
 .order {
-  @apply grid mx-10 gap-4 justify-center
-  xl:grid-cols-5 xl:gap-8
-  lg:grid-cols-4 lg:gap-10 lg:mb-20
+  @apply grid gap-4 justify-center
+  xl:grid-cols-5 xl:gap-5
+  lg:grid-cols-4 lg:gap-5 lg:mb-20
   md:grid-cols-3 md:gap-4
   sm:grid-cols-1;
 }
@@ -308,7 +328,7 @@ span {
 }
 
 .dropdown {
-  position: relative;
+  /* position: relative; */
   display: inline-block;
   /* @apply flex justify-end; */
 }

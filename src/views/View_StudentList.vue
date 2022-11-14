@@ -10,7 +10,7 @@
           <div class="title">รายชื่อ</div>
 
           <div class="my-5 pt-10 lg:py-5 grid grid-cols-2">
-            <div class="flex justify-start">รายการทั้งหมด</div>
+            <div class="flex justify-start text-secondary">รายการทั้งหมด</div>
 
             <div class="semes flex justify-end">
               <router-link to="/helioscore/importstudentlist">
