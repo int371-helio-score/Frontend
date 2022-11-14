@@ -5,7 +5,7 @@
       <sidebarTeacher />
 
       <div class="data">
-        <div class="sm:mx-10 mx-5 divide-y divide-gray10">
+        <div class="mr-10 divide-y divide-gray10">
           <div class="title flex">
             <div>
               <router-link to="/">หน้าหลัก</router-link>
@@ -218,10 +218,10 @@
           v-if="
             (uploadFile == false) & (announce == false) & (uploadStd == false)
           "
-          class="mx-10 text-secondary"
+          class="mr-10 text-secondary"
           :class="{ 'overflow-x-auto': scroll }"
         >
-          <div class="border grid grid-cols-4 bg-white rounded-md boardcash">
+        <div class="border grid grid-cols-4 bg-white rounded-md boardcash">
             <div class="box">
               <p class="head">คะแนนเต็ม</p>
               <p class="total text-alert">{{ this.stat.totalScore }}</p>

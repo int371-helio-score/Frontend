@@ -5,7 +5,7 @@
       <sidebar-teacher />
 
       <div class="data h-screen">
-        <div class="sm:mx-0 md:mx-0 divide-y divide-gray10">
+        <div class="mr-10 divide-y divide-gray10">
           <div class="title flex space-x-2">
             <div>
               <router-link to="/helioscore/studentList">รายชื่อ</router-link>
@@ -37,6 +37,13 @@
                 <p class="self-center">{{ stdList.email }}</p>
               </div>
             </template>
+            <div
+              class="flex items-center self-center justify-end mt-5"
+              @click="deleteStd()"
+            >
+              <span class="material-symbols-outlined"> delete </span>
+              <p class="text-sm hover:text-primary cursor-pointer">ลบรายชื่อ</p>
+            </div>
           </div>
         </div>
       </div>
@@ -68,10 +75,31 @@ export default {
           this.stdList = res.data.data.results;
         });
     },
+
+    deleteStd() {
+      let text = "ต้องการลบรายชื่อทั้งหมดหรือไม่?";
+      if (confirm(text) == true) {
+        axios
+          .delete(`helio/studentList/${this.stdListId}`, {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          })
+          .then((res) => {
+            if (res.data.statusCode === 200) {
+              alert("ลบสำเสร็จ")
+              this.$router.push("/helioscore/studentlist");
+            }
+          })
+          .catch((err) => {
+            alert(err.response.message);
+          });
+      }
+    },
   },
   async created() {
     this.stdListId = this.$route.query.group;
-
+    console.log(this.stdListId)
     this.getStudentList();
   },
 };
@@ -79,8 +107,8 @@ export default {
 
 <style scoped>
 .data {
-  @apply pl-36 sm:pl-36 w-screen
-  md:pl-44 mt-20
+  @apply pl-10 pr-10 w-screen pt-8 md:pt-0
+  md:pl-10 mt-20
   lg:pl-60 lg:mt-24;
 }
 .title {
@@ -89,10 +117,14 @@ export default {
   md:mt-10 md:text-lg md:font-bold;
 }
 .order {
-  @apply grid mx-10 gap-4 justify-center
+  @apply grid gap-4 justify-center
   xl:grid-cols-5 xl:gap-8
   lg:grid-cols-4 lg:gap-10 lg:mb-20
   md:grid-cols-3 md:gap-4
   sm:grid-cols-1;
+}
+span {
+  color: #42a5f5;
+  @apply xl:mr-2 md:text-xs lg:text-xl;
 }
 </style>
