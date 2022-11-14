@@ -5,19 +5,27 @@
       <sidebar-teacher />
 
       <div class="data h-screen">
-        <div class="title flex space-x-2">
-          <div>
-            <router-link to="/helioscore/studentList">รายชื่อ</router-link>
+        <div class="sm:mx-0 md:mx-0 divide-y divide-gray10">
+          <div class="title flex space-x-2">
+            <div>
+              <router-link to="/helioscore/studentList">รายชื่อ</router-link>
+            </div>
+            <div>></div>
+            <div>ชั้นมัธยมศึกษาปีที่ {{ stdList.groupName }}</div>
           </div>
-          <div>></div>
-          <div>ม. {{ stdList.groupName }}</div>
+
+          <div class="my-5 pt-5 md:pt-10 lg:py-5 grid grid-cols-2">
+            <div class="flex justify-start semes text-secondary">
+              <p>ราชื่อทั้งหมด</p>
+            </div>
+          </div>
         </div>
 
-        <div class="mt-20">
+        <div class="mt-5">
           <div class="text-base lg:pl-0 lg:pr-16">
             <template v-for="stdList in stdList.members" :key="stdList.no">
               <div
-                class="h-14 flex flex-row justify-around bg-white my-4 rounded-md drop-shadow-sm"
+                class="h-14 flex flex-row justify-around bg-white my-1 rounded-md drop-shadow-sm"
               >
                 <p class="self-center">เลขที่ {{ stdList.no }}</p>
                 <p class="self-center">รหัสนักเรียน {{ stdList.studentId }}</p>

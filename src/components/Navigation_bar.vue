@@ -114,7 +114,7 @@
                 <input
                   class="border border-gray50 w-full"
                   v-model="newFirstName"
-                  maxlength="20"
+                  maxlength="30"
                 />
                 <sup
                   v-show="inputFirstname"
@@ -131,7 +131,7 @@
                     <input
                       class="border border-gray50 w-full"
                       v-model="newLastName"
-                      maxlength="20"
+                      maxlength="30"
                     />
                   </div>
                   <sup
@@ -190,6 +190,7 @@
                   placeholder="รหัสผ่านเดิม"
                   v-model="currentPass"
                   type="password"
+                  minlength="8"
                 />
                 <sup
                   v-show="inputCurrent"
@@ -205,6 +206,8 @@
                   class="bg-gray10 py-1 rounded-md w-full"
                   v-model="password"
                   type="password"
+                  maxlength="20"
+                  minlength="8"
                 />
                 <sup
                   v-show="inputPassword"
@@ -220,6 +223,8 @@
                   class="bg-gray10 py-1 rounded-md w-full"
                   v-model="confirmPassword"
                   type="password"
+                  maxlength="20"
+                  minlength="8"
                 />
                 <sup
                   v-show="inputConfirm"

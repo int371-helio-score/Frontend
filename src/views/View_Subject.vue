@@ -35,7 +35,7 @@
           <div v-for="subject in subjects" :key="subject._id">
             <div class="bg-white text-center box">
 
-              <div class="subject px-10 py-2">
+              <div class="subject px-10 py-2" v-show="this.owner">
                 <div class="flex justify-end pt-1 pr-1">
                 <div class="dropdown">
                   <span

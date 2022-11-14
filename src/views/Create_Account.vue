@@ -53,7 +53,7 @@
                 type="text"
                 placeholder="ชื่อ"
                 class="border-b border-gray50 w-full"
-                maxlength="20"
+                maxlength="30"
               />
             </div>
             <sup v-show="inputFirstname" class="text-red-500 flex mt-4">
@@ -67,7 +67,7 @@
                 type="text"
                 placeholder="นามสกุล"
                 class="border-b border-gray50 w-full"
-                maxlength="20"
+                maxlength="30"
               />
             </div>
             <sup v-show="inputLastname" class="text-red-500 flex mt-4">
@@ -96,7 +96,7 @@
                 type="password"
                 placeholder="รหัสผ่าน"
                 class="border-b border-gray50 w-full"
-                maxlength="25"
+                maxlength="20"
                 minlength="8"
               />
             </div>
@@ -168,7 +168,7 @@
                 type="password"
                 placeholder="ยืนยันรหัสผ่าน"
                 class="border-b border-gray50 w-full"
-                maxlength="25"
+                maxlength="20"
                 minlength="8"
               />
             </div>
