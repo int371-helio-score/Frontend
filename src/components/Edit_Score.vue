@@ -25,7 +25,7 @@
             </div>
           </div>
 
-          <div class="flex justify-center place-content-end mt-10">
+          <div class="flex justify-center place-content-end mt-10 mb-5">
             <div class="bottom-8 grid grid-cols-2 gap-4">
               <button
                 class="bg-light text-secondary2 border border-secondary2 rounded-md px-6 py-1 ml-2"

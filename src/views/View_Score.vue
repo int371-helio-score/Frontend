@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-light backgroundfull h-screen bg-scroll">
+  <div class="bg-light backgroundfull h-auto bg-scroll">
     <navTeacher />
     <div class="inline-flex">
       <sidebarTeacher />
@@ -242,6 +242,7 @@
               <p class="number">{{ this.stat.average }}</p>
             </div>
           </div>
+          
           <table class="h-auto rounded-md">
             <tr class="bg-babyblue p-4 cursor-default">
               <th class="px-2">เลขที่</th>
@@ -249,7 +250,7 @@
               <th>ชื่อ-นามสกุล</th>
               <th v-for="tt in std" :key="tt._id" class="px-2">
                 {{ tt.title }}
-                <div class="flex justify-center self-center items-center">
+                <div class="flex justify-center self-center items-center" v-show="tt.length > 0" >
                   <p class="text-xs font-extralight">{{ tt.total }} คะแนน</p>
                   <span
                     class="material-symbols-outlined cursor-pointer ml-2"

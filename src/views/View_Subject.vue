@@ -286,7 +286,7 @@ select {
 }
 .semes {
   @apply text-secondary text-xs
-md:text-base sm:text-sm;
+md:text-base sm:text-sm; 
 }
 .data {
   @apply pl-10 pr-10 w-screen pt-8 md:pt-0

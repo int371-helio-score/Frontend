@@ -1,11 +1,11 @@
 <template>
-  <div class="bg-light h-full">
+  <div class="bg-light h-auto">
     <navTeacher />
     <div class="inline-flex">
       <sidebar-teacher />
 
-      <div class="data h-screen">
-        <div class="mr-10 divide-y divide-gray10">
+      <div class="data">
+        <div class="divide-y divide-gray10">
           <div class="title flex space-x-2">
             <div>
               <router-link to="/helioscore/studentList">รายชื่อ</router-link>
@@ -18,11 +18,29 @@
             <div class="flex justify-start semes text-secondary">
               <p>ราชื่อทั้งหมด</p>
             </div>
+
+            <div class="flex justify-end text-secondary">
+              <div class="flex items-center self-center ">
+                <span class="material-symbols-outlined cursor-pointer ml-2">
+                  edit_note
+                </span>
+                <p class="mr-10 text-sm hover:text-primary cursor-pointer">
+                  จัดการรายชื่อ
+                </p>
+              </div>
+
+              <div class="flex items-center self-center" @click="deleteStd()">
+                <span class="material-symbols-outlined"> delete </span>
+                <p class="text-sm hover:text-primary cursor-pointer">
+                  ลบรายชื่อ
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
         <div class="mt-5">
-          <div class="text-base lg:pl-0 lg:pr-16">
+          <div class="text-base">
             <template v-for="stdList in stdList.members" :key="stdList.no">
               <div
                 class="h-14 flex flex-row justify-around bg-white my-1 rounded-md drop-shadow-sm"
@@ -37,13 +55,6 @@
                 <p class="self-center">{{ stdList.email }}</p>
               </div>
             </template>
-            <div
-              class="flex items-center self-center justify-end mt-5"
-              @click="deleteStd()"
-            >
-              <span class="material-symbols-outlined"> delete </span>
-              <p class="text-sm hover:text-primary cursor-pointer">ลบรายชื่อ</p>
-            </div>
           </div>
         </div>
       </div>
@@ -87,7 +98,7 @@ export default {
           })
           .then((res) => {
             if (res.data.statusCode === 200) {
-              alert("ลบสำเสร็จ")
+              alert("ลบสำเสร็จ");
               this.$router.push("/helioscore/studentlist");
             }
           })
@@ -99,7 +110,7 @@ export default {
   },
   async created() {
     this.stdListId = this.$route.query.group;
-    console.log(this.stdListId)
+    console.log(this.stdListId);
     this.getStudentList();
   },
 };

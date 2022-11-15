@@ -257,8 +257,9 @@ export default {
       }
     },
 
-    clickSeeMore(id) {
-      document.getElementById(id).classList.toggle("show");
+    clickSeeMore(classid) {
+      console.log(classid)
+      document.getElementById(classid).classList.toggle("show");
     },
 
     async editClass(selectClass) {

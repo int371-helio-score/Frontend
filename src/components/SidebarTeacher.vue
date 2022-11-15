@@ -5,55 +5,41 @@
         <div class="grid grid-rows-3 h-52">
           <div class="layout">
             <router-link to="/helioscore">
-              <div class="object">
+              <a class="object Item active">
                 <span class="material-symbols-outlined home mr-2"> home </span>
-                <div
-                  class="menu"
-                >
-                  หน้าหลัก
-                </div>
-              </div>
+                <p class=""> หน้าหลัก </p>
+              </a>
             </router-link>
           </div>
 
           <div class="layout">
             <router-link to="/helioscore/newsubject">
-              <div class="object">
+              <a class="object">
                 <span class="material-symbols-outlined mr-2"> add </span>
-                <div
-                  class="menu"
-                >
-                  เพิ่มวิชาที่สอน
-                </div>
-              </div>
+                <a class=""> เพิ่มวิชาที่สอน </a>
+              </a>
             </router-link>
           </div>
 
           <div class="layout">
-          <router-link to="/helioscore/studentlist">
-            <div class="object">
-              <span class="material-symbols-outlined mr-2"> group </span>
-              <div class="menu">
-                จัดการรายชื่อ
-              </div>
-            </div>
-          </router-link>
-        </div>
-
-          <!-- <div class="layout">
-          <router-link to="/helioscore/importstudentlist">
-            <div class="object">
-              <span class="material-symbols-outlined"> add </span>
-              <div
-                class="text-secondary sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 hover:text-primary"
-              >
-                เพิ่มรายชื่อในห้องเรียน
-              </div>
-            </div>
-          </router-link>
+            <router-link to="/helioscore/studentlist">
+              <a class="object">
+                <span class="material-symbols-outlined mr-2"> group </span>
+                <a class=""> จัดการรายชื่อ </a>
+              </a>
+            </router-link>
+          </div>
+          <!-- 
+          <div class="">
+            <span class="material-symbols-outlined"> add </span>
+            <a
+              class="active"
+            >
+              เพิ่มรายชื่อในห้องเรียน
+            </a>
+          </div>
         </div> -->
-        </div>
-        <!-- 
+          <!-- 
       <div class="flex justify-end items-end">
         <button
           class="flex justify-center md:mx-5 self-center items-center"
@@ -65,21 +51,32 @@
           >
             เพิ่มวิชาที่สอน
           </div>
-        </button>
-      </div> -->
+        </button> -->
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {
-  data() {
-    return {};
-  },
-
-  methods: {},
-};
+// const Items = document.querySelectorAll(".Item");
+// console.log("hi")
+// Items.forEach((Item) => {
+//   Item.addEventListener("click", () => {
+//     document.querySelector(".active").classList.remove("active");
+//     Item.classList.add("active");
+//     console.log("li")
+//   });
+// });
+import { ref } from 'vue'
+export default{
+  setup(){
+    const selected = ref(0)
+    return {
+      selected,
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -95,9 +92,6 @@ export default {
 .object {
   @apply flex sm:text-sm items-center;
 }
-.object:focus {
-  color: aqua;
-}
 button {
   position: absolute;
   left: 8.82%;
@@ -109,7 +103,15 @@ button {
 span {
   @apply text-primary;
 }
-.menu{
-  @apply sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 text-secondary hover:text-primary;
+.Item {
+  color: #1a4262;
+  @apply sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1;
+}
+/* .Item.active {
+  color: #42a5f5;
+} */
+
+.Item:visited{
+  color: red;
 }
 </style>

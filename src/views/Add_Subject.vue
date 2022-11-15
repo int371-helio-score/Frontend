@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-light bg-contain">
+  <div class="bg-light w-screean">
     <navTeacher />
     <div class="inline-flex">
       <sidebarTeacher />
@@ -22,7 +22,7 @@
                   <label>ปีการศึกษา</label>
                   <input
                     class=""
-                    type="number"
+                    type="text"
                     name="academic"
                     placeholder="กรุณาระบุปีการศึกษา"
                     v-model="academic"
@@ -190,8 +190,8 @@ export default {
       this.inputSubjectId = this.subjectId === "" ? true : false;
       this.inputSubjectName = this.subject === "" ? true : false;
       this.inputClass = this.grade === "" ? true : false;
-      this.inputRoom = this.tags.length == 0 ? true : false;
-      console.log(this.inputRoom)
+      this.inputRoom = this.tags.length <= 0 ? true : false;
+      // console.log(this.inputRoom)
       if (
         this.inputSemester ||
         this.inputAcademicYear ||
