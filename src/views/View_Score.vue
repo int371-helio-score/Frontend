@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-light backgroundfull h-screen bg-scroll">
+  <div class="bg-light backgroundfull h-full bg-scroll">
     <navTeacher />
     <div class="inline-flex">
       <sidebarTeacher />

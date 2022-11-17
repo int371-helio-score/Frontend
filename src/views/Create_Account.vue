@@ -15,10 +15,6 @@
           <p>สร้างบัญชี</p>
         </div>
 
-        <!-- <div v-if="!nextForm"> -->
-        <!-- <selectSchool></selectSchool> -->
-        <!-- </div> -->
-
         <div class="md:mx-10 lg:mx-18 sm:mx-10 mx-14">
           <div class="flex justify-center mt-10">
             <span class="material-symbols-outlined self-center"> school </span>
@@ -105,7 +101,7 @@
               กรุณากรอกรหัสผ่าน
             </sup>
 
-            <div class="flex justify-start lg:pl-5 md:pl-4 sm:pl-4 mt-1">
+            <div class="flex justify-start lg:pl-5 md:pl-4 sm:pl-4 mt-1 pl-7">
               <div>
                 <p
                   class="frmValidation"
@@ -339,11 +335,15 @@ export default {
             this.password = "";
             this.confirmPassword = "";
             this.test = "";
-            this.$router.push("/helioscore/resendemail") && alert("สร้างบัญชีสำเร็จ กรุณายืนยันบัญชีของคุณ");
+            this.$router.push("/helioscore/resendemail") &&
+              alert("สร้างบัญชีสำเร็จ กรุณายืนยันบัญชีของคุณ");
           }
         })
         .catch((err) => {
-          alert(err.response.data.message);
+          if (err.response.data.message == "password too weak") {
+            alert("รหัสผ่านของคุณง่ายเกินไป");
+          }
+          // alert(err.response.data.message);
         });
     },
   },
