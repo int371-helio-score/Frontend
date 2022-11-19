@@ -51,19 +51,6 @@
             </div>
           </router-link>
         </div> -->
-          <!-- 
-      <div class="flex justify-end items-end">
-        <button
-          class="flex justify-center md:mx-5 self-center items-center"
-          @click="() => $router.push('/helioscore/newsubject')"
-        >
-          <span class="material-symbols-outlined text-primary mr-2"> add </span>
-          <div
-            class="text-secondary sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 text-xs lg:text-sm"
-          >
-            เพิ่มวิชาที่สอน
-          </div>
-        </button> -->
         </div>
       </div>
     </div>
