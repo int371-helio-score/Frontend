@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-light h-auto pb-10">
+  <div class="background pb-10">
     <navTeacher />
     <div class="inline-flex">
       <sidebarTeacher />
@@ -13,7 +13,7 @@
               <p>วิชาทั้งหมด</p>
             </div>
 
-            <div class="semes flex sm:justify-end mb-5 sm:mb-0">
+            <div class="semes flex justify-end mb-5 sm:mb-0">
               <p>ปีการศึกษา</p>
               <select
                 v-model="selected"
@@ -245,6 +245,12 @@ export default {
 </script>
 
 <style scoped>
+.background{
+  background: #ECF6FE;
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+}
 img {
   @apply h-28 lg:h-auto
   sm:pl-10 md:pl-0;
@@ -289,8 +295,9 @@ select {
 md:text-base sm:text-sm;
 }
 .data {
-  @apply px-10 w-screen pt-8 md:pt-0
-  md:pl-10 mt-20
+  @apply w-screen px-4
+  sm:px-10 sm:pt-8 
+  md:pt-0 md:pl-10 mt-20
   lg:pl-60 lg:mt-24;
 }
 .object {
