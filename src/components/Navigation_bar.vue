@@ -1,9 +1,11 @@
 <template>
   <div class="">
-    <div class="bg-white drop-shadow-sm sm:py-5 sm:px-10 px-5 py-4 fixed xl:w-full w-screen">
+    <div
+      class="bg-white drop-shadow-sm sm:py-5 sm:px-10 px-5 py-4 fixed xl:w-full w-screen"
+    >
       <div class="grid grid-cols-2">
         <div class="flex self-center items-center">
-          <div class="hidden md:block ">
+          <div class="hidden lg:block">
             <router-link to="/">
               <div class="text-xl font-bold text-secondary">
                 HELIOSCORE
@@ -11,23 +13,25 @@
             >
           </div>
 
-          <div class="flex justify-start self-center md:hidden" @click="openHamburger()">
-          <span class="material-symbols-outlined hamburger"> menu </span>
-        </div>
+          <div
+            class="flex justify-start self-center lg:hidden"
+            @click="openHamburger()"
+          >
+            <span class="material-symbols-outlined hamburger"> menu </span>
+          </div>
         </div>
 
-        
-
-        <div class="flex justify-end">
+        <div class="flex justify-end" @click="clickProfile()">
           <div class="dropdown">
             <div
               class="dropbtn flex items-center border border-light cursor-pointer"
             >
               <img :src="getImage()" class="profile rounded-full" />
-              <div class="ml-4 account text-secondary">
+              <div class="ml-4 account text-secondary hidden sm:block">
                 {{ this.account.firstName }} {{ this.account.lastName }}
               </div>
             </div>
+
             <div class="rounded-sm dropdown-content">
               <a href="#" @click="clickInfo()">ข้อมูลบัญชี</a>
               <a href="#" @click="logout()">ออกจากระบบ</a>
@@ -36,31 +40,49 @@
         </div>
       </div>
 
-      <div class="flex justify-center md:hidden" v-if="open">
+      <div class="flex justify-center lg:hidden" v-if="open">
         <div class="grid grid-rows-2">
           <div class="layout">
-          <router-link to="/helioscore">
-            <div class="object">
-              <span class="material-symbols-outlined home mr-2"> home </span>
-              <div class="sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 text-secondary">
-                หน้าหลัก
+            <router-link to="/helioscore">
+              <div class="object">
+                <span class="material-symbols-outlined home mr-2"> home </span>
+                <div
+                  class="sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 text-secondary"
+                >
+                  หน้าหลัก
+                </div>
               </div>
-            </div>
-          </router-link>
-        </div>
+            </router-link>
+          </div>
 
-        <div class="layout">
-          <router-link to="/helioscore/newsubject">
-            <div class="object">
-              <span class="material-symbols-outlined mr-2"> add </span>
-              <div class="sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 text-secondary">
-                เพิ่มวิชาที่สอน
+          <div class="layout">
+            <router-link to="/helioscore/newsubject">
+              <div class="object">
+                <span class="material-symbols-outlined mr-2"> add </span>
+                <div
+                  class="sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 text-secondary"
+                >
+                  เพิ่มวิชาที่สอน
+                </div>
               </div>
-            </div>
-          </router-link>
+            </router-link>
+          </div>
+
+          <div class="layout">
+            <router-link to="/helioscore/manual">
+              <div class="object">
+                <span class="material-symbols-outlined mr-2">
+                  description
+                </span>
+                <div
+                  class="sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 text-secondary"
+                >
+                  คู่มือการใช้งาน
+                </div>
+              </div>
+            </router-link>
+          </div>
         </div>
-        </div>
-        
       </div>
     </div>
   </div>
@@ -71,12 +93,15 @@
     <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
-          <img src="../../src/assets/Background.png" class="w-full relative" />
+          <img
+            src="../../src/assets/Background.png"
+            class="w-full relative hidden sm:block"
+          />
           <div class="borderPic">
-            <div>
+            <div class="flex justify-center sm:justify-start">
               <img
                 :src="getImage()"
-                class="pic rounded-full w-28 h-28 cursor-pointer"
+                class="pic rounded-full sm:w-28 sm:h-28 w-20 h-20 cursor-pointer"
                 @click="showEdit()"
               />
               <!-- <input type="file" accept="image/*" @input="selectFile" /> -->
@@ -84,7 +109,9 @@
           </div>
 
           <div class="" v-if="edit == false">
-            <div class="font-extrabold text-md mx-20">
+            <div
+              class="font-extrabold text-md sm:mx-20 flex justify-center sm:justify-start"
+            >
               {{ this.account.firstName }} {{ this.account.lastName }}
               <span
                 class="material-symbols-outlined ml-2 flex items-end cursor-pointer hover:text-primary"
@@ -94,72 +121,83 @@
               </span>
             </div>
 
-            <div class="mx-20 mt-10">
-              <p class="text-secondary font-bold my-2">อีเมล</p>
-              <p class="text-gray50">{{ this.account.email }}</p>
+            <div class="flex justify-center sm:justify-start">
+              <div class="mx-4 sm:mx-20 mt-10">
+                <p class="text-secondary font-bold my-2">อีเมล</p>
+                <p class="text-gray50">{{ this.account.email }}</p>
+              </div>
             </div>
 
-            <div class="mx-20 mt-10">
-              <p class="text-secondary font-bold my-2">โรงเรียน</p>
-              <p class="text-gray50">{{ this.account.schoolName }}</p>
+            <div class="flex justify-center sm:justify-start">
+              <div class="mx-4 sm:mx-20 mt-10 justify-start">
+                <p class="text-secondary font-bold my-2">โรงเรียน</p>
+                <p class="text-gray50">{{ this.account.schoolName }}</p>
+              </div>
             </div>
           </div>
 
           <!-- edit profile -->
 
           <div v-else-if="edit">
-            <div class="grid grid-cols-2 lg:mx-20 md:mx-10 mx-5">
-              <div class="box" v-if="!showEditPass">
-                <p class="title">ชื่อ</p>
-                <input
-                  class="border border-gray50 w-full"
-                  v-model="newFirstName"
-                  maxlength="30"
-                />
-                <sup
-                  v-show="inputFirstname"
-                  class="text-red-500 flex justify-end mt-4"
-                >
-                  Please enter firstname!</sup
-                >
-              </div>
-
-              <div class="flex ml-4" v-if="!showEditPass">
-                <div class="box">
-                  <p class="title">นามสกุล</p>
-                  <div class="flex justify-end">
-                    <input
-                      class="border border-gray50 w-full"
-                      v-model="newLastName"
-                      maxlength="30"
-                    />
-                  </div>
+            <div class="flex justify-center">
+              <p class="text-base font-bold sm:hidden">แก้ไขข้อมูลส่วนตัว</p>
+            </div>
+            <div class="flex justify-start">
+              <div class="grid sm:grid-cols-2 lg:mx-20 md:mx-10 mx-5">
+                <div class="box" v-if="!showEditPass">
+                  <p class="title">ชื่อ</p>
+                  <input
+                    class="border border-gray50 w-full"
+                    v-model="newFirstName"
+                    maxlength="30"
+                  />
                   <sup
-                    v-show="inputLastname"
-                    class="text-red-500 justify-end mt-4 flex"
+                    v-show="inputFirstname"
+                    class="text-red-500 flex justify-end mt-4"
                   >
-                    Please enter lastname!</sup
+                    Please enter firstname!</sup
                   >
                 </div>
-              </div>
 
-              <div class="box" v-if="!showEditPass">
-                <p class="title">อีเมล</p>
-                <button class="bg-gray10 text-gray50 py-1 px-2 rounded-md w-auto cursor-default">
-                  {{ this.account.email }}
-                </button>
-              </div>
-
-              <div class="flex ml-4" v-show="!account.google">
-                <div class="box" v-if="!showEditPass">
-                  <p class="title">รหัสผ่าน</p>
-                  <div class="flex justify-end">
-                    <button
-                      class="border border-gray50 py-1 rounded-md w-full text-xs lg:text-sm"
-                      @click="changePass()"
+                <div class="flex sm:ml-4" v-if="!showEditPass">
+                  <div class="box">
+                    <p class="title">นามสกุล</p>
+                    <div class="flex justify-end">
+                      <input
+                        class="border border-gray50 w-full"
+                        v-model="newLastName"
+                        maxlength="30"
+                      />
+                    </div>
+                    <sup
+                      v-show="inputLastname"
+                      class="text-red-500 justify-end mt-4 flex"
                     >
-                      เปลี่ยนรหัสผ่าน
-                    </button>
+                      Please enter lastname!</sup
+                    >
+                  </div>
+                </div>
+
+                <div class="box" v-if="!showEditPass">
+                  <p class="title">อีเมล</p>
+                  <button
+                    class="bg-gray10 text-gray50 py-1 px-2 rounded-md w-auto cursor-default"
+                  >
+                    {{ this.account.email }}
+                  </button>
+                </div>
+
+                <div class="flex sm:ml-4" v-show="!account.google">
+                  <div class="box" v-if="!showEditPass">
+                    <p class="title">รหัสผ่าน</p>
+                    <div class="flex justify-end">
+                      <button
+                        class="border border-gray50 py-1 rounded-md w-full text-xs lg:text-sm"
+                        @click="changePass()"
+                      >
+                        เปลี่ยนรหัสผ่าน
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -173,7 +211,10 @@
                 >
                   ลบบัญชี
                 </button>
-                <p class="text-xs text-gray100">(หากทำการลบบัญชี ข้อมูลที่คุณสร้างไว้จะถูกลบทั้งหมด แต่ไม่มีผลกับข้อมูลที่ผู้ใช้อื่นสร้างและเพิ่มคุณในห้องเรียน)</p>
+                <p class="text-xs text-gray100">
+                  (หากทำการลบบัญชี ข้อมูลที่คุณสร้างไว้จะถูกลบทั้งหมด
+                  แต่ไม่มีผลกับข้อมูลที่ผู้ใช้อื่นสร้างและเพิ่มคุณในห้องเรียน)
+                </p>
               </div>
             </div>
 
@@ -183,7 +224,7 @@
               class="lg:mx-40 md:mx-10 mx-5 mt-5 md:mt-5 grid col-span-2"
               v-if="showEditPass"
             >
-              <div class="lg:py-1">
+              <div class="py-1">
                 <p class="title">รหัสผ่านเดิม</p>
                 <input
                   class="bg-gray10 py-1 rounded-md w-full"
@@ -200,7 +241,7 @@
                 >
               </div>
 
-              <div class="lg:py-1">
+              <div class="py-1">
                 <p class="title">รหัสผ่านใหม่</p>
                 <input
                   class="bg-gray10 py-1 rounded-md w-full"
@@ -217,7 +258,7 @@
                 >
               </div>
 
-              <div class="lg:py-1">
+              <div class="py-1">
                 <p class="title">ยืนยันรหัสผ่านใหม่</p>
                 <input
                   class="bg-gray10 py-1 rounded-md w-full"
@@ -238,7 +279,7 @@
 
           <!-- button -->
 
-          <div class="flex justify-center mt-12 md:mb-5">
+          <div class="flex justify-center mt-12 md:mb-5 mb-5">
             <div class="" v-if="edit == false">
               <button
                 class="bg-secondary2 text-white rounded-md px-6 py-1 ml-2"
@@ -248,7 +289,7 @@
               </button>
             </div>
 
-            <div class="grid grid-cols-2" v-else>
+            <div class="grid grid-cols-2 mx-4 text-xs sm:mx-0 sm:text-base" v-else>
               <button
                 class="bg-light text-primary rounded-md mr-2 px-2 py-1"
                 @click="cancle()"
@@ -314,6 +355,7 @@ export default {
       confirmPassword: "",
       showEditImage: false,
       open: false,
+      profile: false,
     };
   },
 
@@ -356,6 +398,10 @@ export default {
       this.password = "";
       this.currentPass = "";
       this.currentPass = "";
+    },
+
+    clickProfile() {
+      this.profile = !this.profile;
     },
 
     logout() {
@@ -497,11 +543,9 @@ export default {
       }
     },
 
-    openHamburger(){
+    openHamburger() {
       this.open = !this.open;
     },
-
-
   },
 
   async created() {
@@ -612,21 +656,25 @@ span {
   transform: scale(1.1);
 }
 .pic {
-  margin-top: -68px;
   position: relative;
   border: 4px solid #fff;
-  @apply ml-20;
+  @apply sm:ml-20 mt-10;
+}
+@media only screen and (min-width: 640px) {
+  .pic {
+    margin-top: -68px;
+  }
 }
 .borderPic {
   border-radius: 49.9%;
-  width: 160px;
+  /* width: 160px; */
 }
 input {
   @apply rounded-md py-1 px-2
   md:text-xs lg:text-sm;
 }
 .box {
-  @apply mt-5 w-full;
+  @apply mt-2 sm:mt-5 w-full;
 }
 .title {
   @apply text-secondary;
@@ -640,6 +688,6 @@ input {
   @apply py-10 flex justify-start;
 }
 .object {
-  @apply flex sm:text-sm items-center;
+  @apply flex sm:text-sm self-center items-end;
 }
 </style>
