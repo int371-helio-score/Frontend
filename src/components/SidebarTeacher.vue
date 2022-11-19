@@ -2,12 +2,12 @@
   <div class="hidden lg:block">
     <div class="background bg-white mt-1 h-screen flex justify-center fixed">
       <div class="grid grid-rows-2">
-        <div class="grid grid-rows-3 h-52">
+        <div class="grid grid-rows-4 h-52">
           <div class="layout">
             <router-link to="/helioscore">
               <a class="object Item active">
                 <span class="material-symbols-outlined home mr-2"> home </span>
-                <p class=""> หน้าหลัก </p>
+                <p class="menu"> หน้าหลัก </p>
               </a>
             </router-link>
           </div>
@@ -16,28 +16,40 @@
             <router-link to="/helioscore/newsubject">
               <a class="object">
                 <span class="material-symbols-outlined mr-2"> add </span>
-                <a class=""> เพิ่มวิชาที่สอน </a>
+                <div class="menu">เพิ่มวิชาที่สอน</div>
               </a>
             </router-link>
           </div>
 
-          <div class="layout">
+          <!-- <div class="layout">
             <router-link to="/helioscore/studentlist">
-              <a class="object">
+              <div class="object">
                 <span class="material-symbols-outlined mr-2"> group </span>
-                <a class=""> จัดการรายชื่อ </a>
-              </a>
+                <div class="menu">จัดการรายชื่อ</div>
+              </div>
+            </router-link>
+          </div> -->
+
+          <div class="layout">
+            <router-link to="/helioscore/manual">
+              <div class="object">
+                <span class="material-symbols-outlined mr-2"> info </span>
+                <div class="menu">คู่มือการใช้งาน</div>
+              </div>
             </router-link>
           </div>
-          <!-- 
-          <div class="">
-            <span class="material-symbols-outlined"> add </span>
-            <a
-              class="active"
-            >
-              เพิ่มรายชื่อในห้องเรียน
-            </a>
-          </div>
+
+          <!-- <div class="layout">
+          <router-link to="/helioscore/importstudentlist">
+            <div class="object">
+              <span class="material-symbols-outlined"> add </span>
+              <div
+                class="text-secondary sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 hover:text-primary"
+              >
+                เพิ่มรายชื่อในห้องเรียน
+              </div>
+            </div>
+          </router-link>
         </div> -->
           <!-- 
       <div class="flex justify-end items-end">
@@ -55,7 +67,7 @@
         </div>
       </div>
     </div>
-  </div>
+</div>
 </template>
 
 <script>
@@ -103,15 +115,7 @@ button {
 span {
   @apply text-primary;
 }
-.Item {
-  color: #1a4262;
-  @apply sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1;
-}
-/* .Item.active {
-  color: #42a5f5;
-} */
-
-.Item:visited{
-  color: red;
+.menu {
+  @apply sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 text-secondary hover:text-primary;
 }
 </style>

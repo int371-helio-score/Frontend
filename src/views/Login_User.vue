@@ -170,10 +170,9 @@ img {
 }
 .box {
   @apply xl:mr-80 xl:my-20
-  
-  lg:my-20 lg:mr-28 lg:pb-10
-  md:my-16 md:mr-20 md:mx-0 md:rounded-xl
-  sm:justify-center sm:mx-40;
+  lg:my-20 lg:mr-28  lg:pb-10
+  md:my-16 md:mr-20 md:mx-0 md:rounded-xl md:pb-5
+  sm:justify-center sm:mx-40 sm:rounded-lg sm:pb-3;
 }
 span {
   color: #b3dbfb;

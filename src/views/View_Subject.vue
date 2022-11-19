@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-light h-screen">
+  <div class="bg-light h-auto pb-10">
     <navTeacher />
     <div class="inline-flex">
       <sidebarTeacher />
@@ -8,12 +8,12 @@
         <div class="sm:mx-0 md:mx-0 divide-y divide-gray10">
           <div class="title">หน้าหลัก</div>
 
-          <div class="my-5 pt-5 md:pt-10 lg:py-5 grid grid-cols-2">
-            <div class="flex justify-start semes">
+          <div class="my-5 pt-5 md:pt-10 lg:py-5 grid sm:grid-cols-2">
+            <div class="flex justify-start semes hidden sm:block">
               <p>วิชาทั้งหมด</p>
             </div>
 
-            <div class="semes flex justify-end">
+            <div class="semes flex sm:justify-end mb-5 sm:mb-0">
               <p>ปีการศึกษา</p>
               <select
                 v-model="selected"
@@ -34,28 +34,27 @@
         <div class="order">
           <div v-for="subject in subjects" :key="subject._id">
             <div class="bg-white text-center box">
-
-              <div class="subject px-10 py-2" v-show="this.owner">
+              <div class="subject px-10 py-2">
                 <div class="flex justify-end pt-1 pr-1">
-                <div class="dropdown">
-                  <span
-                    class="material-symbols-outlined text-secondary cursor-pointer dropbtn"
-                    @click="clickSeeMore(subject._id)"
-                  >
-                    more_vert
-                  </span>
-                  <div class="rounded-sm dropdown-content" :id="subject._id">
-                    <a href="#" @click="editSubject(subject)">แก้ไข</a>
-                    <a
-                      href="#"
-                      @click="deleteSubject(subject._id, subject.subjectName)"
-                      >ลบ</a
+                  <div class="dropdown">
+                    <span
+                      class="material-symbols-outlined text-secondary cursor-pointer dropbtn"
+                      @click="clickSeeMore(subject._id)"
                     >
+                      more_vert
+                    </span>
+                    <div class="rounded-sm dropdown-content" :id="subject._id">
+                      <a href="#" @click="editSubject(subject)">แก้ไข</a>
+                      <a
+                        href="#"
+                        @click="deleteSubject(subject._id, subject.subjectName)"
+                        >ลบ</a
+                      >
+                    </div>
                   </div>
                 </div>
-              </div>
 
-                <router-link
+                <router-link 
                   :to="{
                     name: 'class',
                     params: {
@@ -253,6 +252,7 @@ img {
 .box {
   border: 3px solid #f7f7f7;
   border-radius: 10px;
+  @apply mb-5 sm:mb-0;
 }
 .subject {
   @apply justify-center text-xs
@@ -273,11 +273,11 @@ select {
   @apply md:text-base;
 }
 .order {
-  @apply grid mx-10 gap-4 justify-center 
-  xl:grid-cols-5 xl:gap-8
-  lg:grid-cols-4 lg:gap-10 lg:mb-20
+  @apply justify-center
+  xl:grid-cols-5 xl:gap-5
+  lg:grid-cols-4 lg:gap-5 lg:mb-20
   md:grid-cols-3 md:gap-4
-  sm:grid-cols-2 sm:mx-0;
+  sm:grid-cols-2 sm:mx-0 sm:grid sm:gap-4;
 }
 .title {
   @apply text-base font-bold mt-5 text-secondary
@@ -289,7 +289,7 @@ select {
 md:text-base sm:text-sm; 
 }
 .data {
-  @apply pl-10 pr-10 w-screen pt-8 md:pt-0
+  @apply px-10 w-screen pt-8 md:pt-0
   md:pl-10 mt-20
   lg:pl-60 lg:mt-24;
 }
