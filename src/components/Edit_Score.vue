@@ -14,18 +14,18 @@
             <div
               v-for="student in scores.scores"
               :key="student.no"
-              class="lg:mx-32 my-4 flex justify-between items-center"
+              class="lg:mx-28 md:mx-16 sm:mx-24 mx-5 my-4 flex justify-between items-center"
             >
               <div class="">เลขที่   {{ student.no }}</div>
               {{ student.firstName }} {{ student.lastName }}
               <input
                 v-model="student.score"
-                class="border px-2 py-1"
+                class="border px-2 py-1 w-20 md:w-16 lg:w-20"
               />
             </div>
           </div>
 
-          <div class="flex justify-center place-content-end mt-10">
+          <div class="flex justify-center place-content-end mt-12 md:pb-10 pb-5">
             <div class="bottom-8 grid grid-cols-2 gap-4">
               <button
                 class="bg-light text-secondary2 border border-secondary2 rounded-md px-6 py-1 ml-2"
@@ -159,5 +159,12 @@ export default {
 .modal-leave-active .modal-container {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
+}
+input {
+  color: black;
+  @apply border px-2 py-1 rounded-md;
+}
+.box {
+  @apply lg:mx-5;
 }
 </style>

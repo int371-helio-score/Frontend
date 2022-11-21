@@ -110,50 +110,85 @@
         <!-- อัปโหลดคะแนน -->
 
         <div v-if="uploadFile">
-          <div class="flex justify-center">
-            <div class="container flex flex-col mt-10">
-              <!-- preview file -->
-
-              <div class="self-center">
-                <input
-                  class="wrapper flex justify-content-center align-items-center"
-                  type="file"
-                  ref="file"
-                  @change="handleFileUpload()"
-                />
-                <div class="md:grid md:grid-cols-2">
-                  <div class="md:text-xs text-gray-400 mt-2">
-                    * อัปโหลดได้เฉพาะไฟล์ .xlsx หรือ .csv-UTF8 เท่านั้น
+          <div class="lg:mr-10 md:pr-10">
+            <div class="xl:mx-60 lg:mx-36">
+              <div class="wrapper flex justify-center lg:mt-14 lg:pt-5">
+                <div class="grid grid-rows-3 xl:mx-20 lg:mx-8">
+                  <div class="text-gray100 lg:text-sm xl:text-base text-center">
+                    <p class="flex justify-center">
+                      จำเป็นต้องใช้เทมเพลตของ Helio score เท่านั้น
+                    </p>
+                    <p class="flex justify-center">
+                      หากใช้เทมเพลตนอกเหนือจากที่กำหนดไว้
+                      จะไม่สามารถทำการอัปโหลดไฟล์ได้
+                    </p>
                   </div>
-                  <button
-                    class="relative md:mb-4 md:text-base flex justify-end"
-                    style="color: #42a5f5"
-                    @click="downloadTemp(this.class_id)"
+                  <div
+                    class="font-bold text-secondary flex justify-center align-centerc items-center cursor-pointer lg:text-sm xl:text-base"
                   >
-                    ดาวน์โหลดไฟล์เทมเพลต
+                    <p @click="downloadTemp(this.class_id)">
+                      ดาวน์โหลดไฟล์เทมเพลตคะแนน
+                    </p>
+                  </div>
+                  <div
+                    class="flex justify-center text-center text-gray100 lg:text-sm xl:text-base"
+                  >
+                    <p class="">
+                      เมื่อกรอกข้อมูลครบถ้วน บันทึกสกุลไฟล์เป็น .xlxs หรือ
+                      .csv-UTF8 เท่านั้น
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-2">
+                <div class="flex justify-center">
+                  <div
+                    id="yourBtn"
+                    class="text-secondary"
+                    @click="chooseFile()"
+                  >
+                    เลือกไฟล์คะแนน
+                  </div>
+                  <input
+                    id="upFile"
+                    style="height: 0px; width: 0px; overflow: hidden"
+                    class="wrapper flex justify-content-center align-items-center"
+                    type="file"
+                    ref="file"
+                    @change="handleFileUpload()"
+                  />
+                </div>
+              </div>
+              <div
+                class="flex justify-center mt-2 text-gray100"
+                v-show="this.file != 0"
+              >
+                <span class="material-symbols-outlined" style="color: #797979">
+                  description
+                </span>
+                <p>{{ this.file.name }}</p>
+              </div>
+
+              <div class="flex gap-10 justify-center mt-8">
+                <div
+                  class="flex justify-center ojb bg-white text-primary md:rounded-lg"
+                >
+                  <button
+                    class="md:w-32 h-12 text-sm"
+                    id="custom-btn"
+                    @click="clickUpload()"
+                  >
+                    ยกเลิก
                   </button>
                 </div>
-
-                <div class="flex gap-10 justify-center mt-8">
-                  <div
-                    class="flex justify-center ojb bg-white text-primary md:rounded-lg"
+                <div class="flex justify-center ojb">
+                  <button
+                    class="md:w-32 h-12 text-sm bg-primary text-white md:rounded-lg"
+                    @click="submitFile()"
                   >
-                    <button
-                      class="md:w-32 h-12 text-sm"
-                      id="custom-btn"
-                      @click="clickUpload()"
-                    >
-                      ยกเลิก
-                    </button>
-                  </div>
-                  <div class="flex justify-center ojb">
-                    <button
-                      class="md:w-32 h-12 text-sm bg-primary text-white md:rounded-lg"
-                      @click="submitFile()"
-                    >
-                      อัปโหลด
-                    </button>
-                  </div>
+                    อัปโหลด
+                  </button>
                 </div>
               </div>
             </div>
@@ -178,7 +213,9 @@
                   <div
                     class="font-bold text-secondary flex justify-center align-centerc items-center cursor-pointer lg:text-sm xl:text-base"
                   >
-                    <p @click="downloadTempStd()">ดาวน์โหลดไฟล์เทมเพลต</p>
+                    <p @click="downloadTempStd()">
+                      ดาวน์โหลดไฟล์เทมเพลตรายชื่อ
+                    </p>
                   </div>
                   <div
                     class="flex justify-center text-center text-gray100 lg:text-sm xl:text-base"
@@ -335,18 +372,50 @@
           </table>
 
           <!-- Manage Score -->
-          <div
-            class="mt-5 lg:mt-10 flex justify-end sm:mx-0 md:mx-5 items-center self-center"
-            v-show="list"
-          >
-            <span class="material-symbols-outlined"> delete </span>
-            <div v-show="showList">
-              <p
-                class="text-sm hover:text-primary cursor-pointer"
-                @click="showDelete()"
-              >
-                ลบคะแนน
-              </p>
+          <div class="grid grid-cols-3">
+            <div
+              class="mt-5 lg:mt-10 flex justify-end sm:mx-0 md:mx-5 items-center self-center"
+              v-show="list"
+            >
+              <span class="material-symbols-outlined"> delete </span>
+              <div v-show="showList">
+                <p
+                  class="text-sm hover:text-primary cursor-pointer"
+                  @click="showDelete()"
+                >
+                  ลบคะแนน
+                </p>
+              </div>
+            </div>
+
+            <div
+              class="mt-5 lg:mt-10 flex justify-end sm:mx-0 md:mx-5 items-center self-center"
+              v-show="list"
+            >
+              <span class="material-symbols-outlined"> delete </span>
+              <div v-show="showStd">
+                <p
+                  class="text-sm hover:text-primary cursor-pointer"
+                  @click="showDeleteStd()"
+                >
+                  ลบรายชื่อ
+                </p>
+              </div>
+            </div>
+
+            <div
+              class="mt-5 lg:mt-10 flex justify-end sm:mx-0 md:mx-5 items-center self-center"
+              v-show="list"
+            >
+              <span class="material-symbols-outlined"> delete </span>
+              <div v-show="showList">
+                <p
+                  class="text-sm hover:text-primary cursor-pointer"
+                  @click="showDelete()"
+                >
+                  ลบรายชื่อทั้งหมด
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -385,7 +454,7 @@
           </div>
 
           <!-- button -->
-          <div class="flex justify-center my-5">
+          <div class="flex justify-center my-5 mt-12">
             <div class="bottom-8 grid grid-cols-2 gap-4 place-content-end">
               <button
                 class="bg-light text-secondary2 border border-secondary2 rounded-md px-6 py-1 ml-2"
@@ -393,11 +462,62 @@
               >
                 ออก
               </button>
-              <button
+              <!-- <button
                 class="bg-secondary2 text-white rounded-md px-6 py-1 ml-2"
               >
                 บันทึก
+              </button> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Student -->
+  <div name="modal" v-show="deleteStdModal == true" v-if="editModal == false">
+    <div class="modal-mask">
+      <div class="modal-wrapper">
+        <div class="modal-container relative">
+          <img src="../../src/assets/Background.png" class="w-full relative" />
+
+          <div>
+            <div class="mx-20 mt-10">
+              <p class="text-secondary font-bold my-2">รายชื่อ</p>
+              <div>
+                <div
+                  v-for="list in stdScore"
+                  :key="list.no"
+                  class="flex justify-between mt-3"
+                >
+                  <div class="flex justify-start">
+                    {{ list.firstName }}
+                  </div>
+                  <button
+                    class="flex justify-end text-gray-600 hover:text-red-500"
+                    @click="deleteStudent(list.studentId, list.firstName, list.lastName)"
+                  >
+                    ลบ
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- button -->
+          <div class="flex justify-center my-5 mt-12">
+            <div class="bottom-8 grid grid-cols-2 gap-4 place-content-end">
+              <button
+                class="bg-light text-secondary2 border border-secondary2 rounded-md px-6 py-1 ml-2"
+                @click="deleteStdModal = false"
+              >
+                ออก
               </button>
+              <!-- <button
+                class="bg-secondary2 text-white rounded-md px-6 py-1 ml-2"
+              >
+                บันทึก
+              </button> -->
             </div>
           </div>
         </div>
@@ -452,19 +572,27 @@ export default {
       scroll: false,
       uploadStd: false,
       showAssignList: false,
+      showStdList: false,
       deleteModal: false,
+      deleteStdModal: false,
       editModal: false,
       editScore: null,
       list: false,
       announceStatus: false,
-      workbook: null,
-      sheetIndex: -1,
     };
   },
 
   methods: {
     showList() {
       this.showAssignList = true;
+    },
+
+    showStd() {
+      this.showStdList = true;
+    },
+
+    chooseFile() {
+      document.getElementById("upFile").click();
     },
 
     chooseStdFile() {
@@ -787,6 +915,37 @@ export default {
         });
     },
 
+    showDeleteStd() {
+      this.deleteStdModal = true;
+    },
+
+    deleteStudent(stdId, firstName, lastName) {
+      console.log(this.class_id);
+      let text = "ต้องการลบ " + firstName + " " + lastName + " หรือไม่";
+      if (confirm(text) == true) {
+        axios
+          .delete("helio/studentList/deleteStudent", {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+            body: {
+              classId: this.class_id,
+              studentId: stdId,
+            },
+          })
+          .then((res) => {
+            if (res.data.statusCode === 200) {
+              this.$router.go();
+            }
+          })
+          .catch((err) => {
+            alert(err.response.message);
+          });
+      } else {
+        return;
+      }
+    },
+
     showDelete() {
       this.deleteModal = true;
     },
@@ -1036,7 +1195,7 @@ table::-webkit-scrollbar-thumb:window-inactive {
   transform: scale(1.1);
 }
 .boardcash {
-  @apply md:mb-5 lg:py-5;
+  @apply mb-2 py-4 md:mb-5 lg:py-5;
 }
 .box {
   @apply justify-center
@@ -1047,8 +1206,8 @@ table::-webkit-scrollbar-thumb:window-inactive {
   lg:text-xl;
 }
 .total {
-  @apply font-bold flex justify-center text-alert
-  lg:text-xl;
+  @apply font-bold flex justify-center text-alert text-lg
+  md:text-xl;
 }
 .head {
   @apply flex justify-center text-xs text-secondary;

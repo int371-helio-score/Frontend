@@ -8,7 +8,7 @@
             แก้ไขรายละเอียดวิชา
           </p>
           <div class="flex justify-center my-5 text-secondary">
-            <div class="grid lg:grid-cols-2 lg:gap-y-4 md:grid-cols-1">
+            <div class="grid lggrid-cols-2 lg:gap-y-4 md:grid-cols-1">
               <div class="box">
                 <p class="title">รหัสวิชา</p>
                 <input v-model="subjects.subjectCode" />
