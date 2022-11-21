@@ -5,18 +5,20 @@
       <sidebarTeacher />
 
       <div class="data">
-        <div class="mr-10 divide-y divide-gray10">
+        <div class="md:mr-10 divide-y divide-gray10">
           <div class="title flex">
             <div>
               <router-link to="/">หน้าหลัก</router-link>
             </div>
-            <div class="mx-2">></div>
+            <div class="mx-1 sm:mx-2">></div>
             <div>{{ subjectName }} ชั้นมัธยมศึกษาปีที่ {{ grade }}</div>
-            <div class="mx-2">></div>
+            <div class="mx-1 sm:mx-2">></div>
             <div>ห้อง {{ room }}</div>
           </div>
 
-          <div class="my-5 pt-15 grid-cols-6 grid text-secondary">
+          <div
+            class="my-5 pt-15 md:grid-cols-6 grid-cols-1 grid text-secondary"
+          >
             <p
               class="pt-3 hidden xl:block cursor-pointer"
               @click="clickStdList()"
@@ -24,9 +26,12 @@
               รายชื่อทั้งหมด
             </p>
 
-            <div class="col-span-4 col-end-7" v-show="list">
-              <div class="grid grid-cols-3 gap-4 xl:gap-4 md:gap-2 pt-3">
-                <button class="add focus:bg-babyblue" @click="clickUploadStd()">
+            <div class="md:col-span-4 md:col-end-7" v-show="list">
+              <div class="grid md:grid-cols-3 gap-4 xl:gap-4 md:gap-2 pt-3">
+                <button
+                  class="add md:block hidden focus:bg-babyblue"
+                  @click="clickUploadStd()"
+                >
                   <div
                     class="flex justify-center items-center self-center md:text-xs lg:text-sm"
                   >
@@ -156,58 +161,90 @@
         </div>
 
         <!-- อัปโหลดรายชื่อ -->
-
         <div v-if="uploadStd">
-          <div class="flex justify-center">
-            <div class="container flex flex-col mt-10">
-              <div class="self-center">
-                <div>
-                  <p>ชื่อกลุ่มนักเรียน</p>
-                  <input
-                    placeholder="ระบุชื่อกลุ่มหรือชั้นเรียน"
-                    class="w-full py-1 px-2 mb-5"
-                    v-model="groupName"
-                  />
-                </div>
-                <input
-                  class="wrapper flex justify-content-center align-items-center"
-                  type="file"
-                  ref="file"
-                  @change="handleFileStd()"
-                />
-                <div class="md:grid md:grid-cols-2">
-                  <div class="md:text-xs text-gray-400 mt-2">
-                    * อัปโหลดได้เฉพาะไฟล์ .xlsx หรือ .csv-UTF8 เท่านั้น
+          <div class="lg:mr-10 md:pr-10">
+            <diV class="xl:mx-60 lg:mx-36">
+              <div class="wrapper flex justify-center lg:mt-14 lg:pt-5">
+                <div class="grid grid-rows-3 xl:mx-20 lg:mx-8">
+                  <div class="text-gray100 lg:text-sm xl:text-base text-center">
+                    <p class="flex justify-center">
+                      จำเป็นต้องใช้เทมเพลตของ Helio score เท่านั้น
+                    </p>
+                    <p class="flex justify-center">
+                      หากใช้เทมเพลตนอกเหนือจากที่กำหนดไว้
+                      จะไม่สามารถทำการอัปโหลดไฟล์ได้
+                    </p>
                   </div>
-                  <button
-                    class="relative md:mb-4 md:text-base flex justify-end"
-                    style="color: #42a5f5"
-                    @click="downloadTempStd(this.class_id)"
+                  <div
+                    class="font-bold text-secondary flex justify-center align-centerc items-center cursor-pointer lg:text-sm xl:text-base"
                   >
-                    ดาวน์โหลดไฟล์เทมเพลตรายชื่อ
-                  </button>
-                </div>
-
-                <div class="flex gap-10 justify-center mt-8">
-                  <div class="flex justify-center ojb bg-light text-primary">
-                    <button
-                      class="md:w-32 h-12 text-sm bg-white text-primary md:rounded-lg"
-                      id="custom-btn"
-                      @click="clickUploadStd()"
-                    >
-                      ยกเลิก
-                    </button>
+                    <p @click="downloadTempStd()">ดาวน์โหลดไฟล์เทมเพลต</p>
                   </div>
-                  <div class="flex justify-center ojb">
-                    <button
-                      class="md:w-32 h-12 text-sm bg-primary text-white md:rounded-lg"
-                      @click="submitFileStd()"
-                    >
-                      อัปโหลดรายชื่อ
-                    </button>
+                  <div
+                    class="flex justify-center text-center text-gray100 lg:text-sm xl:text-base"
+                  >
+                    <p class="">
+                      เมื่อกรอกข้อมูลครบถ้วน บันทึกสกุลไฟล์เป็น .xlxs หรือ
+                      .csv-UTF8 เท่านั้น
+                    </p>
                   </div>
                 </div>
               </div>
+
+              <div class="mt-2">
+                <div class="flex justify-center">
+                  <div
+                    id="yourBtn"
+                    class="text-secondary"
+                    @click="chooseStdFile()"
+                  >
+                    เลือกไฟล์รายชื่อ
+                  </div>
+                  <input
+                    id="upStdFile"
+                    style="height: 0px; width: 0px; overflow: hidden"
+                    class="flex justify-content-center align-items-center"
+                    type="file"
+                    ref="file"
+                    @change="handleFileStd()"
+                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel.sheet.macroEnabled.12"
+                  />
+                </div>
+
+                <div
+                  class="flex justify-center mt-2 text-gray100"
+                  v-show="this.fileStd != 0"
+                >
+                  <span
+                    class="material-symbols-outlined"
+                    style="color: #797979"
+                  >
+                    description
+                  </span>
+                  <p>{{ this.fileStd.name }}</p>
+                </div>
+              </div>
+            </diV>
+          </div>
+
+          <div
+            class="flex gap-8 sm:gap-4 lg:gap-10 justify-center lg:mt-32 sm:mt-40 mt-20 lg:mr-10 md:pr-10"
+          >
+            <div class="flex justify-center ojb bg-light text-primary">
+              <button
+                class="w-full h-8 px-4 sm:w-28 sm:h-10 md:w-36 lg:h-12 text-sm bg-white text-primary md:rounded-lg sm:rounded-md rounded"
+                @click="clickUploadStd()"
+              >
+                ยกเลิก
+              </button>
+            </div>
+            <div class="flex justify-center ojb">
+              <button
+                class="w-full h-8 px-4 sm:w-28 sm:h-10 md:w-36 lg:h-12 text-sm bg-primary text-white md:rounded-lg sm:rounded-md rounded"
+                @click="submitFileStd()"
+              >
+                อัปโหลดรายชื่อ
+              </button>
             </div>
           </div>
         </div>
@@ -218,10 +255,10 @@
           v-if="
             (uploadFile == false) & (announce == false) & (uploadStd == false)
           "
-          class="mr-10 text-secondary"
+          class="md:mr-10 text-secondary"
           :class="{ 'overflow-x-auto': scroll }"
         >
-        <div class="border grid grid-cols-4 bg-white rounded-md boardcash">
+          <div class="border grid grid-cols-4 bg-white rounded-md boardcash">
             <div class="box">
               <p class="head">คะแนนเต็ม</p>
               <p class="total text-alert">{{ this.stat.totalScore }}</p>
@@ -299,7 +336,7 @@
 
           <!-- Manage Score -->
           <div
-            class="lg:mt-10 flex justify-end sm:mx-0 mx-5 items-center self-center"
+            class="mt-5 lg:mt-10 flex justify-end sm:mx-0 md:mx-5 items-center self-center"
             v-show="list"
           >
             <span class="material-symbols-outlined"> delete </span>
@@ -406,7 +443,6 @@ export default {
       room: null,
       class_id: null,
       subject_id: null,
-      groupName: null,
       uploadFile: false,
       announce: false,
       file: "",
@@ -421,6 +457,8 @@ export default {
       editScore: null,
       list: false,
       announceStatus: false,
+      workbook: null,
+      sheetIndex: -1,
     };
   },
 
@@ -429,12 +467,17 @@ export default {
       this.showAssignList = true;
     },
 
+    chooseStdFile() {
+      document.getElementById("upStdFile").click();
+    },
+
     handleFileUpload() {
       this.file = this.$refs.file.files[0];
     },
 
     handleFileStd() {
       this.fileStd = this.$refs.file.files[0];
+      console.log(this.fileStd);
     },
 
     submitFile() {
@@ -463,7 +506,7 @@ export default {
       let formData = new FormData();
       formData.append("file", this.fileStd);
       formData.append("classId", this.class_id);
-      formData.append("groupName", this.groupName);
+      // formData.append("groupName", this.groupName);
 
       axios
         .post(`${this.importStd}`, formData, {
@@ -493,6 +536,7 @@ export default {
       this.uploadStd = !this.uploadStd;
       this.announce = false;
       this.uploadFile = false;
+      this.fileStd = 0;
     },
 
     clickUpload() {
@@ -660,43 +704,45 @@ export default {
     },
 
     sentPublish(id) {
-      console.log(id)
-      console.log(this.announceStatus)
+      console.log(id);
+      console.log(this.announceStatus);
 
       let text = "ต้องการส่งคะแนนไปยัง Email นักเรียนหรือไม่?";
-      if(confirm(text) == true){
+      if (confirm(text) == true) {
         axios
-        .patch(
-          `helio/score/publish`,
-          { score_id: id, announce: this.announceStatus = !this.announceStatus},
-          {
-            headers: {
-              Authorization: localStorage.getItem("token"),
+          .patch(
+            `helio/score/publish`,
+            {
+              score_id: id,
+              announce: (this.announceStatus = !this.announceStatus),
             },
-          }
-        )
-        .then((res) => {
-          if (res.data.statusCode === 200) {
-            this.$router.go();
-          }
-        });
-      }
-      else if(confirm(text) == false){
+            {
+              headers: {
+                Authorization: localStorage.getItem("token"),
+              },
+            }
+          )
+          .then((res) => {
+            if (res.data.statusCode === 200) {
+              this.$router.go();
+            }
+          });
+      } else if (confirm(text) == false) {
         axios
-        .patch(
-          `helio/score/publish`,
-          { score_id: id, announce: this.announceStatus},
-          {
-            headers: {
-              Authorization: localStorage.getItem("token"),
-            },
-          }
-        )
-        .then((res) => {
-          if (res.data.statusCode === 200) {
-            this.$router.go();
-          }
-        });
+          .patch(
+            `helio/score/publish`,
+            { score_id: id, announce: this.announceStatus },
+            {
+              headers: {
+                Authorization: localStorage.getItem("token"),
+              },
+            }
+          )
+          .then((res) => {
+            if (res.data.statusCode === 200) {
+              this.$router.go();
+            }
+          });
       }
     },
 
@@ -719,12 +765,13 @@ export default {
     },
 
     sentEmail(title) {
-      console.log(this.class_id)
-      console.log(title)
+      console.log(this.class_id);
+      console.log(title);
       axios
         .post(
           `helio/mail`,
           { class_id: this.class_id, scoreTitle: title },
+          // ส้งแค่ score id
           {
             headers: {
               Authorization: localStorage.getItem("token"),
@@ -732,7 +779,7 @@ export default {
           }
         )
         .then((res) => {
-          console.log("hi")
+          console.log("hi");
           if (res.data.statusCode === 200) {
             alert("ส่งคะแนนไปยัง Email สำเร็จ");
             this.$router.go();
@@ -836,67 +883,36 @@ th {
   width: 800px;
   position: relative;
 }
-.container .wrapper {
-  position: relative;
+.wrapper {
+  /* position: relative; */
   height: 100%;
   width: 100%;
   border-radius: 10px;
   background: #fff;
-  border: 2px dashed #b3dbfb;
+  border: 1px solid #b3dbfb;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-}
-.wrapper.active {
-  border: none;
-}
-.wrapper .preview {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.wrapper #cancel-btn i {
-  position: absolute;
-  font-size: 20px;
-  right: 15px;
-  top: 15px;
-  color: #9658fe;
-  cursor: pointer;
-  display: none;
-}
-.wrapper.active:hover #cancel-btn i {
-  display: block;
-}
-.wrapper #cancel-btn i:hover {
-  color: #e74c3c;
-}
-.wrapper .file-name {
-  position: absolute;
-  bottom: 0px;
-  width: 100%;
-  padding: 8px 0;
-  font-size: 18px;
-  color: #fff;
-  display: none;
-  background: linear-gradient(135deg, #3a8ffe 0%, #9658fe 100%);
-}
-.wrapper.active:hover .file-name {
-  display: block;
 }
 .click {
   @apply cursor-pointer rounded-md
   md:w-36 md:mb-4 lg:w-36;
 }
 .data {
-  @apply h-auto max-h-full pl-60 mt-24 w-screen
-  lg:pb-10;
+  @apply w-screen px-5 pb-16
+  sm:px-10 sm:pt-8 sm:pb-16
+  md:pt-0 md:pl-10 mt-20 md:px-0
+  lg:pl-60 lg:mt-24 lg:pb-10;
 }
+/* .data {
+  @apply h-auto max-h-full mt-24 w-screen
+  md:mx-20
+  lg:pb-10 lg:pl-60;
+} */
 .title {
-  @apply text-sm font-bold mt-5 text-secondary
+  @apply text-xs font-medium mt-5 text-secondary
+  sm:text-sm
   lg:text-xl lg:font-semibold
   md:mt-10 md:text-lg md:font-bold;
 }
@@ -939,15 +955,11 @@ th {
   height: 100;
 }
 
-.ojb {
-  @apply md:py-2;
-}
-
 .add {
   background: white;
   box-shadow: 0px 1px 5px rgba(214, 214, 214, 0.5);
-  border-radius: 22px;
-  @apply px-8 py-1;
+  /* border-radius: 22px; */
+  @apply md:px-8 py-1 rounded md:rounded-full;
 }
 
 table {
@@ -999,7 +1011,7 @@ table::-webkit-scrollbar-thumb:window-inactive {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   border-radius: 25px;
   overflow-y: auto;
-  @apply w-3/4 md:w-96 lg:w-1/2 ;
+  @apply w-3/4 md:w-96 lg:w-1/2;
 }
 
 .modal-header h3 {
@@ -1043,5 +1055,32 @@ table::-webkit-scrollbar-thumb:window-inactive {
 }
 .announce {
   @apply mx-10 text-secondary text-sm pb-2;
+}
+#yourBtn {
+  /* position: relative; */
+  top: 150px;
+  /* font-family: calibri; */
+  /* width: ; */
+  padding: 10px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border: 1px solid #b3dbfb;
+  text-align: center;
+  background-color: #dadada;
+  cursor: pointer;
+  @apply w-full;
+}
+.cell-note {
+  position: relative;
+}
+
+.cell-note:after {
+  content: "";
+  position: absolute;
+  display: block;
+  top: 0;
+  right: 0;
+  border-left: 7px solid transparent;
+  border-top: 7px solid red;
 }
 </style>

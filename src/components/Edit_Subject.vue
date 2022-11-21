@@ -3,12 +3,12 @@
     <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container relative">
-          <img src="../../src/assets/Background.png" class="w-full relative" />
+          <img src="../../src/assets/Background.png" class="w-full relative"/>
           <p class="flex justify-center font-bold text-secondary">
             แก้ไขรายละเอียดวิชา
           </p>
           <div class="flex justify-center my-5 text-secondary">
-            <div class="grid grid-cols-2 lg:gap-y-4">
+            <div class="grid lg:grid-cols-2 lg:gap-y-4 md:grid-cols-1">
               <div class="box">
                 <p class="title">รหัสวิชา</p>
                 <input v-model="subjects.subjectCode" />

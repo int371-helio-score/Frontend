@@ -34,7 +34,7 @@
         <div class="order">
           <div v-for="subject in subjects" :key="subject._id">
             <div class="bg-white text-center box">
-              <div class="subject px-10 py-2">
+              <div class="subject">
                 <div class="flex justify-end pt-1 pr-1">
                   <div class="dropdown">
                     <span
@@ -54,7 +54,7 @@
                   </div>
                 </div>
 
-                <router-link 
+                <router-link
                   :to="{
                     name: 'class',
                     params: {
@@ -67,7 +67,10 @@
                     },
                   }"
                 >
-                  <img :src="getPicture()" class="flex justify-center" /><br />
+                  <img
+                    :src="getPicture()"
+                    class="flex sm:justify-center"
+                  /><br />
                   <div>
                     {{ subject.subjectCode }} {{ subject.subjectName }}<br />
                   </div>
@@ -151,9 +154,7 @@ export default {
   },
   methods: {
     clickSeeMore(e) {
-      // console.log("hi")
       document.getElementById(e).classList.toggle("show");
-      // console.log("after")
     },
 
     clickDelete() {
@@ -188,6 +189,7 @@ export default {
     },
 
     async getAcademics() {
+      console.log("hi");
       try {
         const response = await axios.get("helio/academic", {
           headers: {
@@ -195,6 +197,8 @@ export default {
           },
         });
         this.academics = response.data.data.results;
+        console.log("academic");
+        console.log(this.academics);
         this.selected = this.academics[0];
       } catch (error) {
         console.log(`Could not get! ${error}`);
@@ -245,15 +249,14 @@ export default {
 </script>
 
 <style scoped>
-.background{
-  background: #ECF6FE;
+.background {
+  background: #ecf6fe;
   background-size: cover;
   width: 100vw;
   height: 100vh;
 }
 img {
-  @apply h-28 lg:h-auto
-  sm:pl-10 md:pl-0;
+  @apply lg:h-auto;
 }
 .box {
   border: 3px solid #f7f7f7;
@@ -261,9 +264,10 @@ img {
   @apply mb-5 sm:mb-0;
 }
 .subject {
-  @apply justify-center text-xs
+  @apply justify-center text-xs px-1
   lg:text-sm 
-  md:px-5 md:py-2;
+  md:py-2
+  sm:px-5 py-2;
 }
 .classroom {
   color: #797979;
@@ -279,11 +283,11 @@ select {
   @apply md:text-base;
 }
 .order {
-  @apply justify-center
+  @apply justify-center grid grid-cols-2 gap-1
   xl:grid-cols-5 xl:gap-5
   lg:grid-cols-4 lg:gap-5 lg:mb-20
   md:grid-cols-3 md:gap-4
-  sm:grid-cols-2 sm:mx-0 sm:grid sm:gap-4;
+  sm:grid-cols-3 sm:mx-0 sm:grid sm:gap-4;
 }
 .title {
   @apply text-base font-bold mt-5 text-secondary
@@ -295,7 +299,7 @@ select {
 md:text-base sm:text-sm;
 }
 .data {
-  @apply w-screen px-4
+  @apply w-screen px-5
   sm:px-10 sm:pt-8 
   md:pt-0 md:pl-10 mt-20
   lg:pl-60 lg:mt-24;

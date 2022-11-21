@@ -157,7 +157,7 @@ export default {
       this.inputSubjectId = this.subjectId === "" ? true : false;
       this.inputSubjectName = this.subject === "" ? true : false;
       this.inputClass = this.grade === "" ? true : false;
-      this.inputRoom = this.tags.length == 0 ? true : false;
+      // this.inputRoom = this.tags.length == 0 ? true : false;
       if (
         this.inputSemester ||
         this.inputAcademicYear ||
