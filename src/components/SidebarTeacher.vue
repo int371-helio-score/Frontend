@@ -2,7 +2,7 @@
   <div class="hidden lg:block">
     <div class="background bg-white mt-1 h-screen flex justify-center fixed">
       <div class="grid grid-rows-2">
-        <div class="grid grid-rows-4 h-52">
+        <div class="grid grid-rows-4 gap-20 h-52">
           <div class="layout">
             <router-link to="/helioscore">
               <a class="object Item active">

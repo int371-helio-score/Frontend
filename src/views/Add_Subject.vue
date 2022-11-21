@@ -1,5 +1,5 @@
 <template>
-  <div class="background h-screen">
+  <div class="background sm:h-screen h-full">
     <navTeacher />
     <div class="inline-flex">
       <sidebarTeacher />
@@ -12,7 +12,7 @@
             <div class="">
               <form
                 @submit.prevent="submitForm"
-                class="rounded-lg md:text-sm bg-white py-5 lg:px-40 md:px-20 sm:px-10 px-2"
+                class="rounded-lg md:text-sm bg-white mb-10 py-5 lg:px-40 md:px-20 sm:px-10 px-2"
               >
                 <div class="flex justify-start text-primary font-bold">
                   รายระเอียดวิชา
@@ -157,7 +157,7 @@ export default {
       this.inputSubjectId = this.subjectId === "" ? true : false;
       this.inputSubjectName = this.subject === "" ? true : false;
       this.inputClass = this.grade === "" ? true : false;
-      this.inputRoom = this.tags.length == 0 ? true : false;
+      // this.inputRoom = this.tags.length == 0 ? true : false;
       if (
         this.inputSemester ||
         this.inputAcademicYear ||
@@ -216,7 +216,8 @@ export default {
 label {
   font-weight: 400;
   font-size: 18px;
-  line-height: 29px;
+  /* line-height: 29px; */
+  @apply md:text-sm text-xs lg:text-base items-end flex pb-1;
 }
 select {
   font-weight: 700;
@@ -239,16 +240,13 @@ select {
 md:text-base;
 }
 input {
-  @apply border border-gray50 rounded-md px-2;
+  @apply border border-gray50 rounded-md px-2 py-1;
 }
 .inputForm {
   @apply my-1 grid grid-rows-2 mx-2;
 }
 sup {
   @apply flex justify-end;
-}
-label {
-  @apply md:text-sm text-xs lg:text-base;
 }
 .background {
   background: #ecf6fe;
