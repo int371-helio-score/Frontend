@@ -234,6 +234,14 @@ export default {
     getPicture() {
       return "https://helioscore.sytes.net/backend/public/images/pic1.png";
     },
+
+    async editSubject(subject) {
+      this.editModal = !this.editModal;
+      this.editSub = subject;
+      // if(this.editModal == false){
+      //   await this.getSubjects(this.$route.query.);
+      // }
+    },
   },
 };
 </script>
