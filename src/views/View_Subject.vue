@@ -1,5 +1,5 @@
 <template>
-  <div class="background pb-10 min-h-screen">
+  <div class="background pb-10 min-h-screen max-h-full">
     <navTeacher />
     <div class="inline-flex">
       <sidebarTeacher />
@@ -81,22 +81,8 @@
                 </router-link>
               </div>
             </div>
-
-            <!-- <div v-show="deletebtn == true && subject.owner">
-              <button
-                class="text-gray100 delete bg-gray50 cursor-pointer"
-                @click="deleteSubject(subject._id, subject.subjectName)"
-              >
-                ลบ
-              </button>
-            </div> -->
           </div>
         </div>
-
-        <!-- <div class="object" @click="clickDelete()" v-show="deletebtn == false">
-          <span class="material-symbols-outlined mr-2"> edit </span>
-          <p>จัดการรายวิชา</p>
-        </div> -->
         <div class="object" v-if="deletebtn" @click="cancleDelete()">
           <span class="material-symbols-outlined mr-2"> close </span>
           <p>ยกเลิก</p>
@@ -215,7 +201,6 @@ export default {
             },
           })
           .then((res) => {
-            console.log(res.data.data.results);
             this.subjects = res.data.data.results;
             this.totalRoom = res.data.data.total;
             this.owner = res.data.data.results[0].owner;
@@ -284,7 +269,7 @@ select {
   @apply justify-center grid grid-cols-2 gap-1
   xl:grid-cols-5 xl:gap-5
   lg:grid-cols-4 lg:gap-5 lg:mb-20
-  md:grid-cols-3 md:gap-4
+  md:grid-cols-4 md:gap-4
   sm:grid-cols-3 sm:mx-0 sm:grid sm:gap-4;
 }
 .title {

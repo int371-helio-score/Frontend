@@ -79,7 +79,7 @@
                   <div class="inputForm">
                     <label>ชั้นปีที่</label>
                     <input
-                      type="number"
+                      type="text"
                       maxlength="10"
                       name="academic"
                       placeholder="กรุณาระบุชั้นปีที่สอน"
