@@ -1,13 +1,10 @@
 <template>
   <div class="bg-light min-h-screen">
-    <!-- <div v-if="stdScore == 0">
-    {{ 5555 }}</div> -->
-    <!-- {{ stdScore }} -->
     <navTeacher />
     <div class="inline-flex">
-      <sidebarTeacher />
+      <sidebarTeacher class="absolute z-50" />
 
-      <div class="data">
+      <div class="data relative">
         <div class="md:mr-10 divide-y divide-gray10">
           <div class="title flex">
             <div>
@@ -141,7 +138,7 @@
                     class="flex justify-center text-center text-gray100 lg:text-sm xl:text-base"
                   >
                     <p class="">
-                      เมื่อกรอกข้อมูลครบถ้วน บันทึกสกุลไฟล์เป็น .xlxs หรือ
+                      เมื่อกรอกข้อมูลครบถ้วน บันทึกสกุลไฟล์เป็น .xlsx หรือ
                       .csv-UTF8 เท่านั้น
                     </p>
                   </div>
@@ -194,7 +191,7 @@
                     class="md:w-32 h-12 text-sm bg-primary text-white md:rounded-lg"
                     @click="submitFile()"
                   >
-                    อัปโหลด
+                    อัปโหลดคะแนน
                   </button>
                 </div>
               </div>
@@ -228,7 +225,7 @@
                     class="flex justify-center text-center text-gray100 lg:text-sm xl:text-base"
                   >
                     <p class="">
-                      เมื่อกรอกข้อมูลครบถ้วน บันทึกสกุลไฟล์เป็น .xlxs หรือ
+                      เมื่อกรอกข้อมูลครบถ้วน บันทึกสกุลไฟล์เป็น .xlsx หรือ
                       .csv-UTF8 เท่านั้น
                     </p>
                   </div>
@@ -271,7 +268,7 @@
           </div>
 
           <div
-            class="flex gap-8 sm:gap-4 lg:gap-10 justify-center lg:mt-32 sm:mt-40 mt-20 lg:mr-10 md:pr-10"
+            class="flex gap-8 sm:gap-4 lg:gap-10 justify-center lg:mt-8 mt-20 sm:mt-32 lg:mr-10 md:pr-10"
           >
             <div class="flex justify-center ojb bg-light text-primary">
               <button
@@ -284,7 +281,7 @@
             <div class="flex justify-center ojb">
               <button
                 class="w-full h-8 px-4 sm:w-28 sm:h-10 md:w-36 lg:h-12 text-sm bg-primary text-white md:rounded-lg sm:rounded-md rounded"
-                @click="submitFileStd()"
+                @click="checkFileStd()"
               >
                 อัปโหลดรายชื่อ
               </button>
@@ -293,7 +290,6 @@
         </div>
 
         <!-- Score List -->
-
         <div
           v-if="
             (uploadFile == false) & (announce == false) & (uploadStd == false)
@@ -390,58 +386,52 @@
             <!-- <tr class="font-light bg-white">ไม่มีคะแนน</tr> -->
           </table>
 
-          <!-- <div class="flex justify-center">
-            <div class="grid grid-cols-1">
-              <div>
-
-              </div>
-            </div>
-          </div> -->
-
           <!-- Manage Score -->
-          <div class="grid grid-cols-3 absolute bottom-5">
+          <div class="flex justify-end lg:mt-5">
             <div
-              class="mt-5 lg:mt-10 flex justify-end sm:mx-0 md:mx-5 items-center self-center"
-              v-show="list"
+              class="grid grid-cols-3 absolute bottom-0"
+              v-show="stdScore.length > 0"
             >
-              <span class="material-symbols-outlined"> delete </span>
-              <div v-show="showList">
-                <p
-                  class="text-sm hover:text-primary cursor-pointer"
-                  @click="showDelete()"
-                >
-                  ลบคะแนน
-                </p>
+              <div class="deleteBtn">
+                <span class="material-symbols-outlined" style="color: #797979">
+                  delete
+                </span>
+                <div v-show="showList">
+                  <p
+                    class="text-sm hover:text-secondary cursor-pointer"
+                    @click="showDelete()"
+                  >
+                    ลบคะแนน
+                  </p>
+                </div>
               </div>
-            </div>
 
-            <div
-              class="mt-5 lg:mt-10 flex justify-end sm:mx-0 md:mx-5 items-center self-center"
-              v-show="list"
-            >
-              <span class="material-symbols-outlined"> delete </span>
-              <div v-show="showStd">
-                <p
-                  class="text-sm hover:text-primary cursor-pointer"
-                  @click="showDeleteStd()"
-                >
-                  ลบรายชื่อ
-                </p>
+              <div class="deleteBtn">
+                <span class="material-symbols-outlined" style="color: #797979">
+                  delete
+                </span>
+                <div v-show="showStd">
+                  <p
+                    class="text-sm hover:text-secondary cursor-pointer"
+                    @click="showDeleteStd()"
+                  >
+                    ลบรายชื่อ
+                  </p>
+                </div>
               </div>
-            </div>
 
-            <div
-              class="mt-5 lg:mt-10 flex justify-end sm:mx-0 md:mx-5 items-center self-center"
-              v-show="list"
-            >
-              <span class="material-symbols-outlined"> delete </span>
-              <div>
-                <p
-                  class="text-sm hover:text-primary cursor-pointer"
-                  @click="deleteAllStudent()"
-                >
-                  ลบรายชื่อทั้งหมด
-                </p>
+              <div class="deleteBtn">
+                <span class="material-symbols-outlined" style="color: #797979">
+                  delete
+                </span>
+                <div>
+                  <p
+                    class="text-sm hover:text-secondary cursor-pointer"
+                    @click="deleteAllStudent()"
+                  >
+                    ลบรายชื่อทั้งหมด
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -647,7 +637,6 @@ export default {
 
     handleFileStd() {
       this.fileStd = this.$refs.file.files[0];
-      console.log(this.fileStd);
     },
 
     submitFile() {
@@ -671,8 +660,32 @@ export default {
           }
         });
     },
-// click upload ยิง api ว่า hasRecord เป็นค่า true, false ถ้า false import ได้เลย ถ้า true confirm("รายชื่อและคะแนนของนักเรียนที่ไม่ตรงกับไฟล์จะถูกลบ")
-// confirm = true ให้ post ได้ submitFileStd()
+
+    checkFileStd() {
+      axios
+        .get(`helio/class/record/${this.class_id}`, {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        })
+        .then((res) => {
+          this.checkHasRecord = res.data.data.results.hasRecord;
+          console.log(this.checkHasRecord);
+          if (this.checkHasRecord == false) {
+            this.submitFileStd();
+          } else {
+            let text =
+              "รายชื่อและคะแนนของนักเรียนในระบบที่ไม่ตรงกับไฟล์นี้จะ 'ถูกลบ' ต้องการดำเนินการหรือไม่?";
+            if (confirm(text) == true) {
+              return this.submitFileStd();
+            }
+            return;
+          }
+          return;
+        });
+    },
+    // click upload ยิง api ว่า hasRecord เป็นค่า true, false ถ้า false import ได้เลย ถ้า true confirm("รายชื่อและคะแนนของนักเรียนที่ไม่ตรงกับไฟล์จะถูกลบ")
+    // confirm = true ให้ post ได้ submitFileStd()
     submitFileStd() {
       let formData = new FormData();
       console.log(this.fileStd);
@@ -687,14 +700,16 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res);
+          if (res.data.message == "You cannot import your email as student.") {
+            return alert("ไม่สามารถอัปโหลดรายชื่อได้ เนื่องจากมีอีเมลของคุณอยู่ในรายชื่อ");
+          }
           if (res.data.statusCode === 200) {
             (this.fileStd = ""), alert("อัปโหลดราชื่อ สำเร็จ");
             this.$router.go();
           }
         })
         .catch((err) => {
-          console.log(err.message);
+          console.log(err);
         });
     },
 
@@ -824,6 +839,7 @@ export default {
             if (this.std.length > 5) {
               this.scroll = true;
             }
+            console.log(response.data.data.results);
             return response.data.data.results;
           });
       } catch (error) {
@@ -853,7 +869,6 @@ export default {
         })
         .then((response) => {
           this.list = response.data.data.results.owner;
-          // console.log(classId)
           return;
         });
     },
@@ -868,7 +883,6 @@ export default {
           })
           .then((response) => {
             this.toPublish = response.data.data.results;
-            // console.log(this.toPublish);
             return response.data.data.results;
           });
       } catch (error) {
@@ -920,7 +934,6 @@ export default {
     },
 
     async getSentToEmail(classId) {
-      console.log(classId);
       try {
         axios
           .get(`helio/score/toAnnounce/${classId}`, {
@@ -939,8 +952,6 @@ export default {
     },
 
     sentEmail() {
-      // console.log(this.class_id);
-      // console.log(title);
       axios
         .post(
           `helio/mail`,
@@ -1107,7 +1118,6 @@ export default {
     await this.owner(this.$route.query.class_id);
     await this.getStat(this.class_id);
     await this.getAllStudentList();
-    // console.log(this.stdList);
   },
 };
 </script>
@@ -1326,5 +1336,8 @@ table::-webkit-scrollbar-thumb:window-inactive {
   right: 0;
   border-left: 7px solid transparent;
   border-top: 7px solid red;
+}
+.deleteBtn {
+  @apply mt-5 lg:mt-10 flex justify-end sm:mx-0 md:mx-5 items-center self-center text-gray100;
 }
 </style>

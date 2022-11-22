@@ -9,7 +9,7 @@
         <div class="divide-y divide-gray10">
           <div class="title flex space-x-2">
             <div><router-link to="/">หน้าหลัก ></router-link></div>
-            <div class="">
+            <div>
               {{ subjectName }}
               ชั้นมัธยมศึกษาปีที่ {{ classId }}
             </div>
@@ -54,8 +54,8 @@
                     more_vert
                   </span>
                   <div class="rounded-sm dropdown-content" :id="room._id">
-                    <a href="#" @click="editClass(room)">แก้ไข</a>
-                    <a href="#" @click="deleteSubject(room._id, room.room)"
+                    <a href="#" @click="editClass(room, classId)">แก้ไข</a>
+                    <a href="#" @click="deleteclass(room._id, room.room, classId)"
                       >ลบ</a
                     >
                   </div>
@@ -83,18 +83,8 @@
             >
               <div class="text-center mt-2">
                 <div class="text-sm font-bold mb-10">
-                  ชั้นปีที่ {{ classId }} ห้อง {{ room.room }}
+                  ชั้นมัธยมศึกษาปีที่ {{ classId }} ห้อง {{ room.room }}
                 </div>
-                <!-- <div class="text-sm font-bold md:my-8 my-4" v-show="room.owner">
-                  คะแนนรวม {{}} คะแนน
-                </div>
-                <div
-                  class="text-sm font-bold md:my-8"
-                  v-show="room.owner == false"
-                >
-                  คะแนนรวม {{}} / {{}}
-                </div> -->
-
                 <div class="text-xs" v-show="room.owner">
                   นักเรียนทั้งหมด {{ room.totalStudent }} คน
                 </div>
@@ -106,25 +96,8 @@
                 </div>
               </div>
             </router-link>
-            <!-- <div v-show="deletebtn == true && room.owner">
-              <button
-                class="text-gray100 delete bg-gray50 cursor-pointer"
-                @click="deleteclass(room._id, room.room)"
-              >
-                ลบ
-              </button>
-            </div> -->
           </div>
         </div>
-
-        <!-- <div class="object" @click="clickDelete()" v-show="deletebtn == false">
-          <span class="material-symbols-outlined mr-2"> edit </span>
-          <p>จัดการรายวิชา</p>
-        </div>
-        <div class="object" v-if="deletebtn" @click="cancleDelete()">
-          <span class="material-symbols-outlined mr-2"> close </span>
-          <p>ยกเลิก</p>
-        </div> -->
       </div>
     </div>
   </div>
@@ -132,6 +105,7 @@
   <editClass
     v-if="editModal"
     :editClassComp="edit"
+    :showGrade="showGrade"
     @showEditModal="editClass"
     class="absolute"
   >
@@ -170,6 +144,7 @@ export default {
       ownerEmail: null,
       list: false,
       edit: null,
+      showGrade: null,
       deletebtn: false,
       editModal: false,
       editSub: null,
@@ -216,8 +191,6 @@ export default {
           })
           .then((res) => {
             this.classroom = res.data.data.results;
-
-            // console.log(this.classroom);
             return res.data.data.results;
           });
       } catch (error) {
@@ -233,8 +206,8 @@ export default {
       this.deletebtn = false;
     },
 
-    async deleteclass(classId, room) {
-      let text = "หากคุณลบชั้นเรียนนี้ คะแนนจะถูกลบทั้งหมด";
+    async deleteclass(classId, room, grade) {
+      let text = "หากคุณลบห้องเรียนนี้ คะแนนและรายชื่อจะถูกลบทั้งหมด";
       if (confirm(text) == true) {
         axios
           .delete(`helio/class/${classId}`, {
@@ -244,7 +217,7 @@ export default {
           })
           .then((res) => {
             if (res.data.statusCode === 200) {
-              alert("ลบชั้นเรียนที่ " + "'" + room + "'" + " สำเร็จ");
+              alert("ลบชั้นมัธยมศึกษาปีที่ "+ grade + " ห้อง " + room + " สำเร็จ");
             }
             this.$router.go();
           })
@@ -261,14 +234,15 @@ export default {
     },
 
     clickMoreVert(roomId) {
-      console.log(roomId)
       document.getElementById(roomId).classList.toggle("show");
-      console.log(roomId)
     },
 
-    async editClass(selectClass) {
+    async editClass(selectClass, classId) {
       this.editModal = !this.editModal;
+      console.log(selectClass)
       this.edit = selectClass;
+      this.showGrade = classId;
+      console.log(this.edit)
     },
   },
 
