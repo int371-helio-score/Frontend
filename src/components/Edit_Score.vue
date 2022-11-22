@@ -95,6 +95,7 @@ export default {
           if (res.data.statusCode === 200) {
             alert("แก้ไขคะแนนสำเร็จ");
             this.$emit("showEdit");
+            this.$route.go();
           }
         })
         .catch((err) => {
