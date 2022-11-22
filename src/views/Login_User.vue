@@ -4,7 +4,7 @@
       <!-- image -->
       <div>
         <img
-          src="https://helioscore.sytes.net/backend/public/images/LoginHelio.png"
+          src="https://test-helioscore.sytes.net/backend/public/images/LoginHelio.png"
           class="justify-center place-content-center h-screen md:block hidden"
         />
       </div>
