@@ -3,7 +3,7 @@
     <div class="md:grid md:grid-cols-2 h-full">
       <div>
         <img
-          src="https://test-helioscore.sytes.net/backend/public/images/LoginHelio.png"
+          src="http://localhost:3000/api/public/images/LoginHelio.png"
           class="justify-center place-content-center h-screen md:block hidden"
         />
       </div>
