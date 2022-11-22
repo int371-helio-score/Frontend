@@ -10,7 +10,7 @@
           <div class="title">รายชื่อ</div>
 
           <div class="my-5 pt-10 lg:py-5 grid grid-cols-2">
-            <div class="flex justify-start">รายการทั้งหมด</div>
+            <div class="flex justify-start text-secondary">รายการทั้งหมด</div>
 
             <div class="semes flex justify-end">
               <router-link to="/helioscore/importstudentlist">
@@ -91,8 +91,9 @@ export default {
   lg:pl-60 lg:mt-24;
 }
 .title {
-  @apply text-sm font-bold mt-5 text-secondary
-  lg:text-xl lg:font-semibold
+  @apply text-sm font-medium mt-5 text-secondary
+  sm:text-base sm:font-bold
+  lg:text-xl lg:font-bold
   md:mt-10 md:text-lg md:font-bold;
 }
 .order {

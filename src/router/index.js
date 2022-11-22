@@ -13,7 +13,8 @@ import ResetPassword from "../views/Reset_Password.vue";
 import GoToVerify from "../views/Resend_VerifyEmail.vue";
 import Verify from "../views/VerifyEmail.vue";
 import StudentList from "../views/View_StudentList.vue";
-import StudentGroup from "../views/StudentList_Group.vue"
+import StudentGroup from "../views/View_StudentList_Group.vue"
+import Manual from "../views/View_Manual.vue"
 
 const routes = [
   {
@@ -154,6 +155,11 @@ const routes = [
     name: "verify success",
     component: Verify,
   },
+  {
+    path: "/helioscore/manual",
+    name: "manual",
+    component: Manual
+  }
 ];
 
 const router = createRouter({
