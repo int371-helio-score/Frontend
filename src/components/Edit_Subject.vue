@@ -8,7 +8,7 @@
             แก้ไขรายละเอียดวิชา
           </p>
           <div class="flex justify-center my-5 text-secondary">
-            <div class="grid lggrid-cols-2 lg:gap-y-4 md:grid-cols-1">
+            <div class="grid lg:grid-cols-2 lg:gap-y-4 md:grid-cols-1">
               <div class="box">
                 <p class="title">รหัสวิชา</p>
                 <input v-model="subjects.subjectCode" />
@@ -38,7 +38,7 @@
           </div>
 
           <div class="flex justify-center place-content-end mt-12">
-            <div class="absolute bottom-8 grid grid-cols-2 gap-4">
+            <div class="bottom-8 grid grid-cols-2 gap-4">
               <button
                 class="bg-light text-secondary2 border border-secondary2 rounded-md px-6 py-1 ml-2"
                 @click="cancel()"

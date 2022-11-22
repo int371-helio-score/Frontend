@@ -17,8 +17,7 @@
 
           <div class="my-5 pt-5 md:pt-10 lg:py-5 grid grid-cols-2">
             <div class="flex justify-start text-secondary">วิชาทั้งหมด</div>
-
-            <div class="flex justify-end lg:mr-10" v-show="list">
+            <div class="flex justify-end" v-show="list">
               <router-link
                 :to="{
                   name: 'addclass',
@@ -45,17 +44,16 @@
             :key="room.room"
             class="box bg-white text-secondary"
           >
-            <!-- {{room._id}} -->
             <div class="text-center">
               <div class="flex justify-end pt-1 pr-1">
                 <div class="dropdown">
                   <span
                     class="material-symbols-outlined cursor-pointer dropbtn"
-                    @click="clickSeeMore(room._id)"
+                    @click="clickMoreVert(room._id)"
                   >
                     more_vert
                   </span>
-                  <div class="rounded-sm dropdown-content">
+                  <div class="rounded-sm dropdown-content" :id="room._id">
                     <a href="#" @click="editClass(room)">แก้ไข</a>
                     <a href="#" @click="deleteSubject(room._id, room.room)"
                       >ลบ</a
@@ -84,18 +82,18 @@
               }"
             >
               <div class="text-center mt-2">
-                <div class="text-sm font-bold">
+                <div class="text-sm font-bold mb-10">
                   ชั้นปีที่ {{ classId }} ห้อง {{ room.room }}
                 </div>
-                <div class="text-sm font-bold my-8" v-show="room.owner">
+                <!-- <div class="text-sm font-bold md:my-8 my-4" v-show="room.owner">
                   คะแนนรวม {{}} คะแนน
                 </div>
                 <div
-                  class="text-sm font-bold my-8"
+                  class="text-sm font-bold md:my-8"
                   v-show="room.owner == false"
                 >
                   คะแนนรวม {{}} / {{}}
-                </div>
+                </div> -->
 
                 <div class="text-xs" v-show="room.owner">
                   นักเรียนทั้งหมด {{ room.totalStudent }} คน
@@ -176,6 +174,7 @@ export default {
       editModal: false,
       editSub: null,
       show: false,
+      more: false,
     };
   },
   methods: {
@@ -218,7 +217,7 @@ export default {
           .then((res) => {
             this.classroom = res.data.data.results;
 
-            console.log(this.classroom);
+            // console.log(this.classroom);
             return res.data.data.results;
           });
       } catch (error) {
@@ -257,8 +256,14 @@ export default {
       }
     },
 
-    clickSeeMore(id) {
-      document.getElementById(id).classList.toggle("show");
+    seeMore(){
+      this.more =! this.more;
+    },
+
+    clickMoreVert(roomId) {
+      console.log(roomId)
+      document.getElementById(roomId).classList.toggle("show");
+      console.log(roomId)
     },
 
     async editClass(selectClass) {
@@ -284,27 +289,30 @@ export default {
   @apply pb-2 lg:pb-3;
 }
 .title {
-  @apply text-sm font-bold mt-5 text-secondary
-  lg:text-xl lg:font-semibold
+  @apply text-sm font-medium mt-5 text-secondary
+  sm:text-base sm:font-bold
+  lg:text-xl lg:font-bold
   md:mt-10 md:text-lg md:font-bold;
 }
 .order {
-  @apply grid gap-4 justify-center
+  @apply justify-center
+  grid grid-cols-2 gap-1
   xl:grid-cols-5 xl:gap-5
   lg:grid-cols-4 lg:gap-5 lg:mb-20
   md:grid-cols-3 md:gap-4
-  sm:grid-cols-1;
+  sm:grid-cols-3 sm:mx-0 sm:grid sm:gap-4;
 }
 .data {
-  @apply pl-36 sm:pl-36 w-screen
-  md:pl-44 mt-20
+  @apply w-screen mt-20 px-5
+  sm:px-10 sm:pt-8 
+  md:pt-0 md:px-10 
   lg:pl-60 lg:mt-24;
 }
 .add {
   background: white;
   box-shadow: 0px 1px 5px rgba(214, 214, 214, 0.5);
-  border-radius: 22px;
-  @apply px-8 py-1;
+  /* border-radius: 22px; */
+  @apply sm:px-8 py-1 px-4 rounded-full text-xs sm:text-sm md:text-base;
 }
 .object {
   @apply flex text-secondary justify-end absolute bottom-8 right-10 items-center cursor-pointer
@@ -319,18 +327,11 @@ span {
   flex justify-center;
 }
 .dropbtn {
-  /* background-color: #3498db; */
-  /* color: white; */
-  /* padding: 16px; */
-  /* font-size: 16px; */
   border: none;
   cursor: pointer;
 }
-
 .dropdown {
-  /* position: relative; */
   display: inline-block;
-  /* @apply flex justify-end; */
 }
 .dropdown-content {
   display: none;
@@ -346,7 +347,6 @@ span {
   padding: 12px 16px;
   text-decoration: none;
   display: block;
-  /* position: absolute; */
 }
 .dropdown a:hover {
   background-color: #ddd;

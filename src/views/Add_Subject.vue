@@ -26,7 +26,8 @@
                       name="academic"
                       placeholder="กรุณาระบุปีการศึกษา"
                       v-model="academic"
-                      maxlength="4"
+                      max="9999"
+                      min="1000"
                     />
                     <sup v-show="inputAcademicYear" class="text-red-500 mt-4"
                       >กรอกปีการศึกษา</sup
@@ -37,6 +38,7 @@
                     <label>ภาคการศึกษา</label>
                     <input
                       type="text"
+                      maxlength="10"
                       name="academic"
                       placeholder="กรุณาระบุภาคการศึกษา"
                       v-model="semester"
@@ -50,6 +52,7 @@
                     <label>รหัสวิชา</label>
                     <input
                       type="text"
+                      maxlength="10"
                       name="academic"
                       placeholder="กรุณาระบุรหัสวิชา"
                       v-model="subjectId"
@@ -63,6 +66,7 @@
                     <label>ชื่อวิชา</label>
                     <input
                       type="text"
+                      maxlength="20"
                       name="academic"
                       placeholder="กรุณาระบุปีการศึกษา"
                       v-model="subject"
@@ -76,6 +80,7 @@
                     <label>ชั้นปีที่</label>
                     <input
                       type="text"
+                      maxlength="10"
                       name="academic"
                       placeholder="กรุณาระบุชั้นปีที่สอน"
                       v-model="grade"
@@ -157,7 +162,10 @@ export default {
       this.inputSubjectId = this.subjectId === "" ? true : false;
       this.inputSubjectName = this.subject === "" ? true : false;
       this.inputClass = this.grade === "" ? true : false;
-      // this.inputRoom = this.tags.length == 0 ? true : false;
+      this.inputRoom = this.tags.length == 0 ? true : false;
+      if (this.academic < 2000 || this.academic > 3000) {
+        alert("กรุณากรอกปีการศึกษาให้ถูกต้อง");
+      }
       if (
         this.inputSemester ||
         this.inputAcademicYear ||

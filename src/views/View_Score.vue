@@ -23,7 +23,7 @@
             class="my-5 pt-15 md:grid-cols-6 grid-cols-1 grid text-secondary"
           >
             <p
-              class="pt-3 hidden xl:block cursor-pointer"
+              class="pt-3 hidden sm:block cursor-pointer"
               @click="clickStdList()"
             >
               รายชื่อทั้งหมด
@@ -38,7 +38,9 @@
                   <div
                     class="flex justify-center items-center self-center md:text-xs lg:text-sm"
                   >
-                    <span class="material-symbols-outlined"> group_add </span>
+                    <span class="material-symbols-outlined mr-2">
+                      group_add
+                    </span>
                     <div>อัปโหลดรายชื่อ</div>
                   </div>
                 </button>
@@ -50,16 +52,18 @@
                   <div
                     class="flex justify-center items-center self-center md:text-xs lg:text-sm"
                   >
-                    <span class="material-symbols-outlined"> upload_file </span>
+                    <span class="material-symbols-outlined mr-2">
+                      upload_file
+                    </span>
                     <div>อัปโหลดคะแนน</div>
                   </div>
                 </button>
 
                 <button class="add focus:bg-babyblue" @click="clickAnnounce()">
                   <div
-                    class="flex justify-center items-center self-center md:text-xs lg:text-sm"
+                    class="flex justify-center items-center self-center text-sm md:text-xs lg:text-sm"
                   >
-                    <span class="material-symbols-outlined">
+                    <span class="material-symbols-outlined mr-2">
                       pending_actions </span
                     >คะแนนที่รอประกาศ
                   </div>
@@ -247,7 +251,6 @@
                     type="file"
                     ref="file"
                     @change="handleFileStd()"
-                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel.sheet.macroEnabled.12"
                   />
                 </div>
 
@@ -320,14 +323,18 @@
             </div>
           </div>
 
-          <table class="h-auto rounded-md text-sm">
+          <table class="h-full rounded-md text-sm overflow-x-auto">
             <tr class="bg-babyblue p-4 cursor-default">
               <th class="px-2">เลขที่</th>
               <th>รหัส</th>
               <th>ชื่อ-นามสกุล</th>
+              <th>E-mail</th>
               <th v-for="tt in std" :key="tt._id" class="px-2">
                 {{ tt.title }}
-                <div class="flex justify-center self-center items-center" v-show="tt.total >= 1">
+                <div
+                  class="flex justify-center self-center items-center"
+                  v-show="tt.total >= 1"
+                >
                   <p class="text-xs font-extralight">{{ tt.total }} คะแนน</p>
                   <span
                     class="material-symbols-outlined cursor-pointer ml-2"
@@ -360,6 +367,13 @@
                   {{ list.lastName }}
                 </div>
               </td>
+              <td>
+                <div class="flex justify-center">
+                  <p>
+                    {{ list.email }}
+                  </p>
+                </div>
+              </td>
               <th
                 v-for="(s, index) in list.score"
                 :key="index"
@@ -373,11 +387,19 @@
                 </div>
               </th>
             </tr>
-            <tr class="font-light bg-white">ไม่มีคะแนน</tr>
+            <!-- <tr class="font-light bg-white">ไม่มีคะแนน</tr> -->
           </table>
 
+          <!-- <div class="flex justify-center">
+            <div class="grid grid-cols-1">
+              <div>
+
+              </div>
+            </div>
+          </div> -->
+
           <!-- Manage Score -->
-          <div class="grid grid-cols-3">
+          <div class="grid grid-cols-3 absolute bottom-5">
             <div
               class="mt-5 lg:mt-10 flex justify-end sm:mx-0 md:mx-5 items-center self-center"
               v-show="list"
@@ -413,7 +435,7 @@
               v-show="list"
             >
               <span class="material-symbols-outlined"> delete </span>
-              <div v-show="showList">
+              <div>
                 <p
                   class="text-sm hover:text-primary cursor-pointer"
                   @click="deleteAllStudent()"
@@ -460,7 +482,7 @@
 
           <!-- button -->
           <div class="flex justify-center my-5 mt-12">
-            <div class="bottom-8 grid grid-cols-2 gap-4 place-content-end">
+            <div class="bottom-8 gap-4 place-content-end">
               <button
                 class="bg-light text-secondary2 border border-secondary2 rounded-md px-6 py-1 ml-2"
                 @click="deleteModal = false"
@@ -488,19 +510,31 @@
 
           <div>
             <div class="mx-20 mt-10">
-              <p class="text-secondary font-bold my-2">รายชื่อ</p>
+              <p class="text-secondary font-bold my-2 flex justify-center">
+                รายชื่อ
+              </p>
               <div>
                 <div
                   v-for="list in stdScore"
                   :key="list.no"
                   class="flex justify-between mt-3"
                 >
+                  <!-- {{ std }} -->
+                  <div>
+                    <p>เลขที่ {{ list.no }}</p>
+                  </div>
                   <div class="flex justify-start">
-                    {{ list.firstName }}
+                    {{ list.firstName + " " + list.lastName }}
                   </div>
                   <button
                     class="flex justify-end text-gray-600 hover:text-red-500"
-                    @click="deleteStudent(list.studentId, list.firstName, list.lastName)"
+                    @click="
+                      deleteStudent(
+                        list.studentId,
+                        list.firstName,
+                        list.lastName
+                      )
+                    "
                   >
                     ลบ
                   </button>
@@ -511,7 +545,7 @@
 
           <!-- button -->
           <div class="flex justify-center my-5 mt-12">
-            <div class="bottom-8 grid grid-cols-2 gap-4 place-content-end">
+            <div class="bottom-8 gap-4 place-content-end">
               <button
                 class="bg-light text-secondary2 border border-secondary2 rounded-md px-6 py-1 ml-2"
                 @click="deleteStdModal = false"
@@ -586,6 +620,7 @@ export default {
       editScore: null,
       list: false,
       announceStatus: false,
+      checkHasRecord: "",
     };
   },
 
@@ -636,13 +671,14 @@ export default {
           }
         });
     },
-
+// click upload ยิง api ว่า hasRecord เป็นค่า true, false ถ้า false import ได้เลย ถ้า true confirm("รายชื่อและคะแนนของนักเรียนที่ไม่ตรงกับไฟล์จะถูกลบ")
+// confirm = true ให้ post ได้ submitFileStd()
     submitFileStd() {
       let formData = new FormData();
-      formData.append("file", this.fileStd);
-      formData.append("classId", this.class_id);
-      // formData.append("groupName", this.groupName);
-
+      console.log(this.fileStd);
+      formData.set("file", this.fileStd);
+      formData.set("classId", this.class_id);
+      console.log(formData);
       axios
         .post(`${this.importStd}`, formData, {
           headers: {
@@ -651,6 +687,7 @@ export default {
           },
         })
         .then((res) => {
+          console.log(res);
           if (res.data.statusCode === 200) {
             (this.fileStd = ""), alert("อัปโหลดราชื่อ สำเร็จ");
             this.$router.go();
@@ -764,6 +801,7 @@ export default {
                     title: each.title,
                     firstName: each.firstName,
                     lastName: each.lastName,
+                    email: each.email,
                     score: [],
                     total: 0,
                   };
@@ -882,7 +920,7 @@ export default {
     },
 
     async getSentToEmail(classId) {
-      console.log(classId)
+      console.log(classId);
       try {
         axios
           .get(`helio/score/toAnnounce/${classId}`, {
@@ -929,45 +967,46 @@ export default {
     },
 
     deleteStudent(stdId, firstName, lastName) {
-      console.log(this.class_id);
+      console.log(stdId);
       let text = "ต้องการลบ " + firstName + " " + lastName + " หรือไม่";
       if (confirm(text) == true) {
         axios
-          .delete("helio/studentList/deleteStudent", {
-            headers: {
-              Authorization: localStorage.getItem("token"),
-            },
-            body: {
-              classId: this.class_id,
-              studentId: stdId,
-            },
-          })
+          .post(
+            "helio/studentList/deleteStudent",
+            { classId: this.class_id, studentId: stdId },
+            {
+              headers: {
+                Authorization: localStorage.getItem("token"),
+              },
+            }
+          )
           .then((res) => {
             if (res.data.statusCode === 200) {
+              alert("ลบ" + firstName + " " + lastName + "สำเร็จ");
               this.$router.go();
             }
           })
           .catch((err) => {
-            alert(err.response.message);
+            alert(err);
           });
       } else {
         return;
       }
     },
 
-    deleteAllStudent(){
+    deleteAllStudent() {
       let text = "ต้องการลบรายชื่อทั้งหมดหรือไม่?";
       if (confirm(text) == true) {
         axios
-          .delete(`helio/studentList/${this.stdListId}`, {
+          .delete(`helio/studentList/${this.class_id}`, {
             headers: {
               Authorization: localStorage.getItem("token"),
             },
           })
           .then((res) => {
             if (res.data.statusCode === 200) {
-              alert("ลบสำเสร็จ")
-              this.$router.push("/helioscore/studentlist");
+              alert("ลบสำเสร็จ");
+              this.$router.go();
             }
           })
           .catch((err) => {
@@ -1049,7 +1088,7 @@ export default {
         .then((res) => {
           if (res.data.statusCode === 200) {
             this.stdList = res.data.data.results;
-            console.log(this.stdList)
+            console.log(this.stdList);
           }
         });
     },
@@ -1117,9 +1156,9 @@ th {
   lg:pb-10 lg:pl-60;
 } */
 .title {
-  @apply text-xs font-medium mt-5 text-secondary
-  sm:text-sm
-  lg:text-xl lg:font-semibold
+  @apply text-sm font-medium mt-5 text-secondary
+  sm:text-base sm:font-bold
+  lg:text-xl lg:font-bold
   md:mt-10 md:text-lg md:font-bold;
 }
 .dropzone {

@@ -6,10 +6,10 @@
             <img src="../../src/assets/Background.png" class="w-full relative" />
             <p class="flex justify-center font-bold text-secondary">แก้ไขรายละเอียดวิชา</p>
             <div class="flex justify-center my-5 text-secondary">
-              <div class="grid grid-cols-2 lg:gap-y-4">
+              <div class="">
                 <div class="box">
                   <p>ห้องเรียน</p>
-                  <!-- <input v-model="classInfo.room" /> -->
+                  <input v-model="classInfo.room" />
                 </div>
               </div>
             </div>
@@ -61,7 +61,7 @@
         this.$emit("showEditModal");
       },
   
-      submitForm(classId) {
+      submitForm() {
         var data = {
           subjectCode: this.newSubjectCode,
           subjectName: this.newSubjectName,
@@ -70,7 +70,7 @@
           semester: this.newSemester,
         };
         axios
-          .patch(`${this.url}/${classId}`, data, {
+          .patch(this.url, data, {
             headers: {
               Authorization: localStorage.getItem("token"),
             },
