@@ -22,7 +22,7 @@
                   <div class="inputForm">
                     <label>ปีการศึกษา</label>
                     <input
-                      type="text"
+                      type="number"
                       name="academic"
                       placeholder="กรุณาระบุปีการศึกษา"
                       v-model="academic"
