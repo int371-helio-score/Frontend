@@ -215,6 +215,7 @@ export default {
             },
           })
           .then((res) => {
+            console.log(res.data.data.results);
             this.subjects = res.data.data.results;
             this.totalRoom = res.data.data.total;
             this.owner = res.data.data.results[0].owner;
