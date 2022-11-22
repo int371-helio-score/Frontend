@@ -217,7 +217,7 @@ export default {
     },
 
     getPicture() {
-      return "http://localhost:3000/public/images/pic1.png";
+      return "https://test-helioscore.sytes.net/backend/public/images/pic1.png";
     },
 
     async editSubject(subject) {
@@ -279,7 +279,7 @@ select {
 }
 .semes {
   @apply text-secondary text-xs
-md:text-base sm:text-sm;
+md:text-base sm:text-sm; 
 }
 .data {
   @apply w-screen px-5 mt-20
