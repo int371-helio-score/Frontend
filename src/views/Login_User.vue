@@ -4,7 +4,7 @@
       <!-- image -->
       <div>
         <img
-          src="http://localhost:3000/public/images/LoginHelio.png"
+          src="https://test-helioscore.sytes.net/backend/public/images/LoginHelio.png"
           class="justify-center place-content-center h-screen md:block hidden"
         />
       </div>
@@ -153,6 +153,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
 ::placeholder {
