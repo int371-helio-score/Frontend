@@ -1,6 +1,6 @@
 <template>
   <div class="background sm:bg-light bg-white">
-    <div class="md:grid md:grid-cols-2 h-screen">
+    <div class="md:grid md:grid-cols-2">
       <!-- image -->
       <div>
         <img
@@ -33,6 +33,7 @@
                 type="password"
                 placeholder="รหัสผ่าน"
                 class="border-b border-gray50"
+                maxlength="25"
               />
             </div>
 
@@ -97,6 +98,9 @@ const callback = (response) => {
           return router.push({ path: "/helioscore" });
         }
       }
+      if(response.data.statusCode === 403){
+        alert("บัญชีนี้ถูกลงทะเบียนด้วยช่องทางอื่น")
+      }
     })
     .catch((err) => {
       alert(err.response.data);
@@ -150,6 +154,7 @@ export default {
 };
 </script>
 
+
 <style scoped>
 ::placeholder {
   color: #c4c4c4;
@@ -165,10 +170,9 @@ img {
 }
 .box {
   @apply xl:mr-80 xl:my-20
-  
-  lg:my-20 lg:mr-28 lg:pb-10
-  md:my-16 md:mr-20 md:mx-0 md:rounded-xl
-  sm:justify-center sm:mx-40;
+  lg:my-20 lg:mr-28  lg:pb-10
+  md:my-16 md:mr-20 md:mx-0 md:rounded-xl md:pb-5
+  sm:justify-center sm:mx-40 sm:rounded-lg sm:pb-3;
 }
 span {
   color: #b3dbfb;
