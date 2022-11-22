@@ -217,7 +217,7 @@ export default {
     },
 
     getPicture() {
-      return "https://test-helioscore.sytes.net/backend/public/images/pic1.png";
+      return "http://localhost:3000/public/images/pic1.png";
     },
 
     async editSubject(subject) {
