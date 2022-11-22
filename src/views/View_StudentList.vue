@@ -91,8 +91,9 @@ export default {
   lg:pl-60 lg:mt-24;
 }
 .title {
-  @apply text-sm font-bold mt-5 text-secondary
-  lg:text-xl lg:font-semibold
+  @apply text-sm font-medium mt-5 text-secondary
+  sm:text-base sm:font-bold
+  lg:text-xl lg:font-bold
   md:mt-10 md:text-lg md:font-bold;
 }
 .order {

@@ -10,26 +10,30 @@
 
           <div class="my-5 pt-10 py-5">
             <div class="bg-white rounded-lg py-5 xl:px-52 md:px-20 h-96">
-              <h3 class="flex justify-start text-primary font-bold mt-5">
+              <h3
+                class="flex md:justify-start justify-center text-primary font-bold mt-5"
+              >
                 เพิ่มห้องเรียน
               </h3>
 
-              <div class="my-2">ห้องเรียน</div>
-              <div class="absolute w-1/3">
-                <VueMultiselect
-                  placeholder="กรุณากรอกห้องเรียนที่สอน (กรอกได้หลายห้อง)"
-                  v-model="tags"
-                  :multiple="true"
-                  :options="tags"
-                  :taggable="true"
-                  @tag="addTag"
-                />
-                <sup
-                  v-show="inputRoom"
-                  class="text-red-500 flex justify-center mt-4"
-                >
-                  กรุณาระบุห้องเรียนที่ต้องการเพิ่ม
-                </sup>
+              <div class="mx-10 sm:mx-20 md:mx-0">
+                <div class="my-2">ห้องเรียน</div>
+                <div class="w-full">
+                  <VueMultiselect
+                    placeholder="กรุณากรอกห้องเรียนที่สอน (กรอกได้หลายห้อง)"
+                    v-model="tags"
+                    :multiple="true"
+                    :options="tags"
+                    :taggable="true"
+                    @tag="addTag"
+                  />
+                  <sup
+                    v-show="inputRoom"
+                    class="text-red-500 flex justify-center mt-4"
+                  >
+                    กรุณาระบุห้องเรียนที่ต้องการเพิ่ม
+                  </sup>
+                </div>
               </div>
 
               <div class="flex justify-center">
@@ -138,7 +142,7 @@ select {
 md:text-base;
 }
 .data {
-  @apply pl-60 mt-24 w-screen;
+  @apply lg:pl-60 mt-24 w-screen;
 }
 input {
   @apply border border-gray50 rounded-md px-2 py-1 pt-1;

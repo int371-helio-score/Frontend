@@ -142,8 +142,8 @@
             <div class="flex justify-center">
               <p class="text-base font-bold sm:hidden">แก้ไขข้อมูลส่วนตัว</p>
             </div>
-            <div class="flex justify-start">
-              <div class="grid sm:grid-cols-2 lg:mx-20 md:mx-10 mx-5">
+            <div class="flex md:justify-start justify-center">
+              <div class="grid gap-1 sm:grid-cols-2 lg:mx-20 md:mx-10 mx-5">
                 <div class="box" v-if="!showEditPass">
                   <p class="title">ชื่อ</p>
                   <input
@@ -180,11 +180,12 @@
 
                 <div class="box" v-if="!showEditPass">
                   <p class="title">อีเมล</p>
-                  <button
-                    class="bg-gray10 text-gray50 py-1 px-2 rounded-md w-auto cursor-default"
+                  <input
+                    class="bg-gray10 text-gray50 py-1 px-2 rounded-md w-full cursor-default"
+                    v-model="this.account.email"
                   >
-                    {{ this.account.email }}
-                  </button>
+                    <!-- {{ this.account.email }} -->
+                  <!-- </input> -->
                 </div>
 
                 <div class="flex sm:ml-4" v-show="!account.google">
@@ -203,7 +204,7 @@
               </div>
             </div>
 
-            <div class="flex lg:mx-20 md:mx-10 mx-5">
+            <div class="flex lg:mx-20 md:mx-10 mx-5 mt-2 sm:mt-0">
               <div class="box" v-if="!showEditPass">
                 <button
                   class="flex justify-start text-sm text-gray100 cursor-pointer hover:text-red-500"
@@ -289,7 +290,7 @@
               </button>
             </div>
 
-            <div class="grid grid-cols-2 mx-4 text-xs sm:mx-0 sm:text-base" v-else>
+            <div class="grid grid-cols-2 mx-4 text-base sm:mx-0 sm:text-base" v-else>
               <button
                 class="bg-light text-primary rounded-md mr-2 px-2 py-1"
                 @click="cancle()"

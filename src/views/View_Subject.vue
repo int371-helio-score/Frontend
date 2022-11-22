@@ -1,5 +1,5 @@
 <template>
-  <div class="background pb-10">
+  <div class="background pb-10 min-h-screen">
     <navTeacher />
     <div class="inline-flex">
       <sidebarTeacher />
@@ -189,7 +189,6 @@ export default {
     },
 
     async getAcademics() {
-      console.log("hi");
       try {
         const response = await axios.get("helio/academic", {
           headers: {
@@ -197,8 +196,6 @@ export default {
           },
         });
         this.academics = response.data.data.results;
-        console.log("academic");
-        console.log(this.academics);
         this.selected = this.academics[0];
       } catch (error) {
         console.log(`Could not get! ${error}`);
@@ -299,9 +296,9 @@ select {
 md:text-base sm:text-sm; 
 }
 .data {
-  @apply w-screen px-5
+  @apply w-screen px-5 mt-20
   sm:px-10 sm:pt-8 
-  md:pt-0 md:pl-10 mt-20
+  md:pt-0 md:pl-10
   lg:pl-60 lg:mt-24;
 }
 .object {
@@ -317,17 +314,11 @@ span {
   flex justify-center;
 }
 .dropbtn {
-  /* background-color: #3498db; */
-  /* color: white; */
-  /* padding: 16px; */
-  /* font-size: 16px; */
   border: none;
   cursor: pointer;
 }
 .dropdown {
-  /* position: relative; */
   display: inline-block;
-  /* @apply flex justify-end; */
 }
 .dropdown-content {
   display: none;
@@ -343,7 +334,6 @@ span {
   padding: 12px 16px;
   text-decoration: none;
   display: block;
-  /* position: absolute; */
 }
 .dropdown a:hover {
   background-color: #ddd;
