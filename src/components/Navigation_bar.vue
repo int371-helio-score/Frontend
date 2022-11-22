@@ -21,8 +21,8 @@
           </div>
         </div>
 
-        <div class="flex justify-end" @click="clickProfile()">
-          <div class="dropdown">
+        <div class="" @click="clickProfile()">
+          <div class="dropdown grid grid-rows-2">
             <div
               class="dropbtn flex items-center border border-light cursor-pointer"
             >
@@ -578,6 +578,7 @@ span {
 }
 .dropdown {
   display: inline-block;
+  @apply flex justify-end;
 }
 .dropdown-content {
   display: none;
@@ -585,7 +586,8 @@ span {
   background-color: #f1f1f1;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
+  /* z-index: 1; */
+  @apply mt-10 sm:mt-12;
 }
 
 .dropdown-content a {
