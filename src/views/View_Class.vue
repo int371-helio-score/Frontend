@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-light h-screen w-screen">
+  <div class="bg-light min-h-screen w-screen">
     <navTeacher />
 
     <div class="inline-flex">

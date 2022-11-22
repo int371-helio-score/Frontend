@@ -99,7 +99,7 @@ export default {
   },
   async created() {
     this.stdListId = this.$route.query.group;
-    console.log(this.stdListId)
+    // console.log(this.stdListId)
     this.getStudentList();
   },
 };

@@ -1,5 +1,5 @@
 <template>
-  <div class="background pb-10">
+  <div class="background pb-10 min-h-screen">
     <navTeacher />
     <div class="inline-flex">
       <sidebarTeacher />

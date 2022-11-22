@@ -1,5 +1,8 @@
 <template>
-  <div class="bg-light backgroundfull h-full bg-scroll">
+  <div class="bg-light min-h-screen">
+    <!-- <div v-if="stdScore == 0">
+    {{ 5555 }}</div> -->
+    <!-- {{ stdScore }} -->
     <navTeacher />
     <div class="inline-flex">
       <sidebarTeacher />
@@ -316,14 +319,15 @@
               <p class="number">{{ this.stat.average }}</p>
             </div>
           </div>
-          <table class="h-auto rounded-md">
+
+          <table class="h-auto rounded-md text-sm">
             <tr class="bg-babyblue p-4 cursor-default">
               <th class="px-2">เลขที่</th>
               <th>รหัส</th>
               <th>ชื่อ-นามสกุล</th>
               <th v-for="tt in std" :key="tt._id" class="px-2">
                 {{ tt.title }}
-                <div class="flex justify-center self-center items-center">
+                <div class="flex justify-center self-center items-center" v-show="tt.total >= 1">
                   <p class="text-xs font-extralight">{{ tt.total }} คะแนน</p>
                   <span
                     class="material-symbols-outlined cursor-pointer ml-2"
@@ -369,6 +373,7 @@
                 </div>
               </th>
             </tr>
+            <tr class="font-light bg-white">ไม่มีคะแนน</tr>
           </table>
 
           <!-- Manage Score -->
@@ -411,7 +416,7 @@
               <div v-show="showList">
                 <p
                   class="text-sm hover:text-primary cursor-pointer"
-                  @click="showDelete()"
+                  @click="deleteAllStudent()"
                 >
                   ลบรายชื่อทั้งหมด
                 </p>
@@ -543,7 +548,7 @@ import SidebarTeacher from "@/components/SidebarTeacher.vue";
 export default {
   components: { SidebarTeacher },
   name: "StudentList",
-  props: ["classId", "subjectName", "subId"],
+  props: ["classId", "subjectName", "subId", "group"],
   data() {
     return {
       url: "helio/score",
@@ -555,6 +560,8 @@ export default {
       sent: "helio/mail",
       checkOwner: "helio/class/owner",
       urlStat: "helio/class/stat",
+      urlStd: "helio/studentList",
+      stdList: [],
       stat: "",
       toAnnounce: [],
       toPublish: [],
@@ -875,6 +882,7 @@ export default {
     },
 
     async getSentToEmail(classId) {
+      console.log(classId)
       try {
         axios
           .get(`helio/score/toAnnounce/${classId}`, {
@@ -892,13 +900,14 @@ export default {
       }
     },
 
-    sentEmail(title) {
-      console.log(this.class_id);
-      console.log(title);
+    sentEmail() {
+      // console.log(this.class_id);
+      // console.log(title);
       axios
         .post(
           `helio/mail`,
-          { class_id: this.class_id, scoreTitle: title },
+          // {scoreId: },
+          // { class_id: this.class_id, scoreTitle: title },
           // ส้งแค่ score id
           {
             headers: {
@@ -943,6 +952,27 @@ export default {
           });
       } else {
         return;
+      }
+    },
+
+    deleteAllStudent(){
+      let text = "ต้องการลบรายชื่อทั้งหมดหรือไม่?";
+      if (confirm(text) == true) {
+        axios
+          .delete(`helio/studentList/${this.stdListId}`, {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          })
+          .then((res) => {
+            if (res.data.statusCode === 200) {
+              alert("ลบสำเสร็จ")
+              this.$router.push("/helioscore/studentlist");
+            }
+          })
+          .catch((err) => {
+            alert(err.response.message);
+          });
       }
     },
 
@@ -1008,6 +1038,21 @@ export default {
           alert(err.response.data.message);
         });
     },
+
+    getAllStudentList() {
+      axios
+        .get(this.urlStd, {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        })
+        .then((res) => {
+          if (res.data.statusCode === 200) {
+            this.stdList = res.data.data.results;
+            console.log(this.stdList)
+          }
+        });
+    },
   },
 
   async created() {
@@ -1015,13 +1060,15 @@ export default {
     this.room = this.$route.query.room;
     this.class_id = this.$route.query.class_id;
     this.subject_id = this.$route.params.subId;
-    // console.log(this.class_id);
+    // this.stdListId = this.$route.query.group;
 
     await this.getStudent(this.$route.query.class_id);
     await this.getPublish(this.$route.query.class_id);
     await this.getSentToEmail(this.$route.query.class_id);
     await this.owner(this.$route.query.class_id);
     await this.getStat(this.class_id);
+    await this.getAllStudentList();
+    // console.log(this.stdList);
   },
 };
 </script>
@@ -1232,7 +1279,6 @@ table::-webkit-scrollbar-thumb:window-inactive {
 .cell-note {
   position: relative;
 }
-
 .cell-note:after {
   content: "";
   position: absolute;
