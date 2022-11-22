@@ -232,7 +232,7 @@ export default {
     },
 
     getPicture() {
-      return "https://test-helioscore.sytes.net/backend/public/images/pic1.png";
+      return "https://helioscore.sytes.net/backend/public/images/pic1.png";
     },
 
     async editSubject(subject) {
