@@ -16,7 +16,7 @@
           </div>
 
           <div class="my-5 pt-5 md:pt-10 lg:py-5 grid grid-cols-2">
-            <div class="flex justify-start text-secondary">วิชาทั้งหมด</div>
+            <div class="flex justify-start text-secondary">ห้องเรียนทั้งหมด</div>
             <div class="flex justify-end" v-show="list">
               <router-link
                 :to="{

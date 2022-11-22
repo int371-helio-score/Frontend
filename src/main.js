@@ -14,6 +14,7 @@ import EditImage from "@/components/Edit_Image.vue";
 import EditScore from "@/components/Edit_Score.vue";
 import EditSubject from "@/components/Edit_Subject.vue"
 import EditClass from "@/components/Edit_Class.vue"
+import LoadingScreen from "@/components/LoadingScreen.vue"
 
 axios.defaults.baseURL = 'https://test-helioscore.sytes.net/backend/api/';
 
@@ -36,4 +37,5 @@ app.component("editImage", EditImage);
 app.component("editScore", EditScore);
 app.component("editSubject", EditSubject);
 app.component("editClass", EditClass);
+app.component("loadingScreen", LoadingScreen);
 app.mount("#app");

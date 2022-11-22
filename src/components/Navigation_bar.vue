@@ -45,7 +45,7 @@
           <div class="layout">
             <router-link to="/helioscore">
               <div class="object">
-                <span class="material-symbols-outlined home mr-2"> home </span>
+                <span class="material-symbols-outlined home mr-2" style="color: #42A5F5;"> home </span>
                 <div
                   class="sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 text-secondary"
                 >
@@ -58,7 +58,7 @@
           <div class="layout">
             <router-link to="/helioscore/newsubject">
               <div class="object">
-                <span class="material-symbols-outlined mr-2"> add </span>
+                <span class="material-symbols-outlined mr-2" style="color: #42A5F5;"> add </span>
                 <div
                   class="sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 text-secondary"
                 >
@@ -71,7 +71,7 @@
           <div class="layout">
             <router-link to="/helioscore/manual">
               <div class="object">
-                <span class="material-symbols-outlined mr-2">
+                <span class="material-symbols-outlined mr-2" style="color: #42A5F5;">
                   description
                 </span>
                 <div
