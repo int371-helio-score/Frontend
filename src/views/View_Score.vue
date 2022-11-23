@@ -18,16 +18,14 @@
             </div>
 
             <div
-              class="my-5 pt-15 md:grid-cols-6 grid-cols-1 grid text-secondary"
+              class="my-5 md:grid-cols-6 grid-cols-1 grid text-secondary"
             >
-            <button @click="clickStdList()" class="add md:block hidden focus:bg-babyblue">
-              <p
-                class="hidden sm:block cursor-pointer"
+              <button
+                @click="clickStdList()"
+                class="add md:block hidden focus:bg-babyblue"
               >
-                รายชื่อทั้งหมด
-              </p>
-            </button>
-              
+                <p class="hidden sm:block cursor-pointer">รายชื่อทั้งหมด</p>
+              </button>
 
               <div class="md:col-span-4 md:col-end-7" v-show="list">
                 <div class="grid md:grid-cols-3 gap-4 xl:gap-4 md:gap-2 pt-3">
@@ -936,8 +934,6 @@ export default {
             this.$router.go();
           }
         });
-
-        
     },
 
     async getSentToEmail(classId) {
@@ -962,7 +958,7 @@ export default {
       axios
         .post(
           `helio/mail`,
-          {scoreId: id},
+          { scoreId: id },
           {
             headers: {
               Authorization: localStorage.getItem("token"),
