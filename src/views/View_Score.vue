@@ -22,7 +22,7 @@
             >
             <button @click="clickStdList()" class="add md:block hidden focus:bg-babyblue">
               <p
-                class="pt-3 hidden sm:block cursor-pointer"
+                class="hidden sm:block cursor-pointer"
               >
                 รายชื่อทั้งหมด
               </p>

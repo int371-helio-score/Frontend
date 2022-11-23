@@ -1,5 +1,4 @@
 <template>
-  <div class="">
     <div
       class="bg-white drop-shadow-sm sm:py-5 sm:px-10 px-5 py-4 fixed xl:w-full w-screen"
     >
@@ -325,7 +324,6 @@
         </div>
       </div>
     </div>
-  </div>
 
   <diV v-if="showEditImage">
     <editImage :editImage="editImg" @EditImage="EditImage"></editImage>
