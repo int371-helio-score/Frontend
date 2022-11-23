@@ -84,7 +84,7 @@
         </div>
       </div>
     </div>
-  </div>
+
 
   <!-- profile preview -->
 
@@ -324,6 +324,7 @@
         </div>
       </div>
     </div>
+  </div>
 
   <diV v-if="showEditImage">
     <editImage :editImage="editImg" @EditImage="EditImage"></editImage>
