@@ -182,8 +182,6 @@ export default {
               Authorization: localStorage.getItem("token"),
             },
             params: {
-              // semester: _.get(this.selected, "semester"),
-              // academicYear: _.get(this.selected, "academicYear"),
             },
           })
           .then((res) => {

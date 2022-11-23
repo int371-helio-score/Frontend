@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="bg-light min-h-screen">
+    <div class="bg-light min-h-screen max-w-full">
       <navTeacher />
       <div class="inline-flex">
         <sidebarTeacher class="absolute z-40" />
@@ -20,12 +20,14 @@
             <div
               class="my-5 pt-15 md:grid-cols-6 grid-cols-1 grid text-secondary"
             >
+            <button @click="clickStdList()" class="add md:block hidden focus:bg-babyblue">
               <p
                 class="pt-3 hidden sm:block cursor-pointer"
-                @click="clickStdList()"
               >
                 รายชื่อทั้งหมด
               </p>
+            </button>
+              
 
               <div class="md:col-span-4 md:col-end-7" v-show="list">
                 <div class="grid md:grid-cols-3 gap-4 xl:gap-4 md:gap-2 pt-3">
@@ -694,7 +696,6 @@ export default {
         })
         .then((res) => {
           this.checkHasRecord = res.data.data.results.hasRecord;
-          console.log(this.checkHasRecord);
           if (this.checkHasRecord == false) {
             this.submitFileStd();
           } else {
@@ -711,10 +712,8 @@ export default {
 
     submitFileStd() {
       let formData = new FormData();
-      console.log(this.fileStd);
       formData.set("file", this.fileStd);
       formData.set("classId", this.class_id);
-      console.log(formData);
       axios
         .post(`${this.importStd}`, formData, {
           headers: {
@@ -932,7 +931,6 @@ export default {
           }
         )
         .then((res) => {
-          console.log(res)
           if (res.data.statusCode === 200 || res.status == 200) {
             this.loadingScr = false;
             this.$router.go();
@@ -985,7 +983,6 @@ export default {
     },
 
     deleteStudent(stdId, firstName, lastName) {
-      console.log(stdId);
       let text = "ต้องการลบ " + firstName + " " + lastName + " หรือไม่";
       if (confirm(text) == true) {
         axios
@@ -1165,11 +1162,6 @@ th {
   md:pt-0 md:pl-10 mt-20 md:px-0
   lg:pl-60 lg:mt-24 lg:pb-10;
 }
-/* .data {
-  @apply h-auto max-h-full mt-24 w-screen
-  md:mx-20
-  lg:pb-10 lg:pl-60;
-} */
 .title {
   @apply text-sm font-medium mt-5 text-secondary
   sm:text-base sm:font-bold
@@ -1207,14 +1199,12 @@ th {
   font-size: 14px;
   line-height: 18px;
 }
-
 .input {
   position: absolute;
   display: flex;
   width: 100;
   height: 100;
 }
-
 .add {
   background: white;
   box-shadow: 0px 1px 5px rgba(214, 214, 214, 0.5);

@@ -176,7 +176,6 @@ export default {
         .then((res) => {
           this.ownerName = res.data.data.results.ownerName;
           this.ownerEmail = res.data.data.results.ownerEmail;
-          // console.log(this.theacher);
           return res.data.data.results;
         });
     },
@@ -239,10 +238,8 @@ export default {
 
     async editClass(selectClass, classId) {
       this.editModal = !this.editModal;
-      console.log(selectClass)
       this.edit = selectClass;
       this.showGrade = classId;
-      console.log(this.edit)
     },
   },
 

@@ -21,15 +21,6 @@
             </router-link>
           </div>
 
-          <!-- <div class="layout">
-            <router-link to="/helioscore/studentlist">
-              <div class="object">
-                <span class="material-symbols-outlined mr-2"> group </span>
-                <div class="menu">จัดการรายชื่อ</div>
-              </div>
-            </router-link>
-          </div> -->
-
           <div class="layout">
             <router-link to="/helioscore/manual">
               <div class="object">
@@ -38,19 +29,6 @@
               </div>
             </router-link>
           </div>
-
-          <!-- <div class="layout">
-          <router-link to="/helioscore/importstudentlist">
-            <div class="object">
-              <span class="material-symbols-outlined"> add </span>
-              <div
-                class="text-secondary sm:pt-0.5 lg:pt-0.5 lg:pl-0 pt-1 pl-1 hover:text-primary"
-              >
-                เพิ่มรายชื่อในห้องเรียน
-              </div>
-            </div>
-          </router-link>
-        </div> -->
         </div>
       </div>
     </div>
@@ -58,15 +36,6 @@
 </template>
 
 <script>
-// const Items = document.querySelectorAll(".Item");
-// console.log("hi")
-// Items.forEach((Item) => {
-//   Item.addEventListener("click", () => {
-//     document.querySelector(".active").classList.remove("active");
-//     Item.classList.add("active");
-//     console.log("li")
-//   });
-// });
 import { ref } from 'vue'
 export default{
   setup(){
@@ -80,7 +49,6 @@ export default{
 
 <style scoped>
 .background {
-  /* width: 238px; */
   left: 3px;
   top: 89px;
   @apply lg:w-52 md:w-48 sm:w-40;
