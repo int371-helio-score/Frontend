@@ -16,7 +16,7 @@ import EditSubject from "@/components/Edit_Subject.vue"
 import EditClass from "@/components/Edit_Class.vue"
 import LoadingScreen from "@/components/LoadingScreen.vue"
 
-axios.defaults.baseURL = 'https://helioscore.sytes.net/backend/api/';
+axios.defaults.baseURL = 'http://localhost:3000/api/';
 
 const gauthOption = {
     clientId: "217234620645-cporrkom4579lu5sdprtth63ph3g21l8.apps.googleusercontent.com",
